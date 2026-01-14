@@ -42,7 +42,7 @@ public class TeleopController {
 
         Translation2d robotVelocity = new Translation2d(xJoystickValule * Settings.DrivebaseSettings.maxVelocityMPS,
                 yJoystickValule * Settings.DrivebaseSettings.maxVelocityMPS);
-        Rotation2d goalHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
+        Rotation2d goalHeading = Robot.drivebase.goalHeading;
 
         if (!(Math.abs(rJoystickValule) < Settings.TeleopSettings.DriverJoystick.deadband)) {
             goalHeading = goalHeading.plus(new Rotation2d(
