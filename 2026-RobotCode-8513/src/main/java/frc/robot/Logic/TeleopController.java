@@ -16,6 +16,11 @@ public class TeleopController {
 
     }
 
+    public void teleopInit(){
+        Robot.updateAlliance();
+        Robot.drivebase.goalHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
+    }
+
     public void teleopLoop() {
         driveWithJoystick();
     }

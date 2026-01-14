@@ -32,16 +32,14 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {
-    updateAlliance();
-  }
+  public void autonomousInit() {}
 
   @Override
   public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
-    updateAlliance();
+    teleop.teleopInit();
   }
 
   @Override
@@ -67,7 +65,7 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {}
 
-  public void updateAlliance(){
+  public static void updateAlliance(){
     try {
       onRed = DriverStation.getAlliance().get() == Alliance.Red;
     } catch (Exception e) {
