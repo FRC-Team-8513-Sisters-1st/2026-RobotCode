@@ -24,6 +24,12 @@ public class Settings {
             public static final int xAxis = 1;
             public static final int yAxis = 0;
             public static final int rAxis = 4;
+
+            public static final boolean usePointToFaceControl = true;
+            public static final int rxAxisPTF = 4;
+            public static final int ryAxisPTF = 5;
+            public static final double pointToFaceRotationCutoff = 0.5;
+
             
             public static final double deadband = 0.1;
 

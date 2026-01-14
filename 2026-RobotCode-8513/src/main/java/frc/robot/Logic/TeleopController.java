@@ -10,6 +10,7 @@ public class TeleopController {
 
     Joystick driverJoystick = new Joystick(Settings.TeleopSettings.DriverJoystick.port);
     public boolean fieldRelative = true;
+    public Rotation2d lastPTFHeading = new Rotation2d();
 
     public TeleopController() {
 
@@ -25,6 +26,9 @@ public class TeleopController {
         double yJoystickValule = driverJoystick.getRawAxis(Settings.TeleopSettings.DriverJoystick.yAxis);
         double rJoystickValule = -driverJoystick.getRawAxis(Settings.TeleopSettings.DriverJoystick.rAxis);
 
+        double rxJoystickValule = -driverJoystick.getRawAxis(Settings.TeleopSettings.DriverJoystick.rxAxisPTF);
+        double ryJoystickValule = -driverJoystick.getRawAxis(Settings.TeleopSettings.DriverJoystick.ryAxisPTF);
+
         if (Math.abs(xJoystickValule) < Settings.TeleopSettings.DriverJoystick.deadband) {
             xJoystickValule = 0;
         }
@@ -34,6 +38,12 @@ public class TeleopController {
         if (Math.abs(rJoystickValule) < Settings.TeleopSettings.DriverJoystick.deadband) {
             rJoystickValule = 0;
         }
+        if (Math.abs(rxJoystickValule) < Settings.TeleopSettings.DriverJoystick.deadband) {
+            rxJoystickValule = 0;
+        }
+        if (Math.abs(ryJoystickValule) < Settings.TeleopSettings.DriverJoystick.deadband) {
+            ryJoystickValule = 0;
+        }
 
         if (Robot.onRed == false) {
             xJoystickValule *= -1;
@@ -42,20 +52,39 @@ public class TeleopController {
 
         Translation2d robotVelocity = new Translation2d(xJoystickValule * Settings.DrivebaseSettings.maxVelocityMPS,
                 yJoystickValule * Settings.DrivebaseSettings.maxVelocityMPS);
-        Rotation2d goalHeading = Robot.drivebase.goalHeading;
-
-        if (!(Math.abs(rJoystickValule) < Settings.TeleopSettings.DriverJoystick.deadband)) {
-            goalHeading = goalHeading.plus(new Rotation2d(
-                            rJoystickValule * Settings.TeleopSettings.DriverJoystick.rotationalJoystickSensitivity));
-        }
-
+        
+        //press A to face hub
         if(driverJoystick.getRawButton(Settings.TeleopSettings.DriverJoystick.faceHubButton)){
             Pose2d hubPose = Settings.Field.Poses.blueHub;
             if(Robot.onRed){
                 hubPose = Settings.Field.Poses.redHub;
             }
             Robot.drivebase.driveFacingPose(robotVelocity, hubPose, fieldRelative);
+            lastPTFHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
+
+        } else if(Settings.TeleopSettings.DriverJoystick.usePointToFaceControl){
+
+            Rotation2d pointToFaceGoalHeading;
+            if(Math.abs(ryJoystickValule) < Settings.TeleopSettings.DriverJoystick.pointToFaceRotationCutoff 
+                && Math.abs(rxJoystickValule) < Settings.TeleopSettings.DriverJoystick.pointToFaceRotationCutoff){
+                pointToFaceGoalHeading = lastPTFHeading;
+            } else {
+                pointToFaceGoalHeading = new Rotation2d(ryJoystickValule, rxJoystickValule);
+                lastPTFHeading = pointToFaceGoalHeading;
+            }
+            if(Robot.onRed){
+                pointToFaceGoalHeading = pointToFaceGoalHeading.plus(new Rotation2d(Math.PI));
+            }
+            Robot.drivebase.drive(robotVelocity, pointToFaceGoalHeading, fieldRelative);
+
         } else {
+            Rotation2d goalHeading = Robot.drivebase.goalHeading;
+            if (!(Math.abs(rJoystickValule) < Settings.TeleopSettings.DriverJoystick.deadband)) {
+                Rotation2d currentHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
+                goalHeading = currentHeading.plus(new Rotation2d(
+                                rJoystickValule * Settings.TeleopSettings.DriverJoystick.rotationalJoystickSensitivity));
+                Robot.drivebase.goalHeading = goalHeading;
+            }
             Robot.drivebase.drive(robotVelocity, goalHeading, fieldRelative);
         }
 

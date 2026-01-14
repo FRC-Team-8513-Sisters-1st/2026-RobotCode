@@ -45,6 +45,7 @@ public class Drivebase {
     }
 
     public void driveFacingPose(Translation2d translation2d, Pose2d facePoint, boolean fR){
+        
         Pose2d currentPose = Robot.drivebase.yagslDrive.getPose();
         Rotation2d angleToFace;
         if(Robot.onRed){
@@ -52,6 +53,7 @@ public class Drivebase {
         } else {
             angleToFace = currentPose.minus(facePoint).getTranslation().getAngle().plus(new Rotation2d(Math.PI));
         }
+        goalHeading = angleToFace;
         drive(translation2d, angleToFace, fR);
 
     }
