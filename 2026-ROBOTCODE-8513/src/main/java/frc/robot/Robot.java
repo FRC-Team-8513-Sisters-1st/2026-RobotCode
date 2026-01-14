@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.Subsystems.Drivebase;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -16,7 +18,12 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
-  public Robot() {}
+
+  public static Drivebase drivebase = new Drivebase();
+
+  public Robot() {
+
+  }
 
   @Override
   public void robotPeriodic() {}
@@ -25,7 +32,9 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {}
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    Robot.drivebase.yagslDrive.drive(new Translation2d(1, 0), 0.5, true, false);
+  }
 
   @Override
   public void teleopInit() {}
