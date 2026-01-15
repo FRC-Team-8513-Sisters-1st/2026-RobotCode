@@ -34,10 +34,14 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    drivebase.initPathFromFile("ExamplePath");
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    drivebase.followPath();
+  }
 
   @Override
   public void teleopInit() {
