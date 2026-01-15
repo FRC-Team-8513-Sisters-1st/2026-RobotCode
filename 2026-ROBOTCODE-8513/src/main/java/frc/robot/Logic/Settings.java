@@ -17,6 +17,28 @@ public class Settings {
         }
     }
 
+    public static class ShooterSettings{
+        public static final double targetVelocity = 2000;
+        public static final double readyToShootThold = 50;
+
+        public static int shooterMotor1CANID = 1;
+        public static int shooterMotor2CANID = 2;
+
+        public static class SpinUpShooterPIDFConstants{
+            public static final double kP = 0.1;
+            public static final double kI = 0;
+            public static final double kD = 0;
+            public static final double kF = 0;
+        }
+
+        public static class MaintainShooterPIDFConstants{
+            public static final double kP = 0.1;
+            public static final double kI = 0;
+            public static final double kD = 0;
+            public static final double kF = 0;
+        }
+    }
+
     public static class TeleopSettings{
 
         public static class DriverJoystick{

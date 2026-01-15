@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Logic.TeleopController;
 import frc.robot.Subsystems.Drivebase;
+import frc.robot.Subsystems.Shooter;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot {
 
   public static Drivebase drivebase = new Drivebase();
   public static TeleopController teleop = new TeleopController();
+  public static Shooter shooter = new Shooter();
 
   public static boolean onRed = true;
 
