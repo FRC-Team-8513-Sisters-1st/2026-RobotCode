@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.Logic.Autonomous;
 import frc.robot.Logic.TeleopController;
 import frc.robot.Subsystems.Drivebase;
 import frc.robot.Subsystems.Shooter;
@@ -25,6 +26,7 @@ public class Robot extends TimedRobot {
   public static Drivebase drivebase = new Drivebase();
   public static TeleopController teleop = new TeleopController();
   public static Shooter shooter = new Shooter();
+  public static Autonomous auto = new Autonomous();
 
   public static boolean onRed = true;
 
@@ -35,12 +37,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    drivebase.initPathFromFile("ExamplePath");
+    auto.autoInit();
   }
 
   @Override
   public void autonomousPeriodic() {
-    drivebase.followPath();
+    auto.autoLoop();
   }
 
   @Override
