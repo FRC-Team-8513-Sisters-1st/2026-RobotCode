@@ -1,8 +1,8 @@
 public class TeleopController {
-    
+
     public Joystick driverXboxController = new Joystick(Settings.TeleopSettings.driverJoystickPort);
 
-    Rotation2d goalHeading = new Rotation2d();
+    public Rotation2d goalHeading = new Rotation2d();
 
     SlewRateLimiter xfilter = new SlewRateLimiter(4);
     SlewRateLimiter yfilter = new SlewRateLimiter(4);
@@ -29,14 +29,13 @@ public class TeleopController {
 
         }
         rSpeedJoystick = rfilter.calculate(rSpeedJoystick);
-    
+
         // cube the joystick values for smoother control
         double xInput = Math.pow(xSpeedJoystick, 3);
         double yInput = Math.pow(ySpeedJoystick, 3);
         double rInput = Math.pow(rSpeedJoystick, 3);
 
-        double xV = xInput * 
-.swerveDrive.getMaximumChassisVelocity();
+        double xV = xInput * drivebase.swerveDrive.getMaximumChassisVelocity();
         double yV = yInput * drivebase.swerveDrive.getMaximumChassisVelocity();
         double rV = rInput * drivebase.swerveDrive.getMaximumChassisAngularVelocity();
 
@@ -51,5 +50,7 @@ public class TeleopController {
             rV = Settings.TeleopSettings.rJoystickController.calculate(
                     drivebase.swerveDrive.getPose().getRotation().minus(goalHeading).getDegrees(), 0);
         }
+
+        drivebase.drive(xV, yV, rV);
     }
 }
