@@ -27,5 +27,9 @@ public class Settings {
 
 
     }
+
+    public class VisionSettings{
+        public static double maxATDistDisabeled = 10;
+    }
  
 }

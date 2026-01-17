@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.Logic.TeleopController;
 import frc.robot.Subsystems.Drivebase;
-import swervelib.SwerveDrive;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
