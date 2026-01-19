@@ -64,7 +64,7 @@ public class Settings {
             public static final double pointToFaceRotationCutoff = 0.5;
 
             
-            public static final double deadband = 0.1;
+            public static final double deadband = 0.2;
 
             public static final double rotationalJoystickSensitivity = 1;
 
