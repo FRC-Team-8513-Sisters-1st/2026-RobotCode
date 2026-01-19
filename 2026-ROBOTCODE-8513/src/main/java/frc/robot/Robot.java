@@ -4,10 +4,16 @@
 
 package frc.robot;
 
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Logic.TeleopController;
+import frc.robot.Logic.Vision;
 import frc.robot.Subsystems.Drivebase;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
@@ -22,6 +28,11 @@ public class Robot extends TimedRobot {
   
   public static Drivebase drivebase = new Drivebase();
   public static TeleopController teleop = new TeleopController();
+  public static Vision vision = new Vision();
+
+  public Field2d robotCurrentPose = new Field2d();
+
+  public SparkMax intakeMotor = new SparkMax(52, MotorType.kBrushless);
 
   public static boolean onRed = true;
 
@@ -35,7 +46,13 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+      vision.updatePhotonVision();
+
+      robotCurrentPose.setRobotPose(drivebase.yagslDrive.getPose());
+      SmartDashboard.putData("Current Drivebase Position", robotCurrentPose);
+
+  }
 
   @Override
   public void autonomousInit() {}
@@ -51,6 +68,13 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     teleop.driveTele();
+
+    if (teleop.driverXboxController.getRawButton(6)){
+      intakeMotor.set(1);
+    } else{
+      intakeMotor.set(0);
+
+    }
   }
 
   @Override
