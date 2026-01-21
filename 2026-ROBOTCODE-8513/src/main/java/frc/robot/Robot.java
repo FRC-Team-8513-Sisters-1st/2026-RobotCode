@@ -75,6 +75,7 @@ public class Robot extends TimedRobot {
       intakeMotor.set(0);
 
     }
+    System.out.println("intake motor current" + intakeMotor.getOutputCurrent());
   }
 
   @Override
