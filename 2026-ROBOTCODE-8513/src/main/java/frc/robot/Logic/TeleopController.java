@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Robot;
 import frc.robot.Settings;
+import frc.robot.Logic.Enums.IntakeStates;
 
 public class TeleopController {
 
@@ -57,5 +58,13 @@ public class TeleopController {
 
 
         Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
+
+        // intake controls
+        // if (Robot.intake.intakeState == IntakeStates.stationary && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.intake_buttonID)) {
+        //     Robot.intake.intakeState = IntakeStates.intaking;
+        // } else if (Robot.intake.intakeState == IntakeStates.intaking && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.intake_buttonID)) {
+        //     Robot.intake.intakeState = IntakeStates.stationary;
+        // }
+
     }
 }

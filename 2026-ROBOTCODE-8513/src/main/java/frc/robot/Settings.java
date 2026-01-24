@@ -25,6 +25,8 @@ public class Settings {
 
         public static boolean headingJoystickControls = true;
 
+        public static int intake_buttonID = 1;
+
 
     }
 
