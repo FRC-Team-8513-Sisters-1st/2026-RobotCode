@@ -36,7 +36,9 @@ public class Robot extends TimedRobot {
 
   public Field2d robotCurrentPose = new Field2d();
 
-  public SparkMax intakeMotor = new SparkMax(52, MotorType.kBrushless);
+  public SparkMax intakeMotorRight = new SparkMax(52, MotorType.kBrushless);
+  public SparkMax intakeMotorLeft = new SparkMax(51, MotorType.kBrushless);
+
 
   public static boolean onRed = true;
 
@@ -77,12 +79,12 @@ public class Robot extends TimedRobot {
 
 
     if (teleop.driverXboxController.getRawButton(6)){
-      intakeMotor.set(1);
+      intakeMotorRight.set(1);
+      intakeMotorLeft.set(1);
     } else{
-      intakeMotor.set(0);
-
+      intakeMotorRight.set(0);
+      intakeMotorLeft.set(0);
     }
-    System.out.println("intake motor current" + intakeMotor.getOutputCurrent());
   }
 
   @Override

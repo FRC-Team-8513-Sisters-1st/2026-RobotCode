@@ -6,6 +6,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Robot;
+import frc.robot.Logic.Enums.ShooterStates;
 
 public class Shooter {
 
@@ -14,7 +15,10 @@ public class Shooter {
 
     public PIDController shooterMotorController = new PIDController(0.0001, 0.000001, 0);
 
+    public ShooterStates shooterState = ShooterStates.stationary;
+
     public Shooter() {
+
 
     }
 
