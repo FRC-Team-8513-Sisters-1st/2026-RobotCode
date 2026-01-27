@@ -10,7 +10,7 @@ public class Intake {
     }
     
     public void setMotorPower() {
-        if (intakeStates == IntakeStates.intaking) {
+        if (intakeState == IntakeStates.intaking) {
         
         }
     }

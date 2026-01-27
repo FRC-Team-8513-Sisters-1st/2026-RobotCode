@@ -1,5 +1,8 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -12,7 +15,7 @@ public class Shooter {
 
     public static SparkMax shooterMotorLeft = new SparkMax(11, MotorType.kBrushless);
     public static SparkFlex shooterMotorRight = new SparkFlex(12, MotorType.kBrushless);
-    public static SparkFlex shooterMotorKracken = new SparkFlex(13, MotorType.kBrushless);
+    public static TalonFX shooterMotorKracken = new TalonFX(13);
 
     public PIDController shooterMotorController = new PIDController(0.0001, 0.000001, 0);
 
@@ -21,18 +24,17 @@ public class Shooter {
     public boolean useInternalController = true;
 
     // in init function, set slot 0 gains
-    var slot0Configs = new Slot0Configs();
-    slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
-    slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-    slot0Configs.kI = 0; // no output for integrated error
-    slot0Configs.kD = 0; // no output for error derivative
+    Slot0Configs slot0Configs = new Slot0Configs();
+    
 
     // create a velocity closed-loop request, voltage output, slot 0 configs
-    final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+    public final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
 
     public Shooter() {
-
+        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kI = 0; // no output for integrated error
+        slot0Configs.kD = 0; // no output for error derivative
     }
 
     public void initShooter() {

@@ -61,9 +61,9 @@ public class TeleopController {
 
         
         // intake controls
-        if (Robot.intake.intakeState == IntakeStates.stationary && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.intake_buttonID)) {
+        if (Robot.intake.intakeState == IntakeStates.stationary && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.intake)) {
             Robot.intake.intakeState = IntakeStates.intaking;
-        } else if (Robot.intake.intakeState == IntakeStates.intaking && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.intake_buttonID)) {
+        } else if (Robot.intake.intakeState == IntakeStates.intaking && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.intake)) {
             Robot.intake.intakeState = IntakeStates.stationary;
         }
 
