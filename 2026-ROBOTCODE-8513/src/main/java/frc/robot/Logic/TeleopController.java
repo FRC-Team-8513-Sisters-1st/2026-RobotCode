@@ -58,14 +58,10 @@ public class TeleopController {
         double rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
 
 
-        Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
-
-        // override facing hub
-        if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub) && Robot.drivebase.driveFacingHub == false) {
-            Robot.drivebase.driveFacingHub = true;
-        } else if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub) && Robot.drivebase.driveFacingHub){
-            Robot.drivebase.driveFacingHub = false;
+        if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub)) {
+            
         }
+        Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
 
         // intake controls
         if (Robot.intake.intakeState == IntakeStates.stationary && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.intake)) {

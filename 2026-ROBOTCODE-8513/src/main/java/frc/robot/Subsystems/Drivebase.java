@@ -154,9 +154,8 @@ public class Drivebase {
             }      
             dvr = rotationPidController.calculate(yagslDrive.getPose().getRotation().minus(angleToHub).getDegrees(), 0);
 
-            yagslDrive.driveFieldOriented(trajGoalState.fieldSpeeds.plus(new ChassisSpeeds(0, 0, dvr)));
+            yagslDrive.drive(new Translation2d(0, 0), dvr, true, false);
         } else {
-            yagslDrive.driveFieldOriented(trajGoalState.fieldSpeeds);
         }
 
     }
