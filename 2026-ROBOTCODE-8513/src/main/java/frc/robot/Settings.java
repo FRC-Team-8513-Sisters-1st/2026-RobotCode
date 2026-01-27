@@ -1,5 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+
 public class Settings {
    public static class DrivebaseSettings{
         
@@ -28,12 +31,21 @@ public class Settings {
         // driver controller button ID
         public static class ButtonIDs{
             public static int intake = 1;
+            public static int faceHub = 2;
         }
 
     }
 
     public class VisionSettings{
         public static double maxATDistDisabeled = 10;
+    }
+
+    public class FieldInfo{
+        // hub locations
+        public static final Pose2d hubRedLocation = new Pose2d(
+                11.919, 4.029, new Rotation2d(180));
+        public static final Pose2d hubBlueLocation = new Pose2d(
+                4.621, 4.029, new Rotation2d(0));
     }
  
 }

@@ -1,7 +1,8 @@
 package frc.robot.Subsystems;
 
+import static edu.wpi.first.units.Units.Rotation;
+
 import java.io.File;
-import java.io.IOException;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -11,7 +12,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import swervelib.SwerveDrive;
@@ -22,11 +22,11 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 
-
 public class Drivebase {
     public SwerveDrive yagslDrive;
     public Rotation2d goalHeading = new Rotation2d();
-    public PIDController rotationPidController = new PIDController(frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kP,
+    public PIDController rotationPidController = new PIDController(
+            frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kP,
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kI,
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kD);
 
@@ -40,13 +40,14 @@ public class Drivebase {
     public PathPlannerTrajectoryState trajGoalState = new PathPlannerTrajectoryState();
     Field2d trajGoalPosition = new Field2d();
     double otfEndVelocity = 0;
-    public boolean forcePathHeading = false; 
+    public boolean forcePathHeading = false;
+    double dvr;
+    public boolean driveFacingHub = true;
 
-    // edit these values
+    // edit these values and put in settings later
     public PIDController followPathXController = new PIDController(0.1, 0, 0);
 
     public PIDController followPathYController = new PIDController(0.1, 0, 0);
-
 
     public Drivebase() {
         File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
@@ -81,7 +82,7 @@ public class Drivebase {
         }
 
         // flip the path if on red
-        if (Robot.onRed){
+        if (Robot.onRed) {
             path = path.flipPath();
         }
 
@@ -101,6 +102,9 @@ public class Drivebase {
     }
 
     public boolean followLoadedPath() {
+        double correctionInXV;
+        double correctionInYV;
+
         if (!loadedPathHasStarted) {
             timePathStarted = Timer.getFPGATimestamp();
             loadedPathHasStarted = true;
@@ -116,8 +120,10 @@ public class Drivebase {
             double trajGoalX = pathGoalState.pose.getX();
             double trajGoalY = pathGoalState.pose.getY();
 
-            double correctionInXV = followPathXController.calculate(Robot.drivebase.yagslDrive.getPose().getX(), trajGoalX);
-            double correctionInYV = followPathYController.calculate(Robot.drivebase.yagslDrive.getPose().getY(), trajGoalY);
+            correctionInXV = followPathXController.calculate(Robot.drivebase.yagslDrive.getPose().getX(),
+                    trajGoalX);
+            correctionInYV = followPathYController.calculate(Robot.drivebase.yagslDrive.getPose().getY(),
+                    trajGoalY);
 
             double xV = pathGoalState.fieldSpeeds.vxMetersPerSecond + correctionInXV;
             double yV = pathGoalState.fieldSpeeds.vyMetersPerSecond + correctionInYV;
@@ -127,7 +133,32 @@ public class Drivebase {
             drive(correctedPathFollowingTranslation, pathGoalState.pose.getRotation(), true);
 
             return false;
+        
         }
+        
+    }
+
+    public void driveFacingHub () {
+        
+        if (driveFacingHub){
+            Rotation2d angleToHub;
+
+            if (Robot.onRed) {
+                // red hub location
+                angleToHub = Settings.FieldInfo.hubRedLocation.getTranslation()
+                            .minus(yagslDrive.getPose().getTranslation()).getAngle(); 
+            } else {
+                // blue hub location
+                angleToHub = Settings.FieldInfo.hubBlueLocation.getTranslation()
+                            .minus(yagslDrive.getPose().getTranslation()).getAngle();
+            }      
+            dvr = rotationPidController.calculate(yagslDrive.getPose().getRotation().minus(angleToHub).getDegrees(), 0);
+
+            yagslDrive.driveFieldOriented(trajGoalState.fieldSpeeds.plus(new ChassisSpeeds(0, 0, dvr)));
+        } else {
+            yagslDrive.driveFieldOriented(trajGoalState.fieldSpeeds);
+        }
+
     }
 
 }

@@ -8,7 +8,6 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import frc.robot.Robot;
 import frc.robot.Logic.Enums.ShooterStates;
 
 public class Shooter {
