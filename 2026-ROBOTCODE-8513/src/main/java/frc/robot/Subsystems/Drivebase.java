@@ -137,7 +137,6 @@ public class Drivebase {
     }
 
     public double getRotationToHub() {
-
         Rotation2d angleToHub;
 
         if (Robot.onRed) {
