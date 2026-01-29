@@ -79,12 +79,12 @@ public class TeleopController {
         }
 
         // intake controls
-        if (Robot.intake.intakeState == IntakeStates.stationary
+        if (Robot.intake.intakeState == IntakeStates.stowed
                 && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
             Robot.intake.intakeState = IntakeStates.intaking;
         } else if (Robot.intake.intakeState == IntakeStates.intaking
                 && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
-            Robot.intake.intakeState = IntakeStates.stationary;
+            Robot.intake.intakeState = IntakeStates.stowed;
         }
 
         // shooter controls
