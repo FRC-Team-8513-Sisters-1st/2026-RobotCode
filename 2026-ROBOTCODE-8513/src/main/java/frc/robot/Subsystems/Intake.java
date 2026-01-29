@@ -13,7 +13,7 @@ public class Intake {
     public static TalonFX intakeMotorRight = new TalonFX(32);
     public static TalonFX intakeDeployMotor = new TalonFX(33);
 
-    public PIDController intakeMotorController = new PIDController(0.0001, 0.000001, 0);
+    public PIDController intakeMotorController = new PIDController(0.01, 0, 0);
 
     public Intake(){
 
