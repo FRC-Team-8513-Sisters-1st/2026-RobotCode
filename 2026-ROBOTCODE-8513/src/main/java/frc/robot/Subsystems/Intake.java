@@ -14,9 +14,9 @@ public class Intake {
     public static TalonFX intakeMotorRight = new TalonFX(32);
     public static TalonFX intakeDeployMotor = new TalonFX(33);
 
-    public PIDController intakeMotorController = new PIDController(0.01, 0, 0);
+    public PIDController intakeMotorController = new PIDController(0.1, 0, 0);
 
-    public boolean useManualIntakeControl = true;
+    public boolean useManualIntakeControl = false;
 
     public Intake() {
 
@@ -30,7 +30,7 @@ public class Intake {
 
             // intake wheels on
             intakeMotorLeft.set(1);
-            intakeMotorRight.set(1);
+            intakeMotorRight.set(-1);
 
         } else if (intakeState == IntakeStates.stowed) {
             // stow intake
@@ -46,7 +46,7 @@ public class Intake {
 
             // intake wheels on
             intakeMotorLeft.set(-1);
-            intakeMotorRight.set(-1);
+            intakeMotorRight.set(1);
         } else if (intakeState == IntakeStates.stationaryDeployed) {
             // deploy intake
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
@@ -67,6 +67,10 @@ public class Intake {
             } else {
                 double power = intakeMotorController.calculate(intakeDeployMotor.getPosition().getValueAsDouble());
                 intakeDeployMotor.set(power);
+            }
+
+            if (Robot.teleop.manualJoystick.getRawButtonPressed(8)) {
+                intakeDeployMotor.setPosition(0);
             }
         }
     }

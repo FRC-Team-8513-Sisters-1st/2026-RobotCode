@@ -40,7 +40,7 @@ public class Settings {
 
     public class IntakeSettings{
         public static double stowPosition = 0;
-        public static double deployPosition = 100;
+        public static double deployPosition = 38.360840;
     }
 
     public class VisionSettings{
