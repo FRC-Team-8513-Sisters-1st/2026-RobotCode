@@ -8,6 +8,9 @@ public class AutoController {
     }
 
     public void runAuto() {
-        Robot.drivebase.followLoadedPath();
+        
+        if(Robot.drivebase.followLoadedPath()){
+            Robot.drivebase.yagslDrive.lockPose();
+        }
     }
 }
