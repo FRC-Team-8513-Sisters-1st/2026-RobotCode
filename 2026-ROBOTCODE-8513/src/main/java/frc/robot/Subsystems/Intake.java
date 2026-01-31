@@ -44,8 +44,14 @@ public class Intake {
             // intake wheels on
             intakeMotorLeft.set(-1);
             intakeMotorRight.set(-1);
+        } else if (intakeState == IntakeStates.stationaryDeployed) {
+            // deploy intake
+            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
+            
+            // intake wheels off
+            intakeMotorLeft.set(0);
+            intakeMotorRight.set(0);
         }
-
     }
 
     public double deployPower(double targetPosition) {

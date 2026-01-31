@@ -2,6 +2,7 @@ package frc.robot.Logic;
 
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 
 public class Dashboard {
     public Field2d trajField2d = new Field2d();
@@ -9,6 +10,7 @@ public class Dashboard {
     public void updateDashboard() {
 
         SmartDashboard.putData("trajGoalPose", trajField2d);
+        SmartDashboard.putString("intakeState", Robot.intake.intakeState.name());
 
     }
 }

@@ -81,7 +81,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    updateAlliance();
     teleop.initTele();
+
   }
 
   @Override

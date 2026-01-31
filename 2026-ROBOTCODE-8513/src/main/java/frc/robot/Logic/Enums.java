@@ -2,7 +2,7 @@ package frc.robot.Logic;
 
 public class Enums {
     public enum IntakeStates {
-        intaking, outtaking, stowed
+        intaking, outtaking, stowed, stationaryDeployed
     }
     public enum ClimberStates {
         stowed, deployed, climbed

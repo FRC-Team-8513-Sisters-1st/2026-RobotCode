@@ -82,11 +82,18 @@ public class TeleopController {
         // intake controls
         if (Robot.intake.intakeState == IntakeStates.stowed
                 && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
+            // if the robot is stowed
             Robot.intake.intakeState = IntakeStates.intaking;
-        } else if (Robot.intake.intakeState == IntakeStates.intaking
+        } else if ((Robot.intake.intakeState == IntakeStates.intaking || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
                 && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
+            // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.stowed;
+        } else if (Robot.intake.intakeState == IntakeStates.intaking
+                && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake)) {
+            // turn the wheels off while deployed 
+            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
         }
+
 
         // shooter controls
         // ADD: it is the correct scoring time

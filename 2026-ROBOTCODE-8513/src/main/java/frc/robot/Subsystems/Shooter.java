@@ -41,7 +41,7 @@ public class Shooter {
     }
 
     public void setMotorPower() {
-        // shooter controller if not using interal
+        // shooter controller if not using interal pid
         if (shooterState == ShooterStates.shooting && useInternalController == false) {
             shooterMotorLeft.set(updateMotorPower());
             shooterMotorRight.set(updateMotorPower());
@@ -51,7 +51,7 @@ public class Shooter {
             shooterMotorRight.set(0);
         }
 
-        // shooter controller if using interal
+        // shooter controller if using interal pid
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
             shooterMotorKracken.setControl(m_request.withVelocity(8).withFeedForward(0.5));
 
