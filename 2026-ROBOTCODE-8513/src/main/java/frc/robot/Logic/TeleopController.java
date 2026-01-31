@@ -12,6 +12,8 @@ import frc.robot.Logic.Enums.IntakeStates;
 public class TeleopController {
 
     public Joystick driverXboxController = new Joystick(Settings.TeleopSettings.driverJoystickPort);
+    public Joystick manualJoystick = new Joystick(Settings.TeleopSettings.manualJoystickPort);
+
     public PIDController rJoystickController = new PIDController(0.1, 0, 0);
 
     public Rotation2d goalHeading = new Rotation2d();

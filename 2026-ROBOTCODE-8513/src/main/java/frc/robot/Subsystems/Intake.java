@@ -3,11 +3,12 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.IntakeStates;
 
 public class Intake {
-    public IntakeStates intakeState = IntakeStates.stowed; 
+    public IntakeStates intakeState = IntakeStates.stowed;
 
     public static TalonFX intakeMotorLeft = new TalonFX(31);
     public static TalonFX intakeMotorRight = new TalonFX(32);
@@ -15,16 +16,18 @@ public class Intake {
 
     public PIDController intakeMotorController = new PIDController(0.01, 0, 0);
 
-    public Intake(){
+    public boolean useManualIntakeControl = true;
+
+    public Intake() {
 
     }
-    
+
     public void setMotorPower() {
 
         if (intakeState == IntakeStates.intaking) {
             // deploy intake
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
-            
+
             // intake wheels on
             intakeMotorLeft.set(1);
             intakeMotorRight.set(1);
@@ -32,7 +35,7 @@ public class Intake {
         } else if (intakeState == IntakeStates.stowed) {
             // stow intake
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.stowPosition));
-            
+
             // intake wheels off
             intakeMotorLeft.set(0);
             intakeMotorRight.set(0);
@@ -47,10 +50,24 @@ public class Intake {
         } else if (intakeState == IntakeStates.stationaryDeployed) {
             // deploy intake
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
-            
+
             // intake wheels off
             intakeMotorLeft.set(0);
             intakeMotorRight.set(0);
+        }
+
+        // TEMPORARY: manual joystick control for intake
+        if (useManualIntakeControl) {
+            double intakeJoystickValue = Robot.teleop.manualJoystick.getRawAxis(5) * 0.2;
+
+            if (Math.abs(intakeJoystickValue) > Settings.TeleopSettings.joystickDeadband) {
+                intakeDeployMotor.set(intakeJoystickValue);
+                double currentPosition = intakeDeployMotor.getPosition().getValueAsDouble();
+                intakeMotorController.setSetpoint(currentPosition);
+            } else {
+                double power = intakeMotorController.calculate(intakeDeployMotor.getPosition().getValueAsDouble());
+                intakeDeployMotor.set(power);
+            }
         }
     }
 

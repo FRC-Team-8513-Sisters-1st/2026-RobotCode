@@ -16,6 +16,7 @@ public class Settings {
     }
     public static class TeleopSettings{
         public static int driverJoystickPort = 1;
+        public static int manualJoystickPort = 2;
         public static double joystickDeadband = 0.1;
 
         // joystick axis
@@ -39,7 +40,7 @@ public class Settings {
 
     public class IntakeSettings{
         public static double stowPosition = 0;
-        public static double deployPosition = 5000;
+        public static double deployPosition = 100;
     }
 
     public class VisionSettings{
