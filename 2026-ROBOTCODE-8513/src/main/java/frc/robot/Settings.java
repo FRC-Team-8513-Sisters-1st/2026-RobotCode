@@ -39,7 +39,7 @@ public class Settings {
 
     public class IntakeSettings{
         public static double stowPosition = 0;
-        public static double deployPosition = 5000;
+        public static double deployPosition = 100;
     }
 
     public class VisionSettings{
@@ -50,9 +50,9 @@ public class Settings {
         // hub locations
         
         public static final Pose2d hubRedLocation = new Pose2d(
-                11.919, 4.029, new Rotation2d(180));
+                11.919, 4.029, new Rotation2d());
         public static final Pose2d hubBlueLocation = new Pose2d(
-                4.621, 4.029, new Rotation2d(0));
+                4.621, 4.029, new Rotation2d());
        
     }
  

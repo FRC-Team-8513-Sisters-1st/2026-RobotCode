@@ -138,19 +138,36 @@ public class Drivebase {
 
     public double getRotationToHub() {
         Rotation2d angleToHub;
+        double angle;
 
         if (Robot.onRed) {
             // red hub location
             angleToHub = Settings.FieldInfo.hubRedLocation
                     .minus(yagslDrive.getPose()).getRotation();
+            angle = 0; // figure out how to invert
+
         } else {
             // blue hub location
             angleToHub = Settings.FieldInfo.hubBlueLocation
                     .minus(yagslDrive.getPose()).getRotation();
+
+            // calculate angle differently based on which side of field robot is on
+            if (Robot.drivebase.yagslDrive.getPose().getY() > 4) {
+                angle = 90 - (Math.atan((Settings.FieldInfo.hubBlueLocation.getY()
+                        - Robot.drivebase.yagslDrive.getPose().getY())
+                        / (Settings.FieldInfo.hubBlueLocation.getX()
+                                - Robot.drivebase.yagslDrive.getPose().getX())));
+
+            } else if (Robot.drivebase.yagslDrive.getPose().getY() < 4) {
+                angle = 270 + (Math.atan((Settings.FieldInfo.hubBlueLocation.getY()
+                        - Robot.drivebase.yagslDrive.getPose().getY())
+                        / (Settings.FieldInfo.hubBlueLocation.getX()
+                                - Robot.drivebase.yagslDrive.getPose().getX())));
+            }
+            
+            dvr = rotationPidController.calculate(yagslDrive.getPose().getRotation().getDegrees() - angle, 0);
+
         }
-        dvr = rotationPidController.calculate(yagslDrive.getPose().getRotation().minus(angleToHub).getDegrees(), 0);
-
-
         return dvr;
     }
 
