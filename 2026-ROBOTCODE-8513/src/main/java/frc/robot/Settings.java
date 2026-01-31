@@ -9,7 +9,7 @@ public class Settings {
         public static final double maxVelocityMPS = 5;
 
         public static class RotationPIDConstants{
-            public static final double kP = 0.01;
+            public static final double kP = 1;
             public static final double kI = 0;
             public static final double kD = 0;
         }
