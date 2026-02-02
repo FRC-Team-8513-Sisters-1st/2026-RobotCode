@@ -15,8 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Logic.Dashboard;
 import frc.robot.Logic.TeleopController;
 import frc.robot.Logic.Vision;
+import frc.robot.Subsystems.Hopper;
 // import frc.robot.Subsystems.Drivebase;
-import frc.robot.Subsystems.Shooter;
+// import frc.robot.Subsystems.Shooter;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
@@ -31,8 +32,9 @@ public class Robot extends TimedRobot {
   // public static Drivebase drivebase = new Drivebase();
   public static TeleopController teleop = new TeleopController();
   public static Vision vision = new Vision();
-  public static Shooter shooter = new Shooter();
+  // public static Shooter shooter = new Shooter();
   public static Dashboard dashboard = new Dashboard();
+  public static Hopper hopper = new Hopper();
 
   public Field2d robotCurrentPose = new Field2d();
 
@@ -75,7 +77,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // teleop.driveTele();
-    shooter.setMotorPower();
+    // shooter.setMotorPower();
+    hopper.setMotorPower();
 
 
     // if (teleop.driverXboxController.getRawButton(6)){
