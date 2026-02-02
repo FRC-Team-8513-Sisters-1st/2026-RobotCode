@@ -7,6 +7,8 @@ package frc.robot;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -39,6 +41,8 @@ public class Robot extends TimedRobot {
   public static Intake intake = new Intake();
   public static Enums enums = new Enums();
   public static AutoController auto = new AutoController();
+  public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
+
 
   public Field2d robotCurrentPose = new Field2d();
 

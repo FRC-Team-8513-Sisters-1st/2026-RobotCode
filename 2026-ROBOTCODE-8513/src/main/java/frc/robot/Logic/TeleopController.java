@@ -75,6 +75,7 @@ public class TeleopController {
         }
 
         // drive/face hub
+        Robot.drivebase.goalHeading = new Rotation2d(rV);
         if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub)) {
             Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getRotationToHub(), true, false);
         } else {

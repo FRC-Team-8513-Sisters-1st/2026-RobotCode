@@ -141,14 +141,17 @@ public class Drivebase {
 
         if (Robot.onRed) {
             // red hub location
-            angleToHub = Settings.FieldInfo.hubRedLocation
-                    .minus(yagslDrive.getPose()).getRotation();
+            angleToHub = Settings.FieldInfo.redHubCenterPoint
+                    .minus(yagslDrive.getPose()).getTranslation().getAngle();
+
         } else {
             // blue hub location
-            angleToHub = Settings.FieldInfo.hubBlueLocation
-                    .minus(yagslDrive.getPose()).getRotation();
+            angleToHub = Settings.FieldInfo.blueHubCenterPoint
+                    .minus(yagslDrive.getPose()).getTranslation().getAngle();
+
         }
-        dvr = rotationPidController.calculate(yagslDrive.getPose().getRotation().minus(angleToHub).getDegrees(), 0);
+        goalHeading = angleToHub;
+        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
 
 
         return dvr;

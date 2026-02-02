@@ -12,6 +12,9 @@ public class Dashboard {
         SmartDashboard.putData("trajGoalPose", trajField2d);
         SmartDashboard.putString("intakeState", Robot.intake.intakeState.name());
         SmartDashboard.putNumber("intakeDeployPosition", Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
+        SmartDashboard.putNumber("actualHeading", Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees());
+        SmartDashboard.putNumber("goalHeading", Robot.drivebase.goalHeading.getDegrees());
+
 
     }
 }

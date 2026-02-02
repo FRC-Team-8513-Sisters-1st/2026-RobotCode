@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 
 public class Settings {
    public static class DrivebaseSettings{
@@ -49,12 +51,32 @@ public class Settings {
 
     public class FieldInfo{
         // hub locations
+
+        public static final double width = Units.inchesToMeters(47.0);
+        public static final double height = Units.inchesToMeters(72.0); // includes the catcher at the top
         
         public static final Pose2d hubRedLocation = new Pose2d(
                 11.919, 4.029, new Rotation2d(180));
         public static final Pose2d hubBlueLocation = new Pose2d(
                 4.621, 4.029, new Rotation2d(0));
+
+        public static final Translation3d blueHubCenterPointTrans3d = new Translation3d(
+                Robot.aprilTagFieldLayout.getTagPose(26).get().getX() + width / 2.0,
+                Robot.aprilTagFieldLayout.getFieldWidth() / 2.0,
+                height);        
+        public static final Translation3d redHubCenterPointTrans3d = new Translation3d(
+                Robot.aprilTagFieldLayout.getTagPose(4).get().getX() + width / 2.0,
+                Robot.aprilTagFieldLayout.getFieldWidth() / 2.0,
+                height);
        
+        public static final Pose2d blueHubCenterPoint = new Pose2d(
+                blueHubCenterPointTrans3d.getX(),
+                blueHubCenterPointTrans3d.getY(),
+                new Rotation2d(0));        
+        public static final Pose2d redHubCenterPoint = new Pose2d(
+                redHubCenterPointTrans3d.getX(),
+                redHubCenterPointTrans3d.getY(),
+                new Rotation2d(0));        
     }
  
 }
