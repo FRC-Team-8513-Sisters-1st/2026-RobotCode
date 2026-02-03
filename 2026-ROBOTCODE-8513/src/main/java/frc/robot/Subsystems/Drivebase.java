@@ -164,8 +164,9 @@ public class Drivebase {
                         / (Settings.FieldInfo.hubBlueLocation.getX()
                                 - Robot.drivebase.yagslDrive.getPose().getX())));
             }
+            double currentRotation = yagslDrive.getPose().getRotation().getDegrees().getValueAsDouble() - angle;
             
-            dvr = rotationPidController.calculate(yagslDrive.getPose().getRotation().getDegrees() - angle, 0);
+            dvr = rotationPidController.calculate(currentRotation, 0);
 
         }
         return dvr;
