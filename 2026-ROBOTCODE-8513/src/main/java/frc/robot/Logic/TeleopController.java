@@ -22,6 +22,8 @@ public class TeleopController {
     SlewRateLimiter yfilter = new SlewRateLimiter(4);
     SlewRateLimiter rfilter = new SlewRateLimiter(4);
 
+    public boolean shootingFacingHub = false;
+
     public void initTele() {
         Robot.shooter.initShooter();
 
@@ -64,21 +66,36 @@ public class TeleopController {
         double yV;
         double rV;
 
-        if (Robot.onRed) {
-            xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.6);
-            yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.6);
-            rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+        if (shootingFacingHub) {
+            if (Robot.onRed) {
+                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 3);
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 3);
+                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+            } else {
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3;
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3;
+                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+            }
         } else {
-            xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.6;
-            yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.6;
-            rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+            if (Robot.onRed) {
+                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8);
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8);
+                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+            } else {
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8;
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8;
+                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+            }
         }
 
         // drive/face hub
         Robot.drivebase.goalHeading = new Rotation2d(rV);
         if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub)) {
-            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getRotationToHub(), true, false);
+            shootingFacingHub = true;
+            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getRotationToHub(), true,
+                    false);
         } else {
+            shootingFacingHub = false;
             Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
         }
 
@@ -87,26 +104,30 @@ public class TeleopController {
                 && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
             // if the robot is stowed
             Robot.intake.intakeState = IntakeStates.intaking;
-        } else if ((Robot.intake.intakeState == IntakeStates.intaking || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
+        } else if ((Robot.intake.intakeState == IntakeStates.intaking
+                || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
                 && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
             // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.stowed;
         } else if (Robot.intake.intakeState == IntakeStates.intaking
-                && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake)) {
-            // turn the wheels off while deployed 
+                && Robot.teleop.driverXboxController
+                        .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake)) {
+            // turn the wheels off while deployed
             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
         }
-
 
         // shooter controls
         // ADD: it is the correct scoring time
 
-        // if (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.faceHub)
-        //         && (Robot.onRed && Robot.drivebase.yagslDrive.getPose().getX() > 12.5)) {
-        //     Robot.shooter.shooterState = ShooterStates.shooting;
-        // } else if (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.faceHub)
-        //         && (Robot.onRed == false && Robot.drivebase.yagslDrive.getPose().getX() < 4)) {
-        //     Robot.shooter.shooterState = ShooterStates.stationary;
+        // if
+        // (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.faceHub)
+        // && (Robot.onRed && Robot.drivebase.yagslDrive.getPose().getX() > 12.5)) {
+        // Robot.shooter.shooterState = ShooterStates.shooting;
+        // } else if
+        // (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.faceHub)
+        // && (Robot.onRed == false && Robot.drivebase.yagslDrive.getPose().getX() < 4))
+        // {
+        // Robot.shooter.shooterState = ShooterStates.stationary;
         // }
 
         // Subsystem set motor power
