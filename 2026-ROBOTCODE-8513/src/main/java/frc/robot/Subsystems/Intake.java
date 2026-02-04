@@ -10,9 +10,9 @@ import frc.robot.Logic.Enums.IntakeStates;
 public class Intake {
     public IntakeStates intakeState = IntakeStates.stowed;
 
-    public static TalonFX intakeMotorLeft = new TalonFX(31);
-    public static TalonFX intakeMotorRight = new TalonFX(32);
-    public static TalonFX intakeDeployMotor = new TalonFX(33);
+    public TalonFX intakeMotorLeft = new TalonFX(31);
+    public TalonFX intakeMotorRight = new TalonFX(32);
+    public TalonFX intakeDeployMotor = new TalonFX(33);
 
     public PIDController intakeMotorController = new PIDController(0.1, 0, 0);
 
