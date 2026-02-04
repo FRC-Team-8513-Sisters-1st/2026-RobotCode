@@ -29,7 +29,7 @@ public class Drivebase {
 
     // path following variables
     PathPlannerTrajectory traj;
-    boolean loadedPathHasStarted = false;
+    public boolean loadedPathHasStarted = false;
     PathPlannerPath path;
     public String pathName = "";
     double elapsedTime;

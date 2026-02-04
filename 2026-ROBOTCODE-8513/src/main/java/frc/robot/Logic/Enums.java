@@ -19,4 +19,8 @@ public class Enums {
     public enum DrivebaseStates {
         locked, drive 
     }
+
+    public enum AutoRoutines {
+        DoNothing, TestAuto
+    }
 }

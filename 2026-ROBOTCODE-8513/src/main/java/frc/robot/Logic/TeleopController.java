@@ -68,8 +68,8 @@ public class TeleopController {
 
         if (shootingFacingHub) {
             if (Robot.onRed) {
-                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 3);
-                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 3);
+                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3);
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3);
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             } else {
                 xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3;

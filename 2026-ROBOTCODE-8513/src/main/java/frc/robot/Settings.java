@@ -45,6 +45,10 @@ public class Settings {
         public static double deployPosition = 38.360840;
     }
 
+    public class ShooterSettings{
+        public static double hoodPosition = 25.0;
+    }
+
     public class VisionSettings{
         public static double maxATDistDisabeled = 10;
     }

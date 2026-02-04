@@ -20,7 +20,9 @@ import frc.robot.Logic.Enums;
 import frc.robot.Logic.TeleopController;
 import frc.robot.Logic.Vision;
 import frc.robot.Subsystems.Drivebase;
+import frc.robot.Subsystems.Hopper;
 import frc.robot.Subsystems.Intake;
+import frc.robot.Subsystems.Kicker;
 import frc.robot.Subsystems.Shooter;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
@@ -39,6 +41,8 @@ public class Robot extends TimedRobot {
   public static Shooter shooter = new Shooter();
   public static Dashboard dashboard = new Dashboard();
   public static Intake intake = new Intake();
+  public static Hopper hopper = new Hopper();
+  public static Kicker kicker = new Kicker();
   public static Enums enums = new Enums();
   public static AutoController auto = new AutoController();
   public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
@@ -80,7 +84,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    auto.runAuto();
+    auto.autoPeriodic();
   }
 
   @Override
@@ -99,7 +103,9 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    auto.updateAutoRoutineFromDashboard();
+  }
 
   @Override
   public void testInit() {}
