@@ -53,8 +53,8 @@ public class Shooter {
 
         // shooter controller if using interal pid
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
-            shooterMotorLeft.setControl(m_request.withVelocity(8).withFeedForward(0.5));
-            shooterMotorRight.setControl(m_request.withVelocity(8).withFeedForward(0.5));
+            shooterMotorLeft.setControl(m_request.withVelocity(50).withFeedForward(0.5));
+            shooterMotorRight.setControl(m_request.withVelocity(50).withFeedForward(0.5));
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true){
             shooterMotorLeft.setControl(m_request.withVelocity(0).withFeedForward(0));

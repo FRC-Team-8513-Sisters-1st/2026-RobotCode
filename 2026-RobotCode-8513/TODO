@@ -1,8 +1,5 @@
 Comp Robot:
-    - YAGSL config physical properties
-    - Check all motors for inversion
-    - update navx3 on CAN ID 61
-    - advantage scope and SD layouts
+    - test the kracken internal pid 
 
 Practice Robot:
 
