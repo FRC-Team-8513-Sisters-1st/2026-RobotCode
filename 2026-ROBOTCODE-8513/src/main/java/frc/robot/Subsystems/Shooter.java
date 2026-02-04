@@ -53,12 +53,12 @@ public class Shooter {
 
         // shooter controller if using interal pid
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
-            shooterMotorLeft.setControl(m_request.withVelocity(50).withFeedForward(0.5));
-            shooterMotorRight.setControl(m_request.withVelocity(50).withFeedForward(0.5));
+            shooterMotorLeft.setControl(m_request.withVelocity(50).withFeedForward(RPStoVoltage(60)));
+            shooterMotorRight.setControl(m_request.withVelocity(50).withFeedForward(RPStoVoltage(60)));
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true){
-            shooterMotorLeft.setControl(m_request.withVelocity(0).withFeedForward(0));
-            shooterMotorRight.setControl(m_request.withVelocity(0).withFeedForward(0));
+            shooterMotorLeft.setControl(m_request.withVelocity(0).withFeedForward(RPStoVoltage(60)));
+            shooterMotorRight.setControl(m_request.withVelocity(0).withFeedForward(RPStoVoltage(60)));
 
         }
 
@@ -81,5 +81,10 @@ public class Shooter {
         double currentPosition = shooterHoodMotor.getPosition().getValueAsDouble();
         double outputPower = shooterMotorController.calculate(currentPosition, targetPosition);
         return outputPower;
+    }
+
+    public double RPStoVoltage(double RPS) {
+        double voltage = (RPS + 0.773138)/8.70426;
+        return voltage;
     }
 }
