@@ -1,5 +1,8 @@
 Comp Robot:
     - test the kracken internal pid 
-
+    - angle correct for shooting on the move
+    - make autos work
+    - figure out hood angle math
+    
 Practice Robot:
 
