@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.IntakeStates;
+import frc.robot.Logic.Enums.ShooterStates;
 
 public class TeleopController {
 
@@ -100,21 +101,21 @@ public class TeleopController {
         }
 
         // intake controls
-        if (Robot.intake.intakeState == IntakeStates.stowed
-                && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
-            // if the robot is stowed
-            Robot.intake.intakeState = IntakeStates.intaking;
-        } else if ((Robot.intake.intakeState == IntakeStates.intaking
-                || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
-                && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
-            // if the robot is intaking or stationary
-            Robot.intake.intakeState = IntakeStates.stowed;
-        } else if (Robot.intake.intakeState == IntakeStates.intaking
-                && Robot.teleop.driverXboxController
-                        .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake)) {
-            // turn the wheels off while deployed
-            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
-        }
+        // if (Robot.intake.intakeState == IntakeStates.stowed
+        //         && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
+        //     // if the robot is stowed
+        //     Robot.intake.intakeState = IntakeStates.intaking;
+        // } else if ((Robot.intake.intakeState == IntakeStates.intaking
+        //         || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
+        //         && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
+        //     // if the robot is intaking or stationary
+        //     Robot.intake.intakeState = IntakeStates.stowed;
+        // } else if (Robot.intake.intakeState == IntakeStates.intaking
+        //         && Robot.teleop.driverXboxController
+        //                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake)) {
+        //     // turn the wheels off while deployed
+        //     Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+        // }
 
         // shooter controls
         // ADD: it is the correct scoring time
@@ -129,6 +130,14 @@ public class TeleopController {
         // {
         // Robot.shooter.shooterState = ShooterStates.stationary;
         // }
+        if (driverXboxController.getRawButtonPressed(3)) {
+            if (Robot.shooter.shooterState == ShooterStates.stationary) {
+                Robot.shooter.shooterState = ShooterStates.shooting;
+            } else {
+                Robot.shooter.shooterState = ShooterStates.stationary;
+            }
+        }
+
 
         // Subsystem set motor power
         Robot.shooter.setMotorPower();

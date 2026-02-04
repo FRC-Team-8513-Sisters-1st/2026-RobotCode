@@ -14,6 +14,10 @@ public class Dashboard {
         SmartDashboard.putNumber("intakeDeployPosition", Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("actualHeading", Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees());
         SmartDashboard.putNumber("goalHeading", Robot.drivebase.goalHeading.getDegrees());
+        SmartDashboard.putNumber("Shooter RPS", Robot.shooter.shooterMotorLeft.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Shooter Voltage", Robot.shooter.shooterMotorLeft.getMotorVoltage().getValueAsDouble());
+
+
 
 
     }
