@@ -3,6 +3,8 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Settings;
@@ -12,7 +14,7 @@ public class Shooter {
 
     public static TalonFX shooterMotorLeft = new TalonFX(13);
     public static TalonFX shooterMotorRight = new TalonFX(14);
-    public static TalonFX shooterHoodMotor = new TalonFX(15);
+    public static SparkMax shooterHoodMotor = new SparkMax(15, MotorType.kBrushless);
 
 
     public PIDController shooterMotorController = new PIDController(0.0001, 0.000001, 0);
@@ -78,7 +80,7 @@ public class Shooter {
     }
 
     public double hoodAnglePower(double targetPosition) {
-        double currentPosition = shooterHoodMotor.getPosition().getValueAsDouble();
+        double currentPosition = shooterHoodMotor.getEncoder().getPosition();
         double outputPower = shooterMotorController.calculate(currentPosition, targetPosition);
         return outputPower;
     }

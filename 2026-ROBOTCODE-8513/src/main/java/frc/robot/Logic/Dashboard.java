@@ -14,6 +14,7 @@ public class Dashboard {
         SmartDashboard.putNumber("intakeDeployPosition", Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("actualHeading", Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees());
         SmartDashboard.putNumber("goalHeading", Robot.drivebase.goalHeading.getDegrees());
+        SmartDashboard.putString("Auto selected", Robot.auto.autoRoutine.name());
 
 
     }

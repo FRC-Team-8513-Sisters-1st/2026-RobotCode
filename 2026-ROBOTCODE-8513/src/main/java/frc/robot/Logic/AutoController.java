@@ -33,12 +33,11 @@ public class AutoController {
 
     public void initAuto() {
         updateAutoRoutineFromDashboard();
-        autoStep = 1;
+        autoStep = 0;
         timeStepStarted = Timer.getFPGATimestamp();
     }
 
     public void autoPeriodic() {
-        SmartDashboard.putString("Auto selected", autoRoutine.name());
 
         switch (autoRoutine) {
             case DoNothing:
@@ -48,30 +47,28 @@ public class AutoController {
             case TestAuto:
                 switch (autoStep) {
                     case 0:
-                        // initialization??
-                        break;
-                    case 5:
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stowed;
 
-                        Robot.drivebase.initPath("Test Auto - step 5");
+                        Robot.drivebase.initPath("TestAuto-step5");
 
                         // path is over
-                        autoStep = 10;
                         timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 10;
                         break;
 
                     case 10:
+                        Robot.drivebase.followLoadedPath();
                         Robot.shooter.shooterState = ShooterStates.shooting;
                         Robot.hopper.hopperState = HopperStates.indexing;
                         Robot.kicker.kickerState = KickerStates.shooting;
                         Robot.intake.intakeState = IntakeStates.stowed;
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted > 5) {
-                            autoStep = 10;
+                        if (Timer.getFPGATimestamp() - timeStepStarted > 3) {
                             timeStepStarted = Timer.getFPGATimestamp();
+                            autoStep = 15;
                         }
                         break;
                     
@@ -81,12 +78,15 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stowed;
 
-                        Robot.drivebase.initPath("Test Auto - step 15");
+                        Robot.drivebase.initPath("TestAuto-step15");
 
                         // path is over
-                        autoStep = 20;
                         timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 20;
                         break;
+                    case 20:
+                        Robot.drivebase.followLoadedPath();
+
                 }
                 break;
         }
