@@ -18,8 +18,8 @@ public class Hopper {
     public void setMotorPower() {
         if (Robot.teleop.driverXboxController.getRawButton(6)) {
             motorOn = true;
-            hopperMotorLeft.set(-1);
-            hopperMotorRight.set(1);
+            hopperMotorLeft.set(1);
+            hopperMotorRight.set(-1);
 
         } else{
             motorOn = false;
