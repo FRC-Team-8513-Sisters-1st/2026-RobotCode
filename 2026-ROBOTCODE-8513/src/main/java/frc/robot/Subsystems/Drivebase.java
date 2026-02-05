@@ -45,6 +45,8 @@ public class Drivebase {
 
     public PIDController followPathYController = new PIDController(10, 0, 0);
 
+    public double timeOfFlight;
+
     public Drivebase() {
         File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
         try {
@@ -155,4 +157,12 @@ public class Drivebase {
         return dvr;
     }
 
+    //calculates the tof
+    public double timeOfFlight() {
+        timeOfFlight = 1; 
+        return timeOfFlight;
+    }
+
+    // public Pose2d getUpdatedScoreLoc() {
+    // }
 }

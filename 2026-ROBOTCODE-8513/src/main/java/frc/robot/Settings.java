@@ -36,6 +36,7 @@ public class Settings {
             public static int intake = 2;
             public static int faceHub = 1;
             public static int stopIntake = 4; 
+            public static int shoot = 5;
         }
 
     }

@@ -64,7 +64,7 @@ public class Shooter {
 
         }
 
-        setHoodAngle();
+        // setHoodAngle();
     }
 
     public double updateMotorPower() {

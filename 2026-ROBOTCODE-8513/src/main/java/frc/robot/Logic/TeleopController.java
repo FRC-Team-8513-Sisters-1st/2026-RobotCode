@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.IntakeStates;
+import frc.robot.Logic.Enums.KickerStates;
+import frc.robot.Logic.Enums.ShooterStates;
 
 public class TeleopController {
 
@@ -116,23 +118,21 @@ public class TeleopController {
             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
         }
 
-        // shooter controls
-        // ADD: it is the correct scoring time
-
-        // if
-        // (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.faceHub)
-        // && (Robot.onRed && Robot.drivebase.yagslDrive.getPose().getX() > 12.5)) {
-        // Robot.shooter.shooterState = ShooterStates.shooting;
-        // } else if
-        // (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.faceHub)
-        // && (Robot.onRed == false && Robot.drivebase.yagslDrive.getPose().getX() < 4))
-        // {
-        // Robot.shooter.shooterState = ShooterStates.stationary;
-        // }
+        // shooter/kicker controls
+        if (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shoot)
+                && Robot.shooter.shooterState == ShooterStates.stationary) {
+            Robot.shooter.shooterState = ShooterStates.shooting;
+            Robot.kicker.kickerState = KickerStates.shooting;
+        } else if (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shoot)
+                && Robot.shooter.shooterState == ShooterStates.shooting) {
+            Robot.shooter.shooterState = ShooterStates.stationary;
+            Robot.kicker.kickerState = KickerStates.stationary;
+        }
 
         // Subsystem set motor power
         Robot.shooter.setMotorPower();
         Robot.intake.setMotorPower();
+        Robot.kicker.setMotorPower();
 
     }
 }
