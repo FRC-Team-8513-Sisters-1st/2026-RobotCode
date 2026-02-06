@@ -7,6 +7,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.ShooterStates;
 
@@ -17,7 +18,7 @@ public class Shooter {
     public static SparkMax shooterHoodMotor = new SparkMax(15, MotorType.kBrushless);
 
 
-    public PIDController shooterMotorController = new PIDController(0.0001, 0.000001, 0);
+    public PIDController shooterMotorController = new PIDController(0.1, 0, 0);
 
     public ShooterStates shooterState = ShooterStates.stationary;
 
@@ -31,8 +32,8 @@ public class Shooter {
     public final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
 
     public Shooter() {
-        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kV = 0; // A velocity target of 1 rps results in 0.12 V output
+        slot0Configs.kP = 0.5; // An error of 1 rps results in 0.11 V output
         slot0Configs.kI = 0; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
     }
@@ -54,13 +55,15 @@ public class Shooter {
         }
 
         // shooter controller if using interal pid
+        double targetV = 41;
+        SmartDashboard.putNumber("ShooterV", shooterMotorRight.getVelocity().getValueAsDouble());
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
-            shooterMotorLeft.setControl(m_request.withVelocity(50).withFeedForward(RPStoVoltage(60)));
-            shooterMotorRight.setControl(m_request.withVelocity(50).withFeedForward(RPStoVoltage(60)));
+            shooterMotorLeft.setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+            shooterMotorRight.setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true){
-            shooterMotorLeft.setControl(m_request.withVelocity(0).withFeedForward(RPStoVoltage(60)));
-            shooterMotorRight.setControl(m_request.withVelocity(0).withFeedForward(RPStoVoltage(60)));
+            shooterMotorLeft.set(0);
+            shooterMotorRight.set(0);
 
         }
 

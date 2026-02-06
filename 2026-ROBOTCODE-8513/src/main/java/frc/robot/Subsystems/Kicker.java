@@ -11,7 +11,7 @@ public class Kicker {
     public KickerStates kickerState = KickerStates.stationary;
     public SparkMax kickerMotor = new SparkMax(16, MotorType.kBrushless);
 
-    public PIDController kickerMotorController = new PIDController(0.001, 0.0001, 0);
+    public PIDController kickerMotorController = new PIDController(0.001, 0, 0);
 
     public Kicker() {
     }
@@ -20,7 +20,7 @@ public class Kicker {
     public void setMotorPower() {
         if (kickerState == KickerStates.shooting) {
             // set motor to shoot
-            kickerMotor.set(updateMotorPower());
+            kickerMotor.set(1);
         } else if (kickerState == KickerStates.stationary) {
             // set motor to stationary
             kickerMotor.set(0);
@@ -29,7 +29,7 @@ public class Kicker {
 
     public double updateMotorPower() {
         double currentVelocity = kickerMotor.getEncoder().getVelocity();
-        double targetVelocity = 5000;
+        double targetVelocity = 1000;
         double outputPower = kickerMotorController.calculate(currentVelocity, targetVelocity);
         return outputPower;
 

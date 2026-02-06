@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-      if (Robot.isReal()) {
+      if (Robot.isReal() && false) {
         vision.updatePhotonVision();
       }
       dashboard.updateDashboard();

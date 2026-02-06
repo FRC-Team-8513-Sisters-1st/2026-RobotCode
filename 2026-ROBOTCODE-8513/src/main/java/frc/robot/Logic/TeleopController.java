@@ -119,12 +119,11 @@ public class TeleopController {
         }
 
         // shooter/kicker controls
-        if (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shoot)
-                && Robot.shooter.shooterState == ShooterStates.stationary) {
+        boolean shootButtonPressed = driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shoot);
+        if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
             Robot.shooter.shooterState = ShooterStates.shooting;
             Robot.kicker.kickerState = KickerStates.shooting;
-        } else if (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shoot)
-                && Robot.shooter.shooterState == ShooterStates.shooting) {
+        } else if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
             Robot.shooter.shooterState = ShooterStates.stationary;
             Robot.kicker.kickerState = KickerStates.stationary;
         }
