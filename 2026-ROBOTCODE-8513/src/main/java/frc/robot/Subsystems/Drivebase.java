@@ -40,6 +40,7 @@ public class Drivebase {
     double otfEndVelocity = 0;
     public boolean forcePathHeading = false;
     double dvr;
+    public Pose2d goalAimPose;
 
     // edit these values and put in settings later
     public PIDController followPathXController = new PIDController(10, 0, 0);
@@ -56,6 +57,15 @@ public class Drivebase {
                             new Pose2d(8.25, 4, new Rotation2d(0)));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        // sets the goal aim pose to the hub (when the aim pose is change bc of velocity, it is updated)
+        if (Robot.onRed) {
+            goalAimPose = Settings.FieldInfo.redHubCenterPoint;
+
+        } else {
+            goalAimPose = Settings.FieldInfo.blueHubCenterPoint;
+
         }
     }
 
@@ -146,13 +156,13 @@ public class Drivebase {
             // red hub location
             angleToHub = yagslDrive.getPose().minus(offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint))
                     .getTranslation().getAngle();
-
+            goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint);
         } else {
             // blue hub location
             angleToHub = yagslDrive.getPose().minus(offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint))
                     .getTranslation().getAngle()
                     .plus(new Rotation2d(Math.PI));
-
+            goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
         }
         goalHeading = angleToHub;
         dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);

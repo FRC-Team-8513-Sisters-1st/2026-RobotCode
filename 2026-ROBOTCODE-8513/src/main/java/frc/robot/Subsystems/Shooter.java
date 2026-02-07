@@ -12,6 +12,8 @@ import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.ShooterStates;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+
 public class Shooter {
 
     public static TalonFX shooterMotorLeft = new TalonFX(13);
@@ -29,12 +31,19 @@ public class Shooter {
 
     // create a velocity closed-loop request, voltage output, slot 0 configs
     public final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+    public InterpolatingDoubleTreeMap distToHoodEncoderValuesTable = new InterpolatingDoubleTreeMap();
 
     public Shooter() {
+        // internal pid controller shooter motors
         slot0Configs.kV = 0; // A velocity target of 1 rps results in 0.12 V output
         slot0Configs.kP = 0.5; // An error of 1 rps results in 0.11 V output
         slot0Configs.kI = 0; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
+
+        // interpolating value
+        distToHoodEncoderValuesTable.put(0.0, 0.0);
+        distToHoodEncoderValuesTable.put(1.0, 10.0);
+        distToHoodEncoderValuesTable.put(2.0, 30.0);
     }
 
     public void initShooter() {
@@ -79,8 +88,11 @@ public class Shooter {
     }
 
     public void setHoodAngle() {
+        double distanceBetweenCurrentAndGoalInMeters = Robot.drivebase
+                .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
 
-        shooterHoodMotor.set(hoodAnglePower(hoodCalcAngleToPower()));
+        shooterHoodMotor
+                .set(hoodAnglePower(getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
     }
 
     public double hoodAnglePower(double targetPosition) {
@@ -89,19 +101,9 @@ public class Shooter {
         return outputPower;
     }
 
-    public double hoodCalcAngleToPower() {
-        // find theta
-        double theta = Math.atan((Math.pow(targetVelocity, 2) + Math
-                .sqrt(Math.pow(targetVelocity, 4) - (9.8) * (9.8
-                        * Math.pow(Robot.drivebase.getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(),
-                                Settings.FieldInfo.redHubCenterPoint), 2)
-                        + 2 * (Settings.FieldInfo.hubHeight - Settings.PhysicalRobotValues.robotHeight)
-                                * (Math.pow(targetVelocity, 2))))
-                / (9.8 * Robot.drivebase.getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(),
-                        Settings.FieldInfo.redHubCenterPoint))));
-        // find connection btwn theta and encoder position
-        double updatedPosition = 30;
-        return updatedPosition;
+    // input distance, returns encoder position
+    public double getInterpolatedEncoderValueDistanceToHood(double distanceFromGoal) {
+        return distToHoodEncoderValuesTable.get(distanceFromGoal);
     }
 
     public double RPStoVoltage(double RPS) {
