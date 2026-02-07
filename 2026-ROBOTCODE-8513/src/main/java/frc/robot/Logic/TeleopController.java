@@ -102,18 +102,17 @@ public class TeleopController {
         }
 
         // intake controls
-        if (Robot.intake.intakeState == IntakeStates.stowed
-                && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
+        boolean intakeButtonPressed = Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake);
+        if (Robot.intake.intakeState == IntakeStates.stowed && intakeButtonPressed) {
             // if the robot is stowed
             Robot.intake.intakeState = IntakeStates.intaking;
         } else if ((Robot.intake.intakeState == IntakeStates.intaking
                 || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
-                && Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake)) {
+                && intakeButtonPressed) {
             // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.stowed;
         } else if (Robot.intake.intakeState == IntakeStates.intaking
-                && Robot.teleop.driverXboxController
-                        .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake)) {
+                && intakeButtonPressed) {
             // turn the wheels off while deployed
             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
         }

@@ -5,6 +5,7 @@ import java.io.File;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
@@ -143,26 +144,35 @@ public class Drivebase {
 
         if (Robot.onRed) {
             // red hub location
-            angleToHub = yagslDrive.getPose().minus(Settings.FieldInfo.redHubCenterPoint).getTranslation().getAngle();
+            angleToHub = yagslDrive.getPose().minus(offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint)).getTranslation().getAngle();
 
         } else {
             // blue hub location
-            angleToHub = yagslDrive.getPose().minus(Settings.FieldInfo.blueHubCenterPoint).getTranslation().getAngle().plus(new Rotation2d(Math.PI));
+            angleToHub = yagslDrive.getPose().minus(offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint)).getTranslation().getAngle()
+                    .plus(new Rotation2d(Math.PI));
 
         }
         goalHeading = angleToHub;
         dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
 
-
         return dvr;
     }
 
-    //calculates the tof
+    // calculates the tof
     public double timeOfFlight() {
-        timeOfFlight = 1; 
+        timeOfFlight = 1;
         return timeOfFlight;
     }
 
-    // public Pose2d getUpdatedScoreLoc() {
-    // }
+    // returns the y value to add to the hub score location
+    double shotDisplacement;
+
+    public Pose2d offsetPose2dByVelocity(Pose2d originalPose2d) {
+        double rVX = yagslDrive.getFieldVelocity().vxMetersPerSecond;
+        double rVY = yagslDrive.getFieldVelocity().vyMetersPerSecond;
+        double x = rVX * timeOfFlight;
+        double y = rVY * timeOfFlight;
+        Transform2d transform = new Transform2d(x, y, new Rotation2d());
+        return originalPose2d.transformBy(transform);
+    }
 }
