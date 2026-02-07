@@ -16,6 +16,11 @@ public class Settings {
             public static final double kD = 0;
         }
     }
+
+    public static class PhysicalRobotValues{
+        public static double robotHeight = 30;
+    }
+
     public static class TeleopSettings{
         public static int driverJoystickPort = 1;
         public static int manualJoystickPort = 2;
@@ -81,7 +86,9 @@ public class Settings {
         public static final Pose2d redHubCenterPoint = new Pose2d(
                 redHubCenterPointTrans3d.getX(),
                 redHubCenterPointTrans3d.getY(),
-                new Rotation2d(0));        
+                new Rotation2d(0));     
+                
+        public static double hubHeight = 10;
     }
  
 }

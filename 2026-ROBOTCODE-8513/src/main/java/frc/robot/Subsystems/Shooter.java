@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.ShooterStates;
 
@@ -17,7 +18,6 @@ public class Shooter {
     public static TalonFX shooterMotorRight = new TalonFX(14);
     public static SparkMax shooterHoodMotor = new SparkMax(15, MotorType.kBrushless);
 
-
     public PIDController shooterMotorController = new PIDController(0.1, 0, 0);
 
     public ShooterStates shooterState = ShooterStates.stationary;
@@ -26,7 +26,6 @@ public class Shooter {
 
     // in init function, set slot 0 gains
     Slot0Configs slot0Configs = new Slot0Configs();
-    
 
     // create a velocity closed-loop request, voltage output, slot 0 configs
     public final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
@@ -49,7 +48,7 @@ public class Shooter {
             shooterMotorLeft.set(updateMotorPower());
             shooterMotorRight.set(updateMotorPower());
 
-        } else if (shooterState == ShooterStates.stationary && useInternalController == false){
+        } else if (shooterState == ShooterStates.stationary && useInternalController == false) {
             shooterMotorLeft.set(0);
             shooterMotorRight.set(0);
         }
@@ -61,25 +60,27 @@ public class Shooter {
             shooterMotorLeft.setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
             shooterMotorRight.setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
 
-        } else if (shooterState == ShooterStates.stationary && useInternalController == true){
+        } else if (shooterState == ShooterStates.stationary && useInternalController == true) {
             shooterMotorLeft.set(0);
             shooterMotorRight.set(0);
 
         }
 
-        // setHoodAngle();
+        setHoodAngle();
     }
+
+    double targetVelocity;
 
     public double updateMotorPower() {
         double currentVelocity = shooterMotorLeft.getVelocity().getValueAsDouble();
-        double targetVelocity = 3000;
+        targetVelocity = 3000;
         double outputPower = shooterMotorController.calculate(currentVelocity, targetVelocity);
-        return outputPower + targetVelocity/6140;
+        return outputPower + targetVelocity / 6140;
     }
 
     public void setHoodAngle() {
-        // calculation based on distance
-        shooterHoodMotor.set(hoodAnglePower(Settings.ShooterSettings.hoodPosition));
+
+        shooterHoodMotor.set(hoodAnglePower(hoodCalcAngleToPower()));
     }
 
     public double hoodAnglePower(double targetPosition) {
@@ -88,8 +89,23 @@ public class Shooter {
         return outputPower;
     }
 
+    public double hoodCalcAngleToPower() {
+        // find theta
+        double theta = Math.atan((Math.pow(targetVelocity, 2) + Math
+                .sqrt(Math.pow(targetVelocity, 4) - (9.8) * (9.8
+                        * Math.pow(Robot.drivebase.getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(),
+                                Settings.FieldInfo.redHubCenterPoint), 2)
+                        + 2 * (Settings.FieldInfo.hubHeight - Settings.PhysicalRobotValues.robotHeight)
+                                * (Math.pow(targetVelocity, 2))))
+                / (9.8 * Robot.drivebase.getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(),
+                        Settings.FieldInfo.redHubCenterPoint))));
+        // find connection btwn theta and encoder position
+        double updatedPosition = 30;
+        return updatedPosition;
+    }
+
     public double RPStoVoltage(double RPS) {
-        double voltage = (RPS + 0.773138)/8.70426;
+        double voltage = (RPS + 0.773138) / 8.70426;
         return voltage;
     }
 }

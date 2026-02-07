@@ -144,11 +144,13 @@ public class Drivebase {
 
         if (Robot.onRed) {
             // red hub location
-            angleToHub = yagslDrive.getPose().minus(offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint)).getTranslation().getAngle();
+            angleToHub = yagslDrive.getPose().minus(offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint))
+                    .getTranslation().getAngle();
 
         } else {
             // blue hub location
-            angleToHub = yagslDrive.getPose().minus(offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint)).getTranslation().getAngle()
+            angleToHub = yagslDrive.getPose().minus(offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint))
+                    .getTranslation().getAngle()
                     .plus(new Rotation2d(Math.PI));
 
         }
@@ -164,7 +166,7 @@ public class Drivebase {
         return timeOfFlight;
     }
 
-    // returns the y value to add to the hub score location
+    // returns the new Pose2d score location
     double shotDisplacement;
 
     public Pose2d offsetPose2dByVelocity(Pose2d originalPose2d) {
@@ -174,5 +176,12 @@ public class Drivebase {
         double y = rVY * timeOfFlight;
         Transform2d transform = new Transform2d(x, y, new Rotation2d());
         return originalPose2d.transformBy(transform);
+    }
+
+    public double getDistanceBetweenTwoPoses(Pose2d pose1, Pose2d pose2) {
+        double x = pose2.getX() - pose1.getX();
+        double y = pose2.getY() - pose1.getY();
+        double distance = Math.sqrt(x * x + y * y);
+        return distance;
     }
 }
