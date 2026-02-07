@@ -49,6 +49,8 @@ public class Drivebase {
 
     public double timeOfFlight;
 
+    public double aimFudgeFactor = 0;
+
     public Drivebase() {
         File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
         try {
@@ -59,7 +61,8 @@ public class Drivebase {
             e.printStackTrace();
         }
 
-        // sets the goal aim pose to the hub (when the aim pose is change bc of velocity, it is updated)
+        // sets the goal aim pose to the hub (when the aim pose is change bc of
+        // velocity, it is updated)
         if (Robot.onRed) {
             goalAimPose = Settings.FieldInfo.redHubCenterPoint;
 
@@ -154,17 +157,17 @@ public class Drivebase {
 
         if (Robot.onRed) {
             // red hub location
-            angleToHub = yagslDrive.getPose().minus(offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint))
-                    .getTranslation().getAngle();
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint);
+            angleToHub = yagslDrive.getPose().minus(goalAimPose)
+                    .getTranslation().getAngle();
         } else {
             // blue hub location
-            angleToHub = yagslDrive.getPose().minus(offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint))
+            goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
+            angleToHub = yagslDrive.getPose().minus(goalAimPose)
                     .getTranslation().getAngle()
                     .plus(new Rotation2d(Math.PI));
-            goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
         }
-        goalHeading = angleToHub;
+        goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
         dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
 
         return dvr;

@@ -15,6 +15,8 @@ public class Dashboard {
         SmartDashboard.putNumber("actualHeading", Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees());
         SmartDashboard.putNumber("goalHeading", Robot.drivebase.goalHeading.getDegrees());
         SmartDashboard.putString("Auto selected", Robot.auto.autoRoutine.name());
+        SmartDashboard.putNumber("shooterAngleFudgeFactorValue", Robot.shooter.angleFudgeFactor);
+        SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);
 
 
     }

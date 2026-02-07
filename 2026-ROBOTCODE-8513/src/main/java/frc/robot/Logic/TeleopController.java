@@ -14,6 +14,7 @@ import frc.robot.Logic.Enums.ShooterStates;
 public class TeleopController {
 
     public Joystick driverXboxController = new Joystick(Settings.TeleopSettings.driverJoystickPort);
+    public Joystick copilotXboxController = new Joystick(Settings.TeleopSettings.copilotJoystickPort);
     public Joystick manualJoystick = new Joystick(Settings.TeleopSettings.manualJoystickPort);
 
     public PIDController rJoystickController = new PIDController(0.1, 0, 0);
@@ -126,6 +127,21 @@ public class TeleopController {
             Robot.shooter.shooterState = ShooterStates.stationary;
             Robot.kicker.kickerState = KickerStates.stationary;
         }
+
+        // COPILOT CONTROLS
+        // adjustment for shooter hood angle
+        if (copilotXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.increaseAngle)){
+            Robot.shooter.angleFudgeFactor += Settings.ShooterSettings.shooterFudgeFactor;
+        } else if (copilotXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.decreaseAngle)){
+            Robot.shooter.angleFudgeFactor -= Settings.ShooterSettings.shooterFudgeFactor;
+        }
+
+        // adjustment for drivebase goal aim fudge factor
+        if (copilotXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)){
+            Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.angleFudgeFactor;
+        } else if (copilotXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)){
+            Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.angleFudgeFactor;
+        } 
 
         // Subsystem set motor power
         Robot.shooter.setMotorPower();

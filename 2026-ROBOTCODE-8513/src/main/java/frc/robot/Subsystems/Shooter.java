@@ -9,7 +9,6 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.Settings;
 import frc.robot.Logic.Enums.ShooterStates;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
@@ -25,6 +24,8 @@ public class Shooter {
     public ShooterStates shooterState = ShooterStates.stationary;
 
     public boolean useInternalController = true;
+
+    public static double angleFudgeFactor = 0;
 
     // in init function, set slot 0 gains
     Slot0Configs slot0Configs = new Slot0Configs();
@@ -78,8 +79,8 @@ public class Shooter {
         setHoodAngle();
     }
 
+    // pid controller when not using internal
     double targetVelocity;
-
     public double updateMotorPower() {
         double currentVelocity = shooterMotorLeft.getVelocity().getValueAsDouble();
         targetVelocity = 3000;
@@ -95,6 +96,7 @@ public class Shooter {
                 .set(hoodAnglePower(getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
     }
 
+    // input target encoder position from the interpolation chart, PIDs, then returns the power to maintain that position
     public double hoodAnglePower(double targetPosition) {
         double currentPosition = shooterHoodMotor.getEncoder().getPosition();
         double outputPower = shooterMotorController.calculate(currentPosition, targetPosition);
@@ -103,7 +105,7 @@ public class Shooter {
 
     // input distance, returns encoder position
     public double getInterpolatedEncoderValueDistanceToHood(double distanceFromGoal) {
-        return distToHoodEncoderValuesTable.get(distanceFromGoal);
+        return distToHoodEncoderValuesTable.get(distanceFromGoal + angleFudgeFactor);
     }
 
     public double RPStoVoltage(double RPS) {
