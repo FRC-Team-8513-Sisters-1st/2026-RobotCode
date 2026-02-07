@@ -64,7 +64,7 @@ public class Shooter {
         }
 
         // shooter controller if using interal pid
-        double targetV = 41;
+        double targetV = 47;
         SmartDashboard.putNumber("ShooterV", shooterMotorRight.getVelocity().getValueAsDouble());
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
             shooterMotorLeft.setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
@@ -76,7 +76,6 @@ public class Shooter {
 
         }
 
-        setHoodAngle();
     }
 
     // pid controller when not using internal
@@ -86,26 +85,6 @@ public class Shooter {
         targetVelocity = 3000;
         double outputPower = shooterMotorController.calculate(currentVelocity, targetVelocity);
         return outputPower + targetVelocity / 6140;
-    }
-
-    public void setHoodAngle() {
-        double distanceBetweenCurrentAndGoalInMeters = Robot.drivebase
-                .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
-
-        shooterHoodMotor
-                .set(hoodAnglePower(getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
-    }
-
-    // input target encoder position from the interpolation chart, PIDs, then returns the power to maintain that position
-    public double hoodAnglePower(double targetPosition) {
-        double currentPosition = shooterHoodMotor.getEncoder().getPosition();
-        double outputPower = shooterMotorController.calculate(currentPosition, targetPosition);
-        return outputPower;
-    }
-
-    // input distance, returns encoder position
-    public double getInterpolatedEncoderValueDistanceToHood(double distanceFromGoal) {
-        return distToHoodEncoderValuesTable.get(distanceFromGoal + angleFudgeFactor);
     }
 
     public double RPStoVoltage(double RPS) {

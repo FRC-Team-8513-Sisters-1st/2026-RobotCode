@@ -18,8 +18,6 @@ import frc.robot.Logic.AutoController;
 import frc.robot.Logic.Dashboard;
 import frc.robot.Logic.Enums;
 import frc.robot.Logic.TeleopController;
-import frc.robot.Logic.Vision;
-import frc.robot.Subsystems.Drivebase;
 import frc.robot.Subsystems.Hopper;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.Kicker;
@@ -35,23 +33,14 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
  */
 public class Robot extends TimedRobot {
   
-  public static Drivebase drivebase = new Drivebase();
   public static TeleopController teleop = new TeleopController();
-  public static Vision vision = new Vision();
   public static Shooter shooter = new Shooter();
-  public static Dashboard dashboard = new Dashboard();
-  public static Intake intake = new Intake();
-  public static Hopper hopper = new Hopper();
   public static Kicker kicker = new Kicker();
   public static Enums enums = new Enums();
-  public static AutoController auto = new AutoController();
-  public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
 
 
   public Field2d robotCurrentPose = new Field2d();
 
-  public SparkMax intakeMotorRight = new SparkMax(52, MotorType.kBrushless);
-  public SparkMax intakeMotorLeft = new SparkMax(51, MotorType.kBrushless);
 
 
   public static boolean onRed = true;
@@ -67,24 +56,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-      if (Robot.isReal() && false) {
-        vision.updatePhotonVision();
-      }
-      dashboard.updateDashboard();
-
-      robotCurrentPose.setRobotPose(drivebase.yagslDrive.getPose());
+      
       SmartDashboard.putData("Current Drivebase Position", robotCurrentPose);
 
   }
 
   @Override
   public void autonomousInit() {
-    auto.initAuto();
   }
 
   @Override
   public void autonomousPeriodic() {
-    auto.autoPeriodic();
   }
 
   @Override
@@ -104,7 +86,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    auto.updateAutoRoutineFromDashboard();
   }
 
   @Override

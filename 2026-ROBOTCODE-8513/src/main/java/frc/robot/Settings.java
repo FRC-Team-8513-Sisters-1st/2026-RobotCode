@@ -77,25 +77,7 @@ public class Settings {
         public static final Pose2d hubRedLocation = new Pose2d(
                 11.919, 4.029, new Rotation2d(180));
         public static final Pose2d hubBlueLocation = new Pose2d(
-                4.621, 4.029, new Rotation2d(0));
-
-        public static final Translation3d blueHubCenterPointTrans3d = new Translation3d(
-                Robot.aprilTagFieldLayout.getTagPose(26).get().getX() + width / 2.0,
-                Robot.aprilTagFieldLayout.getFieldWidth() / 2.0,
-                height);        
-        public static final Translation3d redHubCenterPointTrans3d = new Translation3d(
-                Robot.aprilTagFieldLayout.getTagPose(4).get().getX() + width / 2.0,
-                Robot.aprilTagFieldLayout.getFieldWidth() / 2.0,
-                height);
-       
-        public static final Pose2d blueHubCenterPoint = new Pose2d(
-                blueHubCenterPointTrans3d.getX(),
-                blueHubCenterPointTrans3d.getY(),
-                new Rotation2d(0));        
-        public static final Pose2d redHubCenterPoint = new Pose2d(
-                redHubCenterPointTrans3d.getX(),
-                redHubCenterPointTrans3d.getY(),
-                new Rotation2d(0));     
+                4.621, 4.029, new Rotation2d(0));  
                 
         public static double hubHeight = 10;
     }

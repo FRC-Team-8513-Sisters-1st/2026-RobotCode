@@ -9,15 +9,6 @@ public class Dashboard {
 
     public void updateDashboard() {
 
-        SmartDashboard.putData("trajGoalPose", trajField2d);
-        SmartDashboard.putString("intakeState", Robot.intake.intakeState.name());
-        SmartDashboard.putNumber("intakeDeployPosition", Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
-        SmartDashboard.putNumber("actualHeading", Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees());
-        SmartDashboard.putNumber("goalHeading", Robot.drivebase.goalHeading.getDegrees());
-        SmartDashboard.putString("Auto selected", Robot.auto.autoRoutine.name());
-        SmartDashboard.putNumber("shooterAngleFudgeFactorValue", Robot.shooter.angleFudgeFactor);
-        SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);
-
 
     }
 }
