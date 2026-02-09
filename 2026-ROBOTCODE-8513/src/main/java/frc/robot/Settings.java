@@ -1,11 +1,15 @@
 package frc.robot;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
 public class Settings {
+      public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
+
    public static class DrivebaseSettings{
         
         public static final double maxVelocityMPS = 5;
@@ -55,7 +59,7 @@ public class Settings {
 
     public class IntakeSettings{
         public static double stowPosition = 0;
-        public static double deployPosition = 38.360840;
+        public static double deployPosition = 41;
     }
 
     public class ShooterSettings{
@@ -80,12 +84,12 @@ public class Settings {
                 4.621, 4.029, new Rotation2d(0));
 
         public static final Translation3d blueHubCenterPointTrans3d = new Translation3d(
-                Robot.aprilTagFieldLayout.getTagPose(26).get().getX() + width / 2.0,
-                Robot.aprilTagFieldLayout.getFieldWidth() / 2.0,
+                aprilTagFieldLayout.getTagPose(26).get().getX() + width / 2.0,
+                aprilTagFieldLayout.getFieldWidth() / 2.0,
                 height);        
         public static final Translation3d redHubCenterPointTrans3d = new Translation3d(
-                Robot.aprilTagFieldLayout.getTagPose(4).get().getX() + width / 2.0,
-                Robot.aprilTagFieldLayout.getFieldWidth() / 2.0,
+                aprilTagFieldLayout.getTagPose(4).get().getX() + width / 2.0,
+                aprilTagFieldLayout.getFieldWidth() / 2.0,
                 height);
        
         public static final Pose2d blueHubCenterPoint = new Pose2d(

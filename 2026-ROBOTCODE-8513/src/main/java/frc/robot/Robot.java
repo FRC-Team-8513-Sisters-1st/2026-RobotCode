@@ -45,7 +45,6 @@ public class Robot extends TimedRobot {
   public static Kicker kicker = new Kicker();
   public static Enums enums = new Enums();
   public static AutoController auto = new AutoController();
-  public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
 
 
   public Field2d robotCurrentPose = new Field2d();

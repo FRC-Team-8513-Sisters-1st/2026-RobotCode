@@ -17,6 +17,9 @@ public class Dashboard {
         SmartDashboard.putString("Auto selected", Robot.auto.autoRoutine.name());
         SmartDashboard.putNumber("shooterAngleFudgeFactorValue", Robot.shooter.angleFudgeFactor);
         SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);
+        SmartDashboard.putNumber("intakerightvelocity", Robot.intake.intakeMotorRight.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("intakeleftvelocity", Robot.intake.intakeMotorLeft.getVelocity().getValueAsDouble());
+
 
 
     }
