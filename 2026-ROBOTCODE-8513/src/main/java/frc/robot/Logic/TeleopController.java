@@ -135,16 +135,16 @@ public class TeleopController {
 
         // COPILOT CONTROLS
         // adjustment for shooter hood angle
-        if (copilotXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.increaseAngle)){
+        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseAngle)){
             Robot.shooter.angleFudgeFactor += Settings.ShooterSettings.shooterFudgeFactor;
-        } else if (copilotXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.decreaseAngle)){
+        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseAngle)){
             Robot.shooter.angleFudgeFactor -= Settings.ShooterSettings.shooterFudgeFactor;
         }
 
         // adjustment for drivebase goal aim fudge factor
-        if (copilotXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)){
+        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)){
             Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.angleFudgeFactor;
-        } else if (copilotXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)){
+        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)){
             Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.angleFudgeFactor;
         } 
 
