@@ -19,7 +19,6 @@ public class Intake {
     public boolean useManualIntakeControl = false;
 
     public Intake() {
-
     }
 
     public void setMotorPower() {

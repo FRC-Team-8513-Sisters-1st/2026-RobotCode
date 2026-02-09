@@ -28,7 +28,7 @@ public class Shooter {
     public static double angleFudgeFactor = 0;
 
     // in init function, set slot 0 gains
-    Slot0Configs slot0Configs = new Slot0Configs();
+    public Slot0Configs slot0Configs = new Slot0Configs();
 
     // create a velocity closed-loop request, voltage output, slot 0 configs
     public final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);

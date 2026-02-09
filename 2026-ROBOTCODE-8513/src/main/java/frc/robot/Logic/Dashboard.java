@@ -3,6 +3,7 @@ package frc.robot.Logic;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.Settings;
 
 public class Dashboard {
     public Field2d trajField2d = new Field2d();
@@ -29,18 +30,47 @@ public class Dashboard {
         SmartDashboard.putNumber("intakerightvelocity", Robot.intake.intakeMotorRight.getVelocity().getValueAsDouble());
         SmartDashboard.putNumber("intakeleftvelocity", Robot.intake.intakeMotorLeft.getVelocity().getValueAsDouble());
         // shooter
-        SmartDashboard.putNumber("shooterMotorLeft", Robot.shooter.shooterMotorLeft.getVelocity().getValueAsDouble());
-        SmartDashboard.putNumber("shooterMotorRight", Robot.shooter.shooterMotorRight.getVelocity().getValueAsDouble());
-        SmartDashboard.putNumber("shooterHoodMotor", Robot.shooter.shooterHoodMotor.getEncoder().getPosition());
+        SmartDashboard.putNumber("shooterMotorLeftVelocity", Robot.shooter.shooterMotorLeft.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("shooterMotorRightVelocity", Robot.shooter.shooterMotorRight.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("shooterHoodMotorPosition", Robot.shooter.shooterHoodMotor.getEncoder().getPosition());
         // kicker
-        SmartDashboard.putNumber("kickerMotor", Robot.kicker.kickerMotor.getEncoder().getVelocity());
+        SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());
         // hopper
-                
+
 
         // Fudge factors
         SmartDashboard.putNumber("shooterAngleFudgeFactorValue", Robot.shooter.angleFudgeFactor);
         SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);
+    }
 
+    public void getPIDValues() {
+        // get pid values from dashboard if the setting is enabled
+        if (Settings.DrivebaseSettings.getPIDValuesFromDashboard) {
+            // set shooter pid values
+            SmartDashboard.getNumber("input shooter kP", 0);
+            SmartDashboard.getNumber("input shooter kI", 0);
+            SmartDashboard.getNumber("input shooter kD", 0);
+
+            Robot.shooter.slot0Configs.kP = SmartDashboard.getNumber("input shooter kP", 0);
+            Robot.shooter.slot0Configs.kI = SmartDashboard.getNumber("input shooter kI", 0);
+            Robot.shooter.slot0Configs.kD = SmartDashboard.getNumber("input shooter kD", 0);
+
+            // set intake pid values
+            SmartDashboard.getNumber("input intake kP", 0);
+            SmartDashboard.getNumber("input intake kI", 0);
+            SmartDashboard.getNumber("input intake kD", 0);
+            Robot.intake.intakeMotorController.setP(SmartDashboard.getNumber("input intake kP", 0));
+            Robot.intake.intakeMotorController.setI(SmartDashboard.getNumber("input intake kI", 0));
+            Robot.intake.intakeMotorController.setD(SmartDashboard.getNumber("input intake kD", 0));
+           
+            // set kicker pid values
+            SmartDashboard.getNumber("input kicker kP", 0);
+            SmartDashboard.getNumber("input kicker kI", 0);
+            SmartDashboard.getNumber("input kicker kD", 0);
+            Robot.kicker.kickerMotorController.setP(SmartDashboard.getNumber("input kicker kP", 0));
+            Robot.kicker.kickerMotorController.setI(SmartDashboard.getNumber("input kicker kI", 0));
+            Robot.kicker.kickerMotorController.setD(SmartDashboard.getNumber("input kicker kD", 0)); 
+        }
 
     }
 }

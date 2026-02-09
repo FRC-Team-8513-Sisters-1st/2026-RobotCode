@@ -29,6 +29,7 @@ public class TeleopController {
 
     public void initTele() {
         Robot.shooter.initShooter();
+        Robot.dashboard.getPIDValues();
 
     }
 
@@ -103,8 +104,10 @@ public class TeleopController {
         }
 
         // intake controls
-        boolean intakeButtonPressed = Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake);
-        boolean stopIntakeButtonPressed = Robot.teleop.driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake);
+        boolean intakeButtonPressed = Robot.teleop.driverXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake);
+        boolean stopIntakeButtonPressed = Robot.teleop.driverXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake);
         if (Robot.intake.intakeState == IntakeStates.stowed && intakeButtonPressed) {
             // if the robot is stowed
             Robot.intake.intakeState = IntakeStates.intaking;
@@ -117,7 +120,7 @@ public class TeleopController {
                 && stopIntakeButtonPressed) {
             // turn the wheels off while deployed
             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
-        }else if (Robot.intake.intakeState == IntakeStates.stationaryDeployed
+        } else if (Robot.intake.intakeState == IntakeStates.stationaryDeployed
                 && stopIntakeButtonPressed) {
             // turn the wheels on while deployed
             Robot.intake.intakeState = IntakeStates.intaking;
@@ -135,18 +138,18 @@ public class TeleopController {
 
         // COPILOT CONTROLS
         // adjustment for shooter hood angle
-        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseAngle)){
+        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseAngle)) {
             Robot.shooter.angleFudgeFactor += Settings.ShooterSettings.shooterFudgeFactor;
-        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseAngle)){
+        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseAngle)) {
             Robot.shooter.angleFudgeFactor -= Settings.ShooterSettings.shooterFudgeFactor;
         }
 
         // adjustment for drivebase goal aim fudge factor
-        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)){
+        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)) {
             Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.angleFudgeFactor;
-        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)){
+        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)) {
             Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.angleFudgeFactor;
-        } 
+        }
 
         // Subsystem set motor power
         Robot.shooter.setMotorPower();
