@@ -1,4 +1,8 @@
 Comp Robot:
-    - add layouts and really organize every motor position and velocity 
+    - plan autos:
+        - Start Trench
+    - gradual spin up for shooter motor
+    - slow while going over the bump
+    - automatically face hub in auto
 Practice Robot:
 

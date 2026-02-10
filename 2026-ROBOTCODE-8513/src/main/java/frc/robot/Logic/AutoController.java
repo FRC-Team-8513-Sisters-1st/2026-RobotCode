@@ -60,18 +60,23 @@ public class AutoController {
                         break;
 
                     case 10:
-                        Robot.drivebase.followLoadedPath();
                         Robot.shooter.shooterState = ShooterStates.shooting;
                         Robot.hopper.hopperState = HopperStates.indexing;
                         Robot.kicker.kickerState = KickerStates.shooting;
                         Robot.intake.intakeState = IntakeStates.stowed;
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted > 3) {
+                        if (Robot.drivebase.followLoadedPath()) {
                             timeStepStarted = Timer.getFPGATimestamp();
+                            autoStep = 12;
+                        } 
+                        break;
+                    case 12:
+                        Robot.drivebase.yagslDrive.lockPose();
+                        if (Timer.getFPGATimestamp()-timeStepStarted >3) {
                             autoStep = 15;
                         }
                         break;
-                    
+
                     case 15:
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
@@ -85,7 +90,12 @@ public class AutoController {
                         autoStep = 20;
                         break;
                     case 20:
-                        Robot.drivebase.followLoadedPath();
+                        if (Robot.drivebase.followLoadedPath()) {
+                            autoStep = 25;
+                        }
+                        break;
+                    case 25:
+                        Robot.drivebase.yagslDrive.lockPose();
 
                 }
                 break;

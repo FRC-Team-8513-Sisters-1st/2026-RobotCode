@@ -27,14 +27,15 @@ import frc.robot.Subsystems.Shooter;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
-
 /**
- * The methods in this class are called automatically corresponding to each mode, as described in
- * the TimedRobot documentation. If you change the name of this class or the package after creating
+ * The methods in this class are called automatically corresponding to each
+ * mode, as described in
+ * the TimedRobot documentation. If you change the name of this class or the
+ * package after creating
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-  
+
   public static Drivebase drivebase = new Drivebase();
   public static TeleopController teleop = new TeleopController();
   public static Vision vision = new Vision();
@@ -46,17 +47,16 @@ public class Robot extends TimedRobot {
   public static Enums enums = new Enums();
   public static AutoController auto = new AutoController();
 
-
   public Field2d robotCurrentPose = new Field2d();
 
   public SparkMax intakeMotorRight = new SparkMax(52, MotorType.kBrushless);
   public SparkMax intakeMotorLeft = new SparkMax(51, MotorType.kBrushless);
 
-
   public static boolean onRed = true;
 
   /**
-   * This function is run when the robot is first started up and should be used for any
+   * This function is run when the robot is first started up and should be used
+   * for any
    * initialization code.
    */
 
@@ -66,18 +66,19 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-      if (Robot.isReal() && false) {
-        vision.updatePhotonVision();
-      }
-      dashboard.updateDashboard();
+    if (Robot.isReal() && false) {
+      vision.updatePhotonVision();
+    }
+    dashboard.updateDashboard();
 
-      robotCurrentPose.setRobotPose(drivebase.yagslDrive.getPose());
-      SmartDashboard.putData("Current Drivebase Position", robotCurrentPose);
+    robotCurrentPose.setRobotPose(drivebase.yagslDrive.getPose());
+    SmartDashboard.putData("Current Drivebase Position", robotCurrentPose);
 
   }
 
   @Override
   public void autonomousInit() {
+    updateAlliance();
     auto.initAuto();
   }
 
@@ -99,7 +100,8 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
   public void disabledPeriodic() {
@@ -107,23 +109,26 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testInit() {}
+  public void testInit() {
+  }
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+  }
 
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+  }
 
-  public static void updateAlliance(){
+  public static void updateAlliance() {
     try {
       onRed = DriverStation.getAlliance().get() == Alliance.Red;
     } catch (Exception e) {
       onRed = true;
-    }    
+    }
   }
 }
-
