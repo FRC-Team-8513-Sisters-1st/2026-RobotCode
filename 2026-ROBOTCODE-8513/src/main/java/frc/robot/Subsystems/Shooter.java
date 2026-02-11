@@ -112,4 +112,8 @@ public class Shooter {
         double voltage = (RPS + 0.773138) / 8.70426;
         return voltage;
     }
+
+    public boolean readyToShoot() {
+        return true;
+    }
 }
