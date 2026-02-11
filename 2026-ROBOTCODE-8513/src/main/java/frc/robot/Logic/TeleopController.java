@@ -96,7 +96,7 @@ public class TeleopController {
         Robot.drivebase.goalHeading = new Rotation2d(rV);
         if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub)) {
             shootingFacingHub = true;
-            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getRotationToHub(), true,
+            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(), true,
                     false);
         } else {
             shootingFacingHub = false;

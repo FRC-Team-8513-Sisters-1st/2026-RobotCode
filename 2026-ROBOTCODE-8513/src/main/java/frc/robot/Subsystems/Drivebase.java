@@ -152,7 +152,7 @@ public class Drivebase {
 
     }
 
-    public double getRotationToHub() {
+    public double getPowerToFaceHub() {
         Rotation2d angleToHub;
 
         if (Robot.onRed) {
@@ -196,5 +196,10 @@ public class Drivebase {
         double y = pose2.getY() - pose1.getY();
         double distance = Math.sqrt(x * x + y * y);
         return distance;
+    }
+
+    public void faceHub() {
+        double powerToAngleToHub = getPowerToFaceHub();
+        yagslDrive.drive(new Translation2d(), powerToAngleToHub, true, false);
     }
 }
