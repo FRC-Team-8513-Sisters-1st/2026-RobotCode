@@ -107,4 +107,10 @@ public class Settings {
         public static double hubHeight = 10;
     }
 
+    public class AutoSettings {
+        public class Thresholds {
+            public double drivebaseRotationTHold = 5;
+        }
+    }
+
 }

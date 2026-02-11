@@ -81,6 +81,7 @@ public class Shooter {
 
     // pid controller when not using internal
     double targetVelocity;
+
     public double updateMotorPower() {
         double currentVelocity = shooterMotorLeft.getVelocity().getValueAsDouble();
         targetVelocity = 3000;
@@ -96,7 +97,8 @@ public class Shooter {
                 .set(hoodAnglePower(getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
     }
 
-    // input target encoder position from the interpolation chart, PIDs, then returns the power to maintain that position
+    // input target encoder position from the interpolation chart, PIDs, then
+    // returns the power to maintain that position
     public double hoodAnglePower(double targetPosition) {
         double currentPosition = shooterHoodMotor.getEncoder().getPosition();
         double outputPower = shooterMotorController.calculate(currentPosition, targetPosition);
@@ -114,6 +116,9 @@ public class Shooter {
     }
 
     public boolean readyToShoot() {
+        if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees() - Robot.drivebase.goalHeading.getDegrees()) > Settings.AutoSettings.Thresholds.drivebaseRotationTHold) {
+            return false;
+        }
         return true;
     }
 }
