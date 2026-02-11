@@ -4,7 +4,5 @@ Comp Robot:
     - gradual spin up for shooter motor
     - slow while going over the bump tele
     - automatically face hub in auto
-    - write ready to shoot method
-        - check the drivebase angle, hood angle, shooter rpm. make thresholds in settings for how off we can be
 Practice Robot:
 

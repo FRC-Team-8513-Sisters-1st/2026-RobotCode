@@ -80,7 +80,7 @@ public class TeleopController {
                 yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3;
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
-        } else{
+        } else {
             if (Robot.onRed) {
                 xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8);
                 yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8);

@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.Settings;
 import frc.robot.Logic.Enums.ShooterStates;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
@@ -26,6 +27,8 @@ public class Shooter {
     public boolean useInternalController = true;
 
     public static double angleFudgeFactor = 0;
+
+    public double goalHoodPosition;
 
     // in init function, set slot 0 gains
     public Slot0Configs slot0Configs = new Slot0Configs();
@@ -95,6 +98,7 @@ public class Shooter {
 
         shooterHoodMotor
                 .set(hoodAnglePower(getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
+        goalHoodPosition = getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters);
     }
 
     // input target encoder position from the interpolation chart, PIDs, then
@@ -115,10 +119,18 @@ public class Shooter {
         return voltage;
     }
 
+    // Checks the anle error, hood position error, and shooter velocity error to
+    // determine if the shooter is ready to shoot. Thresholds for each of these
+    // values can be set in settings.
     public boolean readyToShoot() {
-        if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees() - Robot.drivebase.goalHeading.getDegrees()) > Settings.AutoSettings.Thresholds.drivebaseRotationTHold) {
-            return false;
+        if ((Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees()
+                - Robot.drivebase.goalHeading.getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseRotationTHold)
+                && (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
+                        .getPosition()) < Settings.AutoSettings.Thresholds.hoodPositionTHold)
+                && Math.abs(shooterMotorRight.getVelocity().getValueAsDouble()
+                        - targetVelocity) < Settings.AutoSettings.Thresholds.shooterVelocityTHold) {
+            return true;
         }
-        return true;
+        return false;
     }
 }
