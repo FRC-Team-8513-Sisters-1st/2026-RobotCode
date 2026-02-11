@@ -65,7 +65,7 @@ public class Shooter {
 
         // shooter controller if using interal pid
         // USE 43 for close shot, 47 for long shot
-        double targetV = 43;
+        double targetV = 42;
         SmartDashboard.putNumber("ShooterV", shooterMotorRight.getVelocity().getValueAsDouble());
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
             shooterMotorLeft.setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
