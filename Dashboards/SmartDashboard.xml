@@ -1,0 +1,95 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Auton Selector" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="1" y="43"/>
+	</widget>
+	<widget field="input intake kP" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="228" y="272"/>
+	</widget>
+	<widget field="hopperStates" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="429" y="31"/>
+	</widget>
+	<widget field="input intake kI" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="228" y="297"/>
+	</widget>
+	<widget field="input intake kD" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="225" y="320"/>
+	</widget>
+	<widget field="intakeleftvelocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="218" y="249"/>
+	</widget>
+	<widget field="shooterMotorRightVelocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="174" y="52"/>
+	</widget>
+	<widget field="intakeDeployPosition" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="397" y="208"/>
+	</widget>
+	<widget field="shooterHoodMotorPosition" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="175" y="167"/>
+	</widget>
+	<widget field="Auto selected" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="2" y="25"/>
+	</widget>
+	<widget field="shooterStates" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="230" y="31"/>
+	</widget>
+	<widget field="input shooter kP" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="219" y="98"/>
+	</widget>
+	<widget field="input shooter kI" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="221" y="120"/>
+	</widget>
+	<widget field="input shooter kD" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="218" y="143"/>
+	</widget>
+	<widget field="intakeState" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="243" y="205"/>
+	</widget>
+	<widget field="shooterMotorLeftVelocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="180" y="75"/>
+	</widget>
+	<widget field="intakerightvelocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="211" y="227"/>
+		<height>19</height>
+	</widget>
+	<widget field="actualHeading" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="667" y="210"/>
+	</widget>
+	<widget field="kickerMotorVelocity" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="401" y="74"/>
+	</widget>
+	<widget field="input kicker kP" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="422" y="96"/>
+	</widget>
+	<widget field="input kicker kI" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="426" y="118"/>
+	</widget>
+	<widget field="input kicker kD" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="424" y="141"/>
+	</widget>
+	<widget field="kickerStates" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="435" y="52"/>
+	</widget>
+	<widget field="shooterAngleFudgeFactorValue" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="602" y="57"/>
+	</widget>
+	<widget field="drivebaseAimFudgeFactorValue" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="602" y="34"/>
+	</widget>
+	<widget field="goalHeading" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="675" y="232"/>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+	<hidden field="IMU"/>
+	<hidden field="PhotonAlerts"/>
+	<hidden field="Field"/>
+	<hidden field="Swerve Drive"/>
+	<hidden field="Motors"/>
+	<hidden field="JSON"/>
+	<hidden field="Alerts"/>
+	<hidden field="Current Drivebase Position"/>
+	<hidden field="trajGoalPose"/>
+	<hidden field="Encoders"/>
+</xml>
