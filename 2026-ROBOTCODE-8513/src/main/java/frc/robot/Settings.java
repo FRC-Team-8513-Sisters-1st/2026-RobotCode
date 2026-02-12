@@ -62,7 +62,7 @@ public class Settings {
 
     public class IntakeSettings {
         public static double stowPosition = 0;
-        public static double deployPosition = 41;
+        public static double deployPosition = 40;
     }
 
     public class ShooterSettings {

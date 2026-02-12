@@ -69,25 +69,29 @@ public class TeleopController {
         double xV;
         double yV;
         double rV;
+        double multFactor;
 
         if (shootingFacingHub) {
+            multFactor = 0.3;
             if (Robot.onRed) {
-                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3);
-                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3);
+                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor);
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor);
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             } else {
-                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3;
-                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3;
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor;
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor;
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
         } else {
             if (Robot.onRed) {
-                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8);
-                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8);
+                multFactor = Robot.drivebase.drivingOverBump(true);
+                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor);
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor);
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             } else {
-                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8;
-                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8;
+                multFactor = Robot.drivebase.drivingOverBump(false);
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor;
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor;
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
         }
