@@ -213,4 +213,8 @@ public class Drivebase {
             return 0.8;
         }
     }
+    public double powerToReachRotation(Rotation2d goalRotation) {
+        
+    }
+
 }

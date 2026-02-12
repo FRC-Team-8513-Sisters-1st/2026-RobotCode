@@ -59,17 +59,15 @@ public class TeleopController {
 
         double rSpeedJoystick = -driverXboxController.getRawAxis(Settings.TeleopSettings.rotAxis); // left right 2 at
                                                                                                    // home, 4 on xbox
-        if (useSpecialNewRotation) {
-            if (rSpeedJoystick < 0
-                    && rSpeedJoystick > -360) {
-                rSpeedJoystick = 0;
-            }
-        } else {
-            if (rSpeedJoystick < Settings.TeleopSettings.joystickDeadband
-                    && rSpeedJoystick > -Settings.TeleopSettings.joystickDeadband) {
-                rSpeedJoystick = 0;
-            }
+        double rySpeedJoystick = driverXboxController.getRawAxis(Settings.TeleopSettings.RleftRightAxis);
+        double rxSpeedJoystick = driverXboxController.getRawAxis(Settings.TeleopSettings.RforwardBackwardsAxis);
+
+
+        if (rSpeedJoystick < Settings.TeleopSettings.joystickDeadband
+                && rSpeedJoystick > -Settings.TeleopSettings.joystickDeadband) {
+            rSpeedJoystick = 0;
         }
+
         rSpeedJoystick = rfilter.calculate(rSpeedJoystick);
 
         // cube the joystick values for smoother control
@@ -103,6 +101,21 @@ public class TeleopController {
             }
         }
 
+        // drive/face hub
+        Robot.drivebase.goalHeading = new Rotation2d(rV);
+        if (useSpecialNewRotation) {
+            Rotation2d rotation = new Rotation2d(rxSpeedJoystick, rySpeedJoystick);
+            Robot.drivebase.goalHeading = rotation;
+        }
+        if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub)) {
+            shootingFacingHub = true;
+            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(), true,
+                    false);
+        } else {
+            shootingFacingHub = false;
+            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
+        }
+
         buttonControls();
 
         // Subsystem set motor power
@@ -113,16 +126,6 @@ public class TeleopController {
     }
 
     public void buttonControls() {
-        // drive/face hub
-        Robot.drivebase.goalHeading = new Rotation2d(rV);
-        if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub)) {
-            shootingFacingHub = true;
-            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(), true,
-                    false);
-        } else {
-            shootingFacingHub = false;
-            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
-        }
 
         // intake controls
         boolean intakeButtonPressed = Robot.teleop.driverXboxController

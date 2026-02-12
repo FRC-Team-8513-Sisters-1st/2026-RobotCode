@@ -38,7 +38,8 @@ public class Settings {
         public static int forwardBackwardsAxis = 1;
         public static int leftRightAxis = 0;
         public static int rotAxis = 4;
-
+        public static int RforwardBackwardsAxis = 4;
+        public static int RleftRightAxis = 5;
         public static int rightJoystickX = 5;
         public static int rightJoystickY = 6;
 
