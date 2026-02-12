@@ -26,6 +26,11 @@ public class TeleopController {
     SlewRateLimiter rfilter = new SlewRateLimiter(4);
 
     public boolean shootingFacingHub = false;
+    public boolean useSpecialNewRotation = true;
+
+    public double xV;
+    public double yV;
+    public double rV;
 
     public void initTele() {
         Robot.shooter.initShooter();
@@ -54,10 +59,16 @@ public class TeleopController {
 
         double rSpeedJoystick = -driverXboxController.getRawAxis(Settings.TeleopSettings.rotAxis); // left right 2 at
                                                                                                    // home, 4 on xbox
-        if (rSpeedJoystick < Settings.TeleopSettings.joystickDeadband
-                && rSpeedJoystick > -Settings.TeleopSettings.joystickDeadband) {
-            rSpeedJoystick = 0;
-
+        if (useSpecialNewRotation) {
+            if (rSpeedJoystick < 0
+                    && rSpeedJoystick > -360) {
+                rSpeedJoystick = 0;
+            }
+        } else {
+            if (rSpeedJoystick < Settings.TeleopSettings.joystickDeadband
+                    && rSpeedJoystick > -Settings.TeleopSettings.joystickDeadband) {
+                rSpeedJoystick = 0;
+            }
         }
         rSpeedJoystick = rfilter.calculate(rSpeedJoystick);
 
@@ -66,9 +77,6 @@ public class TeleopController {
         double yInput = Math.pow(ySpeedJoystick, 3);
         double rInput = Math.pow(rSpeedJoystick, 3);
 
-        double xV;
-        double yV;
-        double rV;
         double multFactor;
 
         if (shootingFacingHub) {
@@ -95,6 +103,16 @@ public class TeleopController {
             }
         }
 
+        buttonControls();
+
+        // Subsystem set motor power
+        Robot.shooter.setMotorPower();
+        Robot.intake.setMotorPower();
+        Robot.kicker.setMotorPower();
+
+    }
+
+    public void buttonControls() {
         // drive/face hub
         Robot.drivebase.goalHeading = new Rotation2d(rV);
         if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub)) {
@@ -153,11 +171,5 @@ public class TeleopController {
         } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)) {
             Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.angleFudgeFactor;
         }
-
-        // Subsystem set motor power
-        Robot.shooter.setMotorPower();
-        Robot.intake.setMotorPower();
-        Robot.kicker.setMotorPower();
-
     }
 }
