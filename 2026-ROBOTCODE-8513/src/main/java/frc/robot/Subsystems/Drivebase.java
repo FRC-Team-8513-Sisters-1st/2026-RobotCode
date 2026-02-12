@@ -203,21 +203,14 @@ public class Drivebase {
         yagslDrive.drive(new Translation2d(), powerToAngleToHub, true, false);
     }
 
-    public double drivingOverBump(boolean onRed) {
-        if (onRed) {
-            if (Robot.drivebase.yagslDrive.getPose().getX() > 11
-                    && Robot.drivebase.yagslDrive.getPose().getX() < 12.7) {
-                return 0.3;
-            } else {
-                return 0.8;
-            }
+    public double drivingOverBump() {
+        if ((Robot.drivebase.yagslDrive.getPose().getX() > 11
+                && Robot.drivebase.yagslDrive.getPose().getX() < 12.7)
+                || (Robot.drivebase.yagslDrive.getPose().getX() > 3.85
+                        && Robot.drivebase.yagslDrive.getPose().getX() < 5.4)) {
+            return 0.3;
         } else {
-            if (Robot.drivebase.yagslDrive.getPose().getX() > 3.85
-                    && Robot.drivebase.yagslDrive.getPose().getX() < 5.4) {
-                return 0.3;
-            } else {
-                return 0.8;
-            }
+            return 0.8;
         }
     }
 }

@@ -83,13 +83,12 @@ public class TeleopController {
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
         } else {
+            multFactor = Robot.drivebase.drivingOverBump();
             if (Robot.onRed) {
-                multFactor = Robot.drivebase.drivingOverBump(true);
                 xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor);
                 yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor);
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             } else {
-                multFactor = Robot.drivebase.drivingOverBump(false);
                 xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor;
                 yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor;
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
