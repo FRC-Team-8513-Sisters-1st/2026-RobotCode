@@ -102,8 +102,12 @@ public class TeleopController {
 
         // drive/face hub
         if (useSpecialNewRotation) {
-            Rotation2d rotation = new Rotation2d(rxSpeedJoystick, rySpeedJoystick);
-            Robot.drivebase.goalHeading = rotation;
+            if (Math.hypot(rySpeedJoystick, rxSpeedJoystick) > Settings.TeleopSettings.specialRotationJoystickDeadband) {
+                Robot.drivebase.goalHeading = Robot.drivebase.goalHeading;
+            } else {
+                Rotation2d rotation = new Rotation2d(-rySpeedJoystick, -rxSpeedJoystick);
+                Robot.drivebase.goalHeading = rotation;
+            }
         } else {
             Robot.drivebase.goalHeading = new Rotation2d(rV);
         }
@@ -115,7 +119,7 @@ public class TeleopController {
         } else {
             shootingFacingHub = false;
             // Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
-            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.goalHeading.getDegrees(), true, false);
+            Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), Robot.drivebase.goalHeading, true);
         }
 
         buttonControls();
