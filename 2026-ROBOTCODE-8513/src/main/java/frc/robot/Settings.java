@@ -1,21 +1,24 @@
 package frc.robot;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 
 public class Settings {
     public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout
             .loadField(AprilTagFields.k2026RebuiltWelded);
-     
+
     public static class DrivebaseSettings {
 
         public static final double maxVelocityMPS = 5;
         public static boolean getPIDValuesFromDashboard = true;
-
 
         public static class RotationPIDConstants {
             public static final double kP = 0.1;
@@ -62,8 +65,8 @@ public class Settings {
     }
 
     public class IntakeSettings {
-        public static double stowPosition = 0;
-        public static double deployPosition = 40;
+        public static double stowPosition = -40;
+        public static double deployPosition = 0;
     }
 
     public class ShooterSettings {
@@ -114,6 +117,27 @@ public class Settings {
             public static double hoodPositionTHold = 2;
             public static double shooterVelocityTHold = 100;
         }
+    }
+
+    public static void resetTalon(TalonFX m_talonFX) {
+        var stickyFaults = m_talonFX.getStickyFault_OverSupplyV().getValue();
+
+        if (stickyFaults) {
+
+            m_talonFX.clearStickyFaults();
+
+            applyConfigs(m_talonFX);
+        }
+    }
+
+    private static void applyConfigs(TalonFX m_talonFX) {
+        var configs = new CurrentLimitsConfigs();
+        configs.StatorCurrentLimitEnable = true;
+        configs.StatorCurrentLimit = 120;
+        configs.SupplyCurrentLimitEnable = true;
+        configs.SupplyCurrentLimit = 90;
+
+        m_talonFX.getConfigurator().apply(configs);
     }
 
 }

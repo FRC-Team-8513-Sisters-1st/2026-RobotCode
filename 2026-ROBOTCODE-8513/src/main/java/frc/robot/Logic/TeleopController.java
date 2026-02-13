@@ -62,7 +62,6 @@ public class TeleopController {
         double rySpeedJoystick = driverXboxController.getRawAxis(Settings.TeleopSettings.RleftRightAxis);
         double rxSpeedJoystick = driverXboxController.getRawAxis(Settings.TeleopSettings.RforwardBackwardsAxis);
 
-
         if (rSpeedJoystick < Settings.TeleopSettings.joystickDeadband
                 && rSpeedJoystick > -Settings.TeleopSettings.joystickDeadband) {
             rSpeedJoystick = 0;
@@ -102,18 +101,21 @@ public class TeleopController {
         }
 
         // drive/face hub
-        Robot.drivebase.goalHeading = new Rotation2d(rV);
         if (useSpecialNewRotation) {
             Rotation2d rotation = new Rotation2d(rxSpeedJoystick, rySpeedJoystick);
             Robot.drivebase.goalHeading = rotation;
+        } else {
+            Robot.drivebase.goalHeading = new Rotation2d(rV);
         }
+
         if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub)) {
             shootingFacingHub = true;
             Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(), true,
                     false);
         } else {
             shootingFacingHub = false;
-            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
+            // Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
+            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.goalHeading.getDegrees(), true, false);
         }
 
         buttonControls();
@@ -174,5 +176,17 @@ public class TeleopController {
         } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)) {
             Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.angleFudgeFactor;
         }
+
+        if (driverXboxController.getRawButtonPressed(8)) {
+            Settings.resetTalon(Robot.intake.intakeMotorLeftLeader);
+            Settings.resetTalon(Robot.intake.intakeMotorRightFollower);
+
+        }
     }
+
 }
+
+    
+
+    
+    

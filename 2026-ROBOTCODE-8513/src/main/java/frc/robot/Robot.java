@@ -49,9 +49,6 @@ public class Robot extends TimedRobot {
 
   public Field2d robotCurrentPose = new Field2d();
 
-  public SparkMax intakeMotorRight = new SparkMax(52, MotorType.kBrushless);
-  public SparkMax intakeMotorLeft = new SparkMax(51, MotorType.kBrushless);
-
   public static boolean onRed = true;
 
   /**

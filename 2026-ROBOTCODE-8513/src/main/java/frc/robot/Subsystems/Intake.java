@@ -1,6 +1,13 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.StrictFollower;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Robot;
@@ -10,8 +17,11 @@ import frc.robot.Logic.Enums.IntakeStates;
 public class Intake {
     public IntakeStates intakeState = IntakeStates.stationaryDeployed;
 
-    public TalonFX intakeMotorLeft = new TalonFX(32);
-    public TalonFX intakeMotorRight = new TalonFX(31);
+    // class member variable
+    final DutyCycleOut m_request = new DutyCycleOut(0);
+
+    public TalonFX intakeMotorLeftLeader = new TalonFX(32);
+    public TalonFX intakeMotorRightFollower = new TalonFX(31);
     public TalonFX intakeDeployMotor = new TalonFX(33);
 
     public PIDController intakeMotorController = new PIDController(0.1, 0, 0);
@@ -19,6 +29,8 @@ public class Intake {
     public boolean useManualIntakeControl = false;
 
     public Intake() {
+        intakeMotorRightFollower
+                .setControl(new Follower(intakeMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
     }
 
     public void setMotorPower() {
@@ -28,31 +40,29 @@ public class Intake {
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
 
             // intake wheels on
-            intakeMotorLeft.set(1);
-            intakeMotorRight.set(-1);
+            intakeMotorLeftLeader.setControl(m_request.withOutput(1.0));
 
         } else if (intakeState == IntakeStates.stowed) {
             // stow intake
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.stowPosition));
 
             // intake wheels off
-            intakeMotorLeft.set(0);
-            intakeMotorRight.set(0);
+            intakeMotorLeftLeader.setControl(m_request.withOutput(0));
 
         } else if (intakeState == IntakeStates.outtaking) {
             // deploy intake
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
 
             // intake wheels on
-            intakeMotorLeft.set(-1);
-            intakeMotorRight.set(1);
+            intakeMotorLeftLeader.setControl(m_request.withOutput(-1.0));
+
         } else if (intakeState == IntakeStates.stationaryDeployed) {
             // deploy intake
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
 
             // intake wheels off
-            intakeMotorLeft.set(0);
-            intakeMotorRight.set(0);
+            intakeMotorLeftLeader.setControl(m_request.withOutput(0));
+
         }
 
         // TEMPORARY: manual joystick control for intake

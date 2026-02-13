@@ -213,8 +213,10 @@ public class Drivebase {
             return 0.8;
         }
     }
-    public double powerToReachRotation(Rotation2d goalRotation) {
-        
+
+    public double getPowerToReachRotation(Rotation2d goalRotation) {
+        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(goalRotation).getDegrees(), 0);
+        return dvr;
     }
 
 }
