@@ -51,6 +51,7 @@ public class Vision {
                         Field2d photonField, double maxDistance, boolean updateLastTimeSeen) {
                 for (var result : camera.getAllUnreadResults()) {
                         Optional<EstimatedRobotPose> photonPose = estimator.estimateLowestAmbiguityPose(result);
+                        
                         System.out.println("Is photon pose present: " + photonPose.isPresent());
                         if (photonPose.isPresent()) {
                                 photonField.setRobotPose(photonPose.get().estimatedPose.toPose2d());

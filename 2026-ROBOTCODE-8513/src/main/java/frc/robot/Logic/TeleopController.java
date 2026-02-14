@@ -106,7 +106,12 @@ public class TeleopController {
                     rxSpeedJoystick) < Settings.TeleopSettings.specialRotationJoystickDeadband) {
                 Robot.drivebase.goalHeading = Robot.drivebase.goalHeading;
             } else {
-                Rotation2d rotation = new Rotation2d(-rySpeedJoystick, -rxSpeedJoystick);
+                Rotation2d rotation;
+                if (Robot.onRed) {
+                    rotation = new Rotation2d(rySpeedJoystick, rxSpeedJoystick);
+                } else {
+                    rotation = new Rotation2d(-rySpeedJoystick, -rxSpeedJoystick);
+                }
                 Robot.drivebase.goalHeading = rotation;
             }
         } else {

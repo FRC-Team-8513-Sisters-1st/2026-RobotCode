@@ -1,14 +1,11 @@
 Comp Robot:
-<<<<<<< Updated upstream
     - plan autos:
         - Start Trench
     - gradual spin up for shooter motor
     - slow while going over the bump tele
     - automatically face hub in auto
-=======
     - be able to tweek hood angle and left and right score position during the match   
     - add layouts and really organize every motor position and velocity 
     - change the joystick rotation
->>>>>>> Stashed changes
-Practice Robot:
+
 
