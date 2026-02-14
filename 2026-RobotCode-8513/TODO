@@ -1,17 +1,14 @@
 Comp Robot:
-    - plan autos
-        - Start Trench
     - gradual spin up for shooter motor
-    - slow while going over the bump tele
     - automatically face hub in auto
-    - be able to tweek hood angle and left and right score position during the match
     - add layouts and really organize every motor position and velocity in advantage scope
-    - smart dashboard layout
-    - PID contorller constants from dashboard
+    x smart dashboard layout
     - hopper class
-        - when shooter is shooting then spin 100% power
-        - any other state be stationary
+        x when shooter is shooting then spin 100% power
+        x any other state be stationary
     - kicker class
         - run PID on velocity rather than power for more consistant shots
+    x add shooter leader follower
+    - figure out the intake motor issue
 
 

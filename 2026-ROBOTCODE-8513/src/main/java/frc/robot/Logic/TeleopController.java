@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Robot;
 import frc.robot.Settings;
+import frc.robot.Logic.Enums.HopperStates;
 import frc.robot.Logic.Enums.IntakeStates;
 import frc.robot.Logic.Enums.KickerStates;
 import frc.robot.Logic.Enums.ShooterStates;
@@ -70,8 +71,8 @@ public class TeleopController {
         rSpeedJoystick = rfilter.calculate(rSpeedJoystick);
 
         // cube the joystick values for smoother control
-        double xInput = Math.pow(xSpeedJoystick, 3);
-        double yInput = Math.pow(ySpeedJoystick, 3);
+        double xInput = Math.pow(xSpeedJoystick, 1);
+        double yInput = Math.pow(ySpeedJoystick, 1);
         double rInput = Math.pow(rSpeedJoystick, 3);
 
         double multFactor;
@@ -137,7 +138,7 @@ public class TeleopController {
         Robot.shooter.setMotorPower();
         Robot.intake.setMotorPower();
         Robot.kicker.setMotorPower();
-
+        Robot.hopper.setMotorPower();
     }
 
     public void buttonControls() {
@@ -170,9 +171,11 @@ public class TeleopController {
         if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
             Robot.shooter.shooterState = ShooterStates.shooting;
             Robot.kicker.kickerState = KickerStates.shooting;
+            Robot.hopper.hopperState = HopperStates.indexing;
         } else if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
             Robot.shooter.shooterState = ShooterStates.stationary;
             Robot.kicker.kickerState = KickerStates.stationary;
+            Robot.hopper.hopperState = HopperStates.stationary;
         }
 
         // COPILOT CONTROLS

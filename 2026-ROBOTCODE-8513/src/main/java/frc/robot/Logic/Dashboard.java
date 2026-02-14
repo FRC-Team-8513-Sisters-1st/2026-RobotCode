@@ -37,9 +37,9 @@ public class Dashboard {
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",
-                                Robot.shooter.shooterMotorLeft.getVelocity().getValueAsDouble());
+                                Robot.shooter.shooterMotorLeftLeader.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("shooterMotorRightVelocity",
-                                Robot.shooter.shooterMotorRight.getVelocity().getValueAsDouble());
+                                Robot.shooter.shooterMotorRightFollower.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("shooterHoodMotorPosition",
                                 Robot.shooter.shooterHoodMotor.getEncoder().getPosition());
                 SmartDashboard.putNumber("IntakeMotorCurrentLeft",
@@ -48,6 +48,11 @@ public class Dashboard {
                                 Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
                 // kicker
                 SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());
+
+                // hopper
+                SmartDashboard.putNumber("hopperMotorVelocityTop", Robot.hopper.indexerMotorTop.getVelocity().getValueAsDouble());
+                SmartDashboard.putNumber("hopperMotorVelocityBottom", Robot.hopper.indexerMotorBottom.getVelocity().getValueAsDouble());
+
 
                 // Fudge factors
                 SmartDashboard.putNumber("shooterAngleFudgeFactorValue", Robot.shooter.angleFudgeFactor);

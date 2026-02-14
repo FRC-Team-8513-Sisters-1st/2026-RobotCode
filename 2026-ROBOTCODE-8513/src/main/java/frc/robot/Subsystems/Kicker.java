@@ -20,7 +20,7 @@ public class Kicker {
     public void setMotorPower() {
         if (kickerState == KickerStates.shooting) {
             // set motor to shoot
-            kickerMotor.set(1);
+            kickerMotor.set(updateMotorPower());
         } else if (kickerState == KickerStates.stationary) {
             // set motor to stationary
             kickerMotor.set(0);
@@ -30,7 +30,7 @@ public class Kicker {
     public double updateMotorPower() {
         double currentVelocity = kickerMotor.getEncoder().getVelocity();
         double targetVelocity = 1000;
-        double outputPower = kickerMotorController.calculate(currentVelocity, targetVelocity);
+        double outputPower = kickerMotorController.calculate(currentVelocity-targetVelocity, 0);
         return outputPower;
 
     }

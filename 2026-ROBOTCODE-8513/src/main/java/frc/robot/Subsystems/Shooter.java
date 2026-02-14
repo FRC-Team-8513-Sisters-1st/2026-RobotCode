@@ -1,8 +1,10 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -16,8 +18,8 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 public class Shooter {
 
-    public static TalonFX shooterMotorLeft = new TalonFX(13);
-    public static TalonFX shooterMotorRight = new TalonFX(14);
+    public static TalonFX shooterMotorLeftLeader = new TalonFX(13);
+    public static TalonFX shooterMotorRightFollower = new TalonFX(14);
     public static SparkMax shooterHoodMotor = new SparkMax(15, MotorType.kBrushless);
 
     public PIDController shooterMotorController = new PIDController(0.1, 0, 0);
@@ -51,31 +53,37 @@ public class Shooter {
     }
 
     public void initShooter() {
-        shooterMotorLeft.getConfigurator().apply(slot0Configs);
-        shooterMotorRight.getConfigurator().apply(slot0Configs);
+        // internal pid
+        shooterMotorLeftLeader.getConfigurator().apply(slot0Configs);
+        shooterMotorRightFollower.getConfigurator().apply(slot0Configs);
+
+        // follower leader set up
+        shooterMotorRightFollower
+                .setControl(new Follower(shooterMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
+
     }
 
     public void setMotorPower() {
         // shooter controller if not using interal pid
         if (shooterState == ShooterStates.shooting && useInternalController == false) {
-            shooterMotorLeft.set(updateMotorPower());
-            shooterMotorRight.set(updateMotorPower());
+            shooterMotorLeftLeader.set(updateMotorPower());
+            shooterMotorRightFollower.set(updateMotorPower());
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == false) {
-            shooterMotorLeft.set(0);
-            shooterMotorRight.set(0);
+            shooterMotorLeftLeader.set(0);
+            shooterMotorRightFollower.set(0);
         }
 
         // shooter controller if using interal pid
         double targetV = 47;
-        SmartDashboard.putNumber("ShooterV", shooterMotorRight.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("ShooterV", shooterMotorRightFollower.getVelocity().getValueAsDouble());
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
-            shooterMotorLeft.setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
-            shooterMotorRight.setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
+            shooterMotorLeftLeader.setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+            // shooterMotorRightFollower.setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true) {
-            shooterMotorLeft.set(0);
-            shooterMotorRight.set(0);
+            shooterMotorLeftLeader.set(0);
+            // shooterMotorRightFollower.set(0);
 
         }
 
@@ -86,7 +94,7 @@ public class Shooter {
     double targetVelocity;
 
     public double updateMotorPower() {
-        double currentVelocity = shooterMotorLeft.getVelocity().getValueAsDouble();
+        double currentVelocity = shooterMotorLeftLeader.getVelocity().getValueAsDouble();
         targetVelocity = 3000;
         double outputPower = shooterMotorController.calculate(currentVelocity, targetVelocity);
         return outputPower + targetVelocity / 6140;
@@ -127,7 +135,7 @@ public class Shooter {
                 - Robot.drivebase.goalHeading.getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseRotationTHold)
                 && (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
                         .getPosition()) < Settings.AutoSettings.Thresholds.hoodPositionTHold)
-                && Math.abs(shooterMotorRight.getVelocity().getValueAsDouble()
+                && Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
                         - targetVelocity) < Settings.AutoSettings.Thresholds.shooterVelocityTHold) {
             return true;
         }

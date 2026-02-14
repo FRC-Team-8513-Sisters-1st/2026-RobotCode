@@ -1,5 +1,27 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="hopperMotorVelocityBottom" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="247"/>
+	</widget>
+	<widget field="hopperMotorVelocityTop" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="227"/>
+	</widget>
+	<widget field="ShooterV" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="261" y="10"/>
+		<height>19</height>
+	</widget>
+	<widget field="IntakeMotorCurrentRight" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="395" y="255"/>
+	</widget>
+	<widget field="IntakeMotorCurrentLeft" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="398" y="231"/>
+	</widget>
+	<widget field="right intake motor power" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="392" y="279"/>
+	</widget>
+	<widget field="left intake motor power" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="0"/>
+	</widget>
 	<widget field="Auton Selector" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
 		<location x="1" y="43"/>
 	</widget>
@@ -22,7 +44,7 @@
 		<location x="174" y="52"/>
 	</widget>
 	<widget field="intakeDeployPosition" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="397" y="208"/>
+		<location x="403" y="208"/>
 	</widget>
 	<widget field="shooterHoodMotorPosition" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="175" y="167"/>
@@ -90,6 +112,6 @@
 	<hidden field="JSON"/>
 	<hidden field="Alerts"/>
 	<hidden field="Current Drivebase Position"/>
-	<hidden field="trajGoalPose"/>
 	<hidden field="Encoders"/>
+	<hidden field="trajGoalPose"/>
 </xml>
