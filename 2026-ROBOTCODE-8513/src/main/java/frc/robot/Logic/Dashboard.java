@@ -59,17 +59,17 @@ public class Dashboard {
                 SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);
 
                 // Prompts user input for PID values
-                SmartDashboard.putNumber("input shooter kP", Robot.shooter.slot0Configs.kP);
-                SmartDashboard.putNumber("input shooter kI", Robot.shooter.slot0Configs.kI);
-                SmartDashboard.putNumber("input shooter kD", Robot.shooter.slot0Configs.kD);
+                SmartDashboard.putNumber("output shooter kP", Robot.shooter.slot0Configs.kP);
+                SmartDashboard.putNumber("output shooter kI", Robot.shooter.slot0Configs.kI);
+                SmartDashboard.putNumber("output shooter kD", Robot.shooter.slot0Configs.kD);
 
-                SmartDashboard.putNumber("input intake kP", Robot.intake.intakeMotorController.getP());
-                SmartDashboard.putNumber("input intake kI", Robot.intake.intakeMotorController.getI());
-                SmartDashboard.putNumber("input intake kD", Robot.intake.intakeMotorController.getD());
+                SmartDashboard.putNumber("output intake kP", Robot.intake.intakeMotorController.getP());
+                SmartDashboard.putNumber("output intake kI", Robot.intake.intakeMotorController.getI());
+                SmartDashboard.putNumber("output intake kD", Robot.intake.intakeMotorController.getD());
 
-                SmartDashboard.putNumber("input kicker kP", Robot.kicker.kickerMotorController.getP());
-                SmartDashboard.putNumber("input kicker kI", Robot.kicker.kickerMotorController.getI());
-                SmartDashboard.putNumber("input kicker kD", Robot.kicker.kickerMotorController.getD());
+                SmartDashboard.putNumber("output kicker kP", Robot.kicker.kickerMotorController.getP());
+                SmartDashboard.putNumber("output kicker kI", Robot.kicker.kickerMotorController.getI());
+                SmartDashboard.putNumber("output kicker kD", Robot.kicker.kickerMotorController.getD());
         }
 
         public void getPIDValues() {

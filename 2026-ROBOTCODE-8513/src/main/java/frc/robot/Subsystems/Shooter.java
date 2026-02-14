@@ -82,8 +82,8 @@ public class Shooter {
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
 
-            if (Robot.teleop.shooterButtonTime - Timer.getFPGATimestamp() > 5) {
-
+            if (Robot.teleop.shooterButtonTime - Timer.getFPGATimestamp() < 5) {
+                lowerCurrentLimits();
             } else {
                 shooterMotorLeftLeader
                         .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
@@ -174,8 +174,10 @@ public class Shooter {
         configs.StatorCurrentLimitEnable = true;
         configs.StatorCurrentLimit = 20;
         configs.SupplyCurrentLimitEnable = true;
-        configs.SupplyCurrentLimit = 10; 
+        configs.SupplyCurrentLimit = 10;
 
-       shooterMotorLeftLeader.getConfigurator().apply(configs); 
+        shooterMotorLeftLeader.getConfigurator().apply(configs);
+        shooterMotorRightFollower.getConfigurator().apply(configs);
+
     }
 }
