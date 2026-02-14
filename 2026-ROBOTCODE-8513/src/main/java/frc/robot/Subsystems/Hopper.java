@@ -3,7 +3,6 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.robot.Logic.Enums.HopperStates;
-import frc.robot.Logic.Enums.KickerStates;
 
 public class Hopper {
 

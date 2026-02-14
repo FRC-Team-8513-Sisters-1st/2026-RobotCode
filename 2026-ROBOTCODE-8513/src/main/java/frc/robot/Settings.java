@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 
 public class Settings {
     public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout
@@ -74,6 +73,7 @@ public class Settings {
         public static double hoodPosition = 25.0;
         public static double shooterFudgeFactor = 0.5;
         public static double angleFudgeFactor = 1;
+        public static double maxShooterVelocity = 47;
     }
 
     public class VisionSettings {

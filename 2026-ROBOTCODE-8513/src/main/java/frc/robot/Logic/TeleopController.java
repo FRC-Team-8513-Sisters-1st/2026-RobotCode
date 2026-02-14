@@ -5,6 +5,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.HopperStates;
@@ -29,6 +30,8 @@ public class TeleopController {
     public boolean shootingFacingHub = false;
     public boolean useSpecialNewRotation = true;
 
+    public double shooterButtonTime;
+
     public double xV;
     public double yV;
     public double rV;
@@ -36,6 +39,12 @@ public class TeleopController {
     public void initTele() {
         Robot.shooter.initShooter();
         Robot.dashboard.getPIDValues();
+
+        // consume all buttons pressed
+        for (int i = 0; i < 14; i++) {
+            driverXboxController.getRawButtonPressed(i);
+            copilotXboxController.getRawButtonPressed(i);
+        }
 
     }
 
@@ -169,6 +178,7 @@ public class TeleopController {
         // shooter/kicker controls
         boolean shootButtonPressed = driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shoot);
         if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
+             shooterButtonTime = Timer.getFPGATimestamp();
             Robot.shooter.shooterState = ShooterStates.shooting;
             Robot.kicker.kickerState = KickerStates.shooting;
             Robot.hopper.hopperState = HopperStates.indexing;

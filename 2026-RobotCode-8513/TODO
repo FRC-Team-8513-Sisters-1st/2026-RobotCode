@@ -3,12 +3,14 @@ Comp Robot:
     - automatically face hub in auto
     - add layouts and really organize every motor position and velocity in advantage scope
     x smart dashboard layout
-    - hopper class
+    x hopper class
         x when shooter is shooting then spin 100% power
         x any other state be stationary
     - kicker class
         - run PID on velocity rather than power for more consistant shots
     x add shooter leader follower
     - figure out the intake motor issue
+    x erase button clicks before tele is enabled
+
 
 

@@ -1,5 +1,6 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -9,6 +10,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Settings;
@@ -77,8 +79,15 @@ public class Shooter {
         // shooter controller if using interal pid
         double targetV = 47;
         SmartDashboard.putNumber("ShooterV", shooterMotorRightFollower.getVelocity().getValueAsDouble());
+
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
-            shooterMotorLeftLeader.setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+
+            if (Robot.teleop.shooterButtonTime - Timer.getFPGATimestamp() > 5) {
+
+            } else {
+                shooterMotorLeftLeader
+                        .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+            }
             // shooterMotorRightFollower.setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true) {
@@ -129,7 +138,7 @@ public class Shooter {
 
     // Checks the anle error, hood position error, and shooter velocity error to
     // determine if the shooter is ready to shoot. Thresholds for each of these
-    // values can be set in settings.
+    // values are in settings.
     public boolean readyToShoot() {
         if ((Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees()
                 - Robot.drivebase.goalHeading.getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseRotationTHold)
@@ -140,5 +149,33 @@ public class Shooter {
             return true;
         }
         return false;
+    }
+
+    // not using
+    // public void gradualSpinUp(int totalTime) {
+    // double oneSecVelocityIncr = Settings.ShooterSettings.maxShooterVelocity /
+    // totalTime;
+    // double timeStepStarted = 0;
+    // for (int i = 1; i <= totalTime; i++) {
+    // if (Timer.getFPGATimestamp() - timeStepStarted > 1) {
+    // targetVelocity = targetVelocity + oneSecVelocityIncr;
+    // shooterMotorLeftLeader
+    // .setControl(
+    // m_request.withVelocity(-targetVelocity).withFeedForward(-RPStoVoltage(targetVelocity)));
+    // timeStepStarted = Timer.getFPGATimestamp();
+
+    // }
+    // }
+
+    // }
+
+    public void lowerCurrentLimits() {
+        var configs = new CurrentLimitsConfigs();
+        configs.StatorCurrentLimitEnable = true;
+        configs.StatorCurrentLimit = 20;
+        configs.SupplyCurrentLimitEnable = true;
+        configs.SupplyCurrentLimit = 10; 
+
+       shooterMotorLeftLeader.getConfigurator().apply(configs); 
     }
 }
