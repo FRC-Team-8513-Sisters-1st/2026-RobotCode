@@ -12,6 +12,8 @@ Comp Robot:
     - figure out the intake motor issue
     x erase button clicks before tele is enabled
     - slow mode over bump - dont always slow just cap velocity
+    - on teleop (and maybe auto?) enable set goal heading to current heading so it doesnt spin out
+    - button to snap to nearest 0 or 180 degree heading to go over bump
 
 
 
