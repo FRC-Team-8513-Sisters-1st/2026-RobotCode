@@ -1,0 +1,4 @@
+Navigate to: C:\Users\[user]\AppData\Roaming\AdvantageScope\userAssets
+and paste this folders contents into it. 
+
+docs: https://docs.advantagescope.org/more-features/custom-assets/

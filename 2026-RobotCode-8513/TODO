@@ -11,6 +11,7 @@ Comp Robot:
     x add shooter leader follower
     - figure out the intake motor issue
     x erase button clicks before tele is enabled
+    - slow mode over bump - dont always slow just cap velocity
 
 
 
