@@ -132,6 +132,13 @@ public class TeleopController {
             shootingFacingHub = true;
             Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(), true,
                     false);
+            if (Robot.shooter.readyToShoot()) {
+                Robot.kicker.kickerState = KickerStates.shooting;
+                Robot.hopper.hopperState = HopperStates.indexing;
+            } else {
+                Robot.kicker.kickerState = KickerStates.stationary;
+                Robot.hopper.hopperState = HopperStates.stationary;
+            }
         } else {
             shootingFacingHub = false;
             if (useSpecialNewRotation) {
@@ -178,7 +185,7 @@ public class TeleopController {
         // shooter/kicker controls
         boolean shootButtonPressed = driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shoot);
         if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
-             shooterButtonTime = Timer.getFPGATimestamp();
+            shooterButtonTime = Timer.getFPGATimestamp();
             Robot.shooter.shooterState = ShooterStates.shooting;
             Robot.kicker.kickerState = KickerStates.shooting;
             Robot.hopper.hopperState = HopperStates.indexing;
@@ -196,7 +203,7 @@ public class TeleopController {
             Robot.shooter.angleFudgeFactor -= Settings.ShooterSettings.shooterFudgeFactor;
         }
 
-        //intake Fudge Factor
+        // intake Fudge Factor
         if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.heightenIntake)) {
             Robot.intake.intakeFudgeFactor -= Settings.IntakeSettings.intakeFudgeFactor;
         } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.lowerIntake)) {
