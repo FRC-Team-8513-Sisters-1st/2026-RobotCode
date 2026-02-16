@@ -50,10 +50,9 @@ public class Settings {
 
         public static class ButtonIDs {
             // driver controller
-            public static int intake = 2;
-            public static int faceHub = 1;
+            public static int intake = 5;
+            public static int faceHub = 7;
             public static int stopIntake = 4;
-            public static int shoot = 5;
 
             // copilot controller
             public static int increaseAngle = 4;
@@ -62,6 +61,9 @@ public class Settings {
             public static int moveScorePoseLeft = 3; 
             public static int heightenIntake = 5; 
             public static int lowerIntake = 6; 
+            public static int emergencyIntake = 7;
+            public static int manualShoot = 8;
+
         }
 
     }

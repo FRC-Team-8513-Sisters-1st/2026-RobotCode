@@ -29,6 +29,7 @@ public class TeleopController {
 
     public boolean shootingFacingHub = false;
     public boolean useSpecialNewRotation = true;
+    public boolean autoShooting = true;
 
     public double shooterButtonTime;
 
@@ -132,7 +133,7 @@ public class TeleopController {
             shootingFacingHub = true;
             Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(), true,
                     false);
-            if (Robot.shooter.readyToShoot()) {
+            if (Robot.shooter.readyToShoot() && autoShooting) {
                 Robot.kicker.kickerState = KickerStates.shooting;
                 Robot.hopper.hopperState = HopperStates.indexing;
             } else {
@@ -182,18 +183,6 @@ public class TeleopController {
             Robot.intake.intakeState = IntakeStates.intaking;
         }
 
-        // shooter/kicker controls
-        boolean shootButtonPressed = driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shoot);
-        if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
-            shooterButtonTime = Timer.getFPGATimestamp();
-            Robot.shooter.shooterState = ShooterStates.shooting;
-            Robot.kicker.kickerState = KickerStates.shooting;
-            Robot.hopper.hopperState = HopperStates.indexing;
-        } else if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
-            Robot.shooter.shooterState = ShooterStates.stationary;
-            Robot.kicker.kickerState = KickerStates.stationary;
-            Robot.hopper.hopperState = HopperStates.stationary;
-        }
 
         // COPILOT CONTROLS
         // adjustment for shooter hood angle
@@ -217,10 +206,40 @@ public class TeleopController {
             Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.angleFudgeFactor;
         }
 
+        // Intake copilot emergency controls
+        boolean copilotEmergencyIntakeButtonPressed = Robot.teleop.driverXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.emergencyIntake);
+        if (Robot.intake.intakeState == IntakeStates.stowed && copilotEmergencyIntakeButtonPressed) {
+            // if the robot is stowed
+            Robot.intake.intakeState = IntakeStates.intaking;
+        } else if ((Robot.intake.intakeState == IntakeStates.intaking
+                || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
+                && copilotEmergencyIntakeButtonPressed) {
+            // if the robot is intaking or stationary
+            Robot.intake.intakeState = IntakeStates.stowed;
+        }
+
+        // shooter/kicker controls
+        boolean shootButtonPressed = copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
+        if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
+            Robot.shooter.shooterState = ShooterStates.shooting;
+            Robot.kicker.kickerState = KickerStates.shooting;
+            Robot.hopper.hopperState = HopperStates.indexing;
+        } else if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
+            Robot.shooter.shooterState = ShooterStates.stationary;
+            Robot.kicker.kickerState = KickerStates.stationary;
+            Robot.hopper.hopperState = HopperStates.stationary;
+        }
+
         if (driverXboxController.getRawButtonPressed(8)) {
             Settings.resetTalon(Robot.intake.intakeMotorLeftLeader);
             Settings.resetTalon(Robot.intake.intakeMotorRightFollower);
 
+        }
+
+        boolean autoShootButtonPressed = copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
+        if (autoShootButtonPressed) {
+            autoShooting = false;
         }
     }
 

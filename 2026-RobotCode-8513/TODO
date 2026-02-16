@@ -15,18 +15,20 @@ Comp Robot:
     - on teleop (and maybe auto?) enable set goal heading to current heading so it doesnt spin out
     - button to snap to nearest 0 or 180 degree heading to go over bump
     x spin intake wheels backwards when deploying
-    -look into elastic 
+    - look into elastic 
+    - use the lowered current limit
+
 
 Copilot
     - shuttle position buttons
     x adjust intake 
-    - ignore auto shoot 
+    x ignore auto shoot 
     - jiggle intake while shooting 
-    - emergency intake button
+    x emergency intake button
 
 Driver
-    - intake deploy 
-    - change rotation button to back button 
+    x intake deploy 
+    x change rotation button to back button 
     - snake mode 
     - straighten to go over bump (auto drive over bump)
     - fix go over bump speed 
