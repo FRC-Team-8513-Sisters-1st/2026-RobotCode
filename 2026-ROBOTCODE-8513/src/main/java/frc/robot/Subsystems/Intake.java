@@ -23,6 +23,7 @@ public class Intake {
     public PIDController intakeMotorController = new PIDController(0.1, 0, 0);
 
     public boolean useManualIntakeControl = false;
+    public double intakeFudgeFactor = 0; 
 
     public Intake() {
         intakeMotorRightFollower
@@ -33,7 +34,8 @@ public class Intake {
 
         if (intakeState == IntakeStates.intaking) {
             // deploy intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
+            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
+            spinIntakeBackward();
 
             // intake wheels on
             intakeMotorLeftLeader.setControl(m_request.withOutput(1.0));
@@ -54,7 +56,8 @@ public class Intake {
 
         } else if (intakeState == IntakeStates.stationaryDeployed) {
             // deploy intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
+            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
+            spinIntakeBackward();
 
             // intake wheels off
             intakeMotorLeftLeader.setControl(m_request.withOutput(0));
@@ -84,5 +87,11 @@ public class Intake {
         double currentPosition = intakeDeployMotor.getPosition().getValueAsDouble();
         double outputPower = intakeMotorController.calculate(currentPosition, targetPosition);
         return outputPower;
+    }
+
+    public void spinIntakeBackward() {
+        if (intakeDeployMotor.getPosition().getValueAsDouble() < 0) {
+            intakeMotorLeftLeader.setControl(m_request.withOutput(-1.0));
+        }
     }
 }

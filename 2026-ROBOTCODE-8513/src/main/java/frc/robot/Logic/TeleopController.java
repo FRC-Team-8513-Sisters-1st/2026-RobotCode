@@ -196,6 +196,13 @@ public class TeleopController {
             Robot.shooter.angleFudgeFactor -= Settings.ShooterSettings.shooterFudgeFactor;
         }
 
+        //intake Fudge Factor
+        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.heightenIntake)) {
+            Robot.intake.intakeFudgeFactor -= Settings.IntakeSettings.intakeFudgeFactor;
+        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.lowerIntake)) {
+            Robot.intake.intakeFudgeFactor += Settings.IntakeSettings.intakeFudgeFactor;
+        }
+
         // adjustment for drivebase goal aim fudge factor
         if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)) {
             Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.angleFudgeFactor;

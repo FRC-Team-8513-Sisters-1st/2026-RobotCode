@@ -59,7 +59,9 @@ public class Settings {
             public static int increaseAngle = 4;
             public static int decreaseAngle = 1;
             public static int moveScorePoseRight = 2;
-            public static int moveScorePoseLeft = 3;
+            public static int moveScorePoseLeft = 3; 
+            public static int heightenIntake = 5; 
+            public static int lowerIntake = 6; 
         }
 
     }
@@ -67,6 +69,7 @@ public class Settings {
     public class IntakeSettings {
         public static double stowPosition = -40;
         public static double deployPosition = 0;
+        public static double intakeFudgeFactor = 1;
     }
 
     public class ShooterSettings {

@@ -14,6 +14,22 @@ Comp Robot:
     - slow mode over bump - dont always slow just cap velocity
     - on teleop (and maybe auto?) enable set goal heading to current heading so it doesnt spin out
     - button to snap to nearest 0 or 180 degree heading to go over bump
+    x spin intake wheels backwards when deploying
+    -look into elastic 
+
+Copilot
+    - shuttle position buttons
+    - adjust intake 
+    - ignore auto shoot 
+    - jiggle intake while shooting 
+    - emergency intake button
+
+Driver
+    - intake deploy 
+    - change rotation button to back button 
+    - snake mode 
+    - straighten to go over bump (auto drive over bump)
+    - fix go over bump speed 
 
 
 
