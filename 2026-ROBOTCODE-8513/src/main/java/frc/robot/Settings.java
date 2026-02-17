@@ -28,6 +28,7 @@ public class Settings {
 
     public static class PhysicalRobotValues {
         public static double robotHeight = 30;
+        public static double bumpMaxVelocity = 1;
     }
 
     public static class TeleopSettings {
@@ -86,8 +87,8 @@ public class Settings {
     }
 
     public class FieldInfo {
-        // hub locations
 
+        // hub locations
         public static final double width = Units.inchesToMeters(47.0);
         public static final double height = Units.inchesToMeters(72.0); // includes the catcher at the top
 
@@ -115,6 +116,9 @@ public class Settings {
                 new Rotation2d(0));
 
         public static double hubHeight = 10;
+
+        // shuttling positions
+
     }
 
     public class AutoSettings {

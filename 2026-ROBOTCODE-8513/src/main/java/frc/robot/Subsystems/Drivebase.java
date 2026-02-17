@@ -203,20 +203,27 @@ public class Drivebase {
         yagslDrive.drive(new Translation2d(), powerToAngleToHub, true, false);
     }
 
-    public double drivingOverBump() {
+    public boolean drivingOverBump() {
         if ((Robot.drivebase.yagslDrive.getPose().getX() > 11
                 && Robot.drivebase.yagslDrive.getPose().getX() < 12.7)
                 || (Robot.drivebase.yagslDrive.getPose().getX() > 3.85
                         && Robot.drivebase.yagslDrive.getPose().getX() < 5.4)) {
-            return 0.3;
+            return true;
         } else {
-            return 0.8;
+            return false;
         }
     }
 
     public double getPowerToReachRotation(Rotation2d goalRotation) {
         dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(goalRotation).getDegrees(), 0);
         return dvr;
+    }
+
+    public double getRobotVelocityHypotenuse() {
+        double rXV = yagslDrive.getFieldVelocity().vxMetersPerSecond;
+        double rYV = yagslDrive.getFieldVelocity().vyMetersPerSecond;
+        double velocity = Math.sqrt(Math.pow(rXV, 2) + Math.pow(rYV, 2));
+        return velocity;
     }
 
 }

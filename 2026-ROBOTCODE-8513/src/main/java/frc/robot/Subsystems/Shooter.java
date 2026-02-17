@@ -86,11 +86,9 @@ public class Shooter {
                 shooterMotorLeftLeader
                         .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
            
-            // shooterMotorRightFollower.setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true) {
             shooterMotorLeftLeader.set(0);
-            // shooterMotorRightFollower.set(0);
 
         }
 
@@ -99,7 +97,6 @@ public class Shooter {
 
     // pid controller when not using internal
     double targetVelocity;
-
     public double updateMotorPower() {
         double currentVelocity = shooterMotorLeftLeader.getVelocity().getValueAsDouble();
         targetVelocity = 3000;
@@ -107,6 +104,7 @@ public class Shooter {
         return outputPower + targetVelocity / 6140;
     }
 
+    
     public void setHoodAngle() {
         double distanceBetweenCurrentAndGoalInMeters = Robot.drivebase
                 .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);

@@ -99,15 +99,28 @@ public class TeleopController {
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
         } else {
-            multFactor = Robot.drivebase.drivingOverBump();
-            if (Robot.onRed) {
-                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor);
-                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor);
-                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+            if (Robot.drivebase.drivingOverBump()) {
+                    double robotV = Robot.drivebase.getRobotVelocityHypotenuse();
+                if (Robot.onRed) {
+                    xV = -(xInput * Settings.PhysicalRobotValues.bumpMaxVelocity/robotV);
+                    yV = -(yInput * Settings.PhysicalRobotValues.bumpMaxVelocity/robotV);
+                    rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+                } else {
+                    xV = xInput * Settings.PhysicalRobotValues.bumpMaxVelocity/robotV;
+                    yV = yInput * Settings.PhysicalRobotValues.bumpMaxVelocity/robotV;
+                    rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+
+                }
             } else {
-                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor;
-                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor;
-                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+                if (Robot.onRed) {
+                    xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8);
+                    yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8);
+                    rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+                } else {
+                    xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8;
+                    yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8;
+                    rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+                }
             }
         }
 
@@ -183,7 +196,6 @@ public class TeleopController {
             Robot.intake.intakeState = IntakeStates.intaking;
         }
 
-
         // COPILOT CONTROLS
         // adjustment for shooter hood angle
         if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseAngle)) {
@@ -220,16 +232,17 @@ public class TeleopController {
         }
 
         // shooter/kicker controls
-        boolean shootButtonPressed = copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
+        boolean shootButtonPressed = copilotXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
         if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
             Robot.shooter.shooterState = ShooterStates.shooting;
         } else if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
             Robot.shooter.shooterState = ShooterStates.stationary;
         }
 
-                boolean indexerKicker = copilotXboxController.getRawButtonPressed(9);
+        boolean indexerKicker = copilotXboxController.getRawButtonPressed(9);
         if (indexerKicker && Robot.kicker.kickerState == KickerStates.stationary) {
-            
+
             Robot.kicker.kickerState = KickerStates.shooting;
             Robot.hopper.hopperState = HopperStates.indexing;
         } else if (indexerKicker && Robot.kicker.kickerState == KickerStates.shooting) {
@@ -243,7 +256,8 @@ public class TeleopController {
 
         }
 
-        boolean autoShootButtonPressed = copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
+        boolean autoShootButtonPressed = copilotXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
         if (autoShootButtonPressed) {
             autoShooting = false;
         }

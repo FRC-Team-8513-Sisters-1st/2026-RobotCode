@@ -1,34 +1,21 @@
 Comp Robot:
-    x gradual spin up for shooter motor
     - automatically face hub in auto
     - add layouts and really organize every motor position and velocity in advantage scope
-    x smart dashboard layout
-    x hopper class
-        x when shooter is shooting then spin 100% power
-        x any other state be stationary
     - kicker class 
         - run PID on velocity rather than power for more consistant shots
-    x add shooter leader follower
     - figure out the intake motor issue
-    x erase button clicks before tele is enabled
     - slow mode over bump - dont always slow just cap velocity
     - on teleop (and maybe auto?) enable set goal heading to current heading so it doesnt spin out
     - button to snap to nearest 0 or 180 degree heading to go over bump
-    x spin intake wheels backwards when deploying
     - look into elastic 
     - use the lowered current limit
-
+    - turning mode for the shot to turn up/down the speed
 
 Copilot
     - shuttle position buttons
-    x adjust intake 
-    x ignore auto shoot 
     - jiggle intake while shooting 
-    x emergency intake button
 
 Driver
-    x intake deploy 
-    x change rotation button to back button 
     - snake mode 
     - straighten to go over bump (auto drive over bump)
     - fix go over bump speed 
