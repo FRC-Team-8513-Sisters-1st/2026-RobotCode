@@ -223,10 +223,16 @@ public class TeleopController {
         boolean shootButtonPressed = copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
         if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
             Robot.shooter.shooterState = ShooterStates.shooting;
-            Robot.kicker.kickerState = KickerStates.shooting;
-            Robot.hopper.hopperState = HopperStates.indexing;
         } else if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
             Robot.shooter.shooterState = ShooterStates.stationary;
+        }
+
+                boolean indexerKicker = copilotXboxController.getRawButtonPressed(9);
+        if (indexerKicker && Robot.kicker.kickerState == KickerStates.stationary) {
+            
+            Robot.kicker.kickerState = KickerStates.shooting;
+            Robot.hopper.hopperState = HopperStates.indexing;
+        } else if (indexerKicker && Robot.kicker.kickerState == KickerStates.shooting) {
             Robot.kicker.kickerState = KickerStates.stationary;
             Robot.hopper.hopperState = HopperStates.stationary;
         }

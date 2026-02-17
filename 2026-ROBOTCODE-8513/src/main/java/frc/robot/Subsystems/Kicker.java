@@ -20,7 +20,7 @@ public class Kicker {
     public void setMotorPower() {
         if (kickerState == KickerStates.shooting) {
             // set motor to shoot
-            kickerMotor.set(updateMotorPower());
+            kickerMotor.set(1);
         } else if (kickerState == KickerStates.stationary) {
             // set motor to stationary
             kickerMotor.set(0);

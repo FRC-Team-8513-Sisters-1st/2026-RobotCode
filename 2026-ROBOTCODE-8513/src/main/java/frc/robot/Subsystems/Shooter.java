@@ -57,7 +57,7 @@ public class Shooter {
     public void initShooter() {
         // internal pid
         shooterMotorLeftLeader.getConfigurator().apply(slot0Configs);
-        shooterMotorRightFollower.getConfigurator().apply(slot0Configs);
+        lowerCurrentLimits();
 
         // follower leader set up
         shooterMotorRightFollower
@@ -77,17 +77,15 @@ public class Shooter {
         }
 
         // shooter controller if using interal pid
-        double targetV = 47;
+        double targetV = 48;
         SmartDashboard.putNumber("ShooterV", shooterMotorRightFollower.getVelocity().getValueAsDouble());
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
 
-            if (Robot.teleop.shooterButtonTime - Timer.getFPGATimestamp() < 5) {
-                lowerCurrentLimits();
-            } else {
+        
                 shooterMotorLeftLeader
                         .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
-            }
+           
             // shooterMotorRightFollower.setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true) {
@@ -172,9 +170,9 @@ public class Shooter {
     public void lowerCurrentLimits() {
         var configs = new CurrentLimitsConfigs();
         configs.StatorCurrentLimitEnable = true;
-        configs.StatorCurrentLimit = 20;
+        configs.StatorCurrentLimit = 80;
         configs.SupplyCurrentLimitEnable = true;
-        configs.SupplyCurrentLimit = 10;
+        configs.SupplyCurrentLimit = 60;
 
         shooterMotorLeftLeader.getConfigurator().apply(configs);
         shooterMotorRightFollower.getConfigurator().apply(configs);

@@ -38,6 +38,8 @@ public class Dashboard {
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",
                                 Robot.shooter.shooterMotorLeftLeader.getVelocity().getValueAsDouble());
+                SmartDashboard.putNumber("shooterMotorLeftCurrent",
+                                Robot.shooter.shooterMotorLeftLeader.getStatorCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("shooterMotorRightVelocity",
                                 Robot.shooter.shooterMotorRightFollower.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("shooterHoodMotorPosition",
