@@ -5,7 +5,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.HopperStates;
@@ -85,63 +84,63 @@ public class TeleopController {
         double yInput = Math.pow(ySpeedJoystick, 1);
         double rInput = Math.pow(rSpeedJoystick, 3);
 
-        double multFactor;
-
+        // if facing hub button, slow speed to 0.3
+        double robotV = Robot.drivebase.getRobotVelocityHypotenuse();
         if (shootingFacingHub) {
-            multFactor = 0.3;
             if (Robot.onRed) {
-                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor);
-                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor);
+                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3);
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3);
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             } else {
-                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor;
-                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * multFactor;
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3;
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3;
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
-        } else {
-            if (Robot.drivebase.drivingOverBump()) {
-                    double robotV = Robot.drivebase.getRobotVelocityHypotenuse();
-                if (Robot.onRed) {
-                    xV = -(xInput * Settings.PhysicalRobotValues.bumpMaxVelocity/robotV);
-                    yV = -(yInput * Settings.PhysicalRobotValues.bumpMaxVelocity/robotV);
-                    rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
-                } else {
-                    xV = xInput * Settings.PhysicalRobotValues.bumpMaxVelocity/robotV;
-                    yV = yInput * Settings.PhysicalRobotValues.bumpMaxVelocity/robotV;
-                    rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
-
-                }
+            // if driving over bump, do the bump speed calculation and lower speed if we are
+            // going over
+        } else if (Robot.drivebase.drivingOverBump() && robotV > Settings.PhysicalRobotValues.bumpMaxVelocity) {
+            if (Robot.onRed) {
+                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+                        * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV));
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+                        * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV));
+                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             } else {
-                if (Robot.onRed) {
-                    xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8);
-                    yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8);
-                    rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
-                } else {
-                    xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8;
-                    yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.8;
-                    rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
-                }
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+                        * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV);
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+                        * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV);
+                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+            }
+            // default driving
+        } else {
+            if (Robot.onRed) {
+                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity());
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity());
+                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+            } else {
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity();
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity();
+                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
         }
 
-        // drive/face hub
-        if (useSpecialNewRotation) {
-            if (Math.hypot(rySpeedJoystick,
-                    rxSpeedJoystick) < Settings.TeleopSettings.specialRotationJoystickDeadband) {
-                Robot.drivebase.goalHeading = Robot.drivebase.goalHeading;
-            } else {
-                Rotation2d rotation;
-                if (Robot.onRed) {
-                    rotation = new Rotation2d(rySpeedJoystick, rxSpeedJoystick);
-                } else {
-                    rotation = new Rotation2d(-rySpeedJoystick, -rxSpeedJoystick);
-                }
-                Robot.drivebase.goalHeading = rotation;
-            }
+        // special rotation
+        if (Math.hypot(rySpeedJoystick,
+                rxSpeedJoystick) < Settings.TeleopSettings.specialRotationJoystickDeadband) {
+            Robot.drivebase.goalHeading = Robot.drivebase.goalHeading;
         } else {
-            Robot.drivebase.goalHeading = new Rotation2d(rV);
+            Rotation2d rotation;
+            if (Robot.onRed) {
+                rotation = new Rotation2d(rySpeedJoystick, rxSpeedJoystick);
+            } else {
+                rotation = new Rotation2d(-rySpeedJoystick, -rxSpeedJoystick);
+            }
+            Robot.drivebase.goalHeading = rotation;
         }
 
+        // if face hub button is pressed, rotate to hub then set the kicker and hopper
+        // states
         if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub)) {
             shootingFacingHub = true;
             Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(), true,
@@ -153,13 +152,21 @@ public class TeleopController {
                 Robot.kicker.kickerState = KickerStates.stationary;
                 Robot.hopper.hopperState = HopperStates.stationary;
             }
+            // if straighten bump pressed, check rotation and switch to nearest 0 or 180
+        } else if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.straightenBump)) {
+            if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees()) <= 90) {
+                Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
+                        Robot.drivebase.getPowerToReachRotation(new Rotation2d(0)), true,
+                        false);
+            } else {
+                Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
+                        Robot.drivebase.getPowerToReachRotation(new Rotation2d(Math.PI)), true,
+                        false);
+            }
+            // otherwise, use the normal drive
         } else {
             shootingFacingHub = false;
-            if (useSpecialNewRotation) {
-                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), Robot.drivebase.goalHeading, true);
-            } else {
-                Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
-            }
+            Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), Robot.drivebase.goalHeading, true);
         }
 
         buttonControls();
@@ -171,8 +178,8 @@ public class TeleopController {
         Robot.hopper.setMotorPower();
     }
 
+    // button pressed --> state machine
     public void buttonControls() {
-
         // intake controls
         boolean intakeButtonPressed = Robot.teleop.driverXboxController
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake);
@@ -194,6 +201,12 @@ public class TeleopController {
                 && stopIntakeButtonPressed) {
             // turn the wheels on while deployed
             Robot.intake.intakeState = IntakeStates.intaking;
+        }
+
+        // TEMPORARY: reset the intake motors
+        if (driverXboxController.getRawButtonPressed(8)) {
+            Settings.resetTalon(Robot.intake.intakeMotorLeftLeader);
+            Settings.resetTalon(Robot.intake.intakeMotorRightFollower);
         }
 
         // COPILOT CONTROLS
@@ -242,18 +255,11 @@ public class TeleopController {
 
         boolean indexerKicker = copilotXboxController.getRawButtonPressed(9);
         if (indexerKicker && Robot.kicker.kickerState == KickerStates.stationary) {
-
             Robot.kicker.kickerState = KickerStates.shooting;
             Robot.hopper.hopperState = HopperStates.indexing;
         } else if (indexerKicker && Robot.kicker.kickerState == KickerStates.shooting) {
             Robot.kicker.kickerState = KickerStates.stationary;
             Robot.hopper.hopperState = HopperStates.stationary;
-        }
-
-        if (driverXboxController.getRawButtonPressed(8)) {
-            Settings.resetTalon(Robot.intake.intakeMotorLeftLeader);
-            Settings.resetTalon(Robot.intake.intakeMotorRightFollower);
-
         }
 
         boolean autoShootButtonPressed = copilotXboxController

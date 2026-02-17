@@ -28,7 +28,7 @@ public class Settings {
 
     public static class PhysicalRobotValues {
         public static double robotHeight = 30;
-        public static double bumpMaxVelocity = 1;
+        public static double bumpMaxVelocity = 0.5;
     }
 
     public static class TeleopSettings {
@@ -54,6 +54,7 @@ public class Settings {
             public static int intake = 5;
             public static int faceHub = 7;
             public static int stopIntake = 4;
+            public static int straightenBump = 8;
 
             // copilot controller
             public static int increaseAngle = 4;

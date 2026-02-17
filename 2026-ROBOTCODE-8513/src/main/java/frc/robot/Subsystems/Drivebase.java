@@ -159,7 +159,7 @@ public class Drivebase {
             // red hub location
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint);
             angleToHub = yagslDrive.getPose().minus(goalAimPose)
-                    .getTranslation().getAngle();
+                    .getTranslation().rotateBy(new Rotation2d(Math.PI)).getAngle();
         } else {
             // blue hub location
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
