@@ -52,7 +52,7 @@ public class Settings {
         public static class ButtonIDs {
             // driver controller
             public static int intake = 5;
-            public static int faceHub = 7;
+            public static int faceGoal = 7;
             public static int stopIntake = 4;
             public static int straightenBump = 8;
             public static int snakeMode = 1;
@@ -66,6 +66,12 @@ public class Settings {
             public static int lowerIntake = 6; 
             public static int emergencyIntake = 7;
             public static int manualShoot = 8;
+            public static int toggleAutoShoot = 9;
+            public static int redDepotTrenchButton = 10;
+            public static int blueDepotTrenchButton = 11;
+            public static int redOutpostTrenchButton = 12;
+            public static int blueOutpostTrenchButton = 13;
+            public static int nuetralZoneButton = 14;
 
         }
 
@@ -86,6 +92,7 @@ public class Settings {
 
     public class VisionSettings {
         public static double maxATDistDisabeled = 10;
+        public static boolean useVision = true;
     }
 
     public class FieldInfo {
@@ -120,6 +127,14 @@ public class Settings {
         public static double hubHeight = 10;
 
         // shuttling positions
+        public class ShuttlingPositions {
+            public static Pose2d redDepotTrench = new Pose2d(10.935, 0.6, new Rotation2d());
+            public static Pose2d blueDepotTrench = new Pose2d(5.514, 7.4, new Rotation2d());
+            public static Pose2d redOutpostTrench = new Pose2d(10.935, 7.4, new Rotation2d());
+            public static Pose2d blueOutpostTrench = new Pose2d(5.514, 0.6, new Rotation2d());
+            public static Pose2d neutralZone = new Pose2d(8.283, 4.08, new Rotation2d());
+
+        }
 
     }
 

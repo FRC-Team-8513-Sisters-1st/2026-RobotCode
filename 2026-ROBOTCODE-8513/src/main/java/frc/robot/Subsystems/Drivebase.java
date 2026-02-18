@@ -83,6 +83,16 @@ public class Drivebase {
 
     }
 
+    public void driveFacingPose(Translation2d translation2d, Pose2d pose, boolean fR) {
+        double angleError = Robot.drivebase.yagslDrive.getOdometryHeading().minus(pose.getTranslation().getAngle()).getDegrees();
+        double rotationCorrection = rotationPidController.calculate(angleError, 0);
+
+        Robot.drivebase.yagslDrive.drive(translation2d,
+                rotationCorrection,
+                fR,
+                false);
+    }
+
     public void initPath(String pathNameIn) {
         pathName = pathNameIn;
 

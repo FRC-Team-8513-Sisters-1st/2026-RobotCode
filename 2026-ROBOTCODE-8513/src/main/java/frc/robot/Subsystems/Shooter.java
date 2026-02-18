@@ -56,7 +56,7 @@ public class Shooter {
     public void initShooter() {
         // internal pid
         shooterMotorLeftLeader.getConfigurator().apply(slot0Configs);
-        lowerCurrentLimits();
+        setCurrentLimits(80, 60);
 
         // follower leader set up
         shooterMotorRightFollower
@@ -164,12 +164,12 @@ public class Shooter {
 
     // }
 
-    public void lowerCurrentLimits() {
+    public void setCurrentLimits(double statorLimit, double supplyLimit) {
         var configs = new CurrentLimitsConfigs();
         configs.StatorCurrentLimitEnable = true;
-        configs.StatorCurrentLimit = 80;
+        configs.StatorCurrentLimit = statorLimit; 
         configs.SupplyCurrentLimitEnable = true;
-        configs.SupplyCurrentLimit = 60;
+        configs.SupplyCurrentLimit = supplyLimit; 
 
         shooterMotorLeftLeader.getConfigurator().apply(configs);
         shooterMotorRightFollower.getConfigurator().apply(configs);

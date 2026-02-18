@@ -34,6 +34,10 @@ public class Dashboard {
                                 Robot.intake.intakeMotorLeftLeader.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("left intake motor power", Robot.intake.intakeMotorLeftLeader.get());
                 SmartDashboard.putNumber("right intake motor power", Robot.intake.intakeMotorRightFollower.get());
+                SmartDashboard.putNumber("IntakeMotorCurrentLeft",
+                                Robot.intake.intakeMotorLeftLeader.getSupplyCurrent().getValueAsDouble());
+                SmartDashboard.putNumber("IntakeMotorCurrentRight",
+                                Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",
@@ -44,16 +48,21 @@ public class Dashboard {
                                 Robot.shooter.shooterMotorRightFollower.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("shooterHoodMotorPosition",
                                 Robot.shooter.shooterHoodMotor.getEncoder().getPosition());
-                SmartDashboard.putNumber("IntakeMotorCurrentLeft",
-                                Robot.intake.intakeMotorLeftLeader.getSupplyCurrent().getValueAsDouble());
-                SmartDashboard.putNumber("IntakeMotorCurrentRight",
-                                Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
+                SmartDashboard.putNumber("ShooterMotorCurrentLeft",
+                                Robot.shooter.shooterMotorLeftLeader.getSupplyCurrent().getValueAsDouble());
+                SmartDashboard.putNumber("ShooterMotorCurrentRight",
+                                Robot.shooter.shooterMotorRightFollower.getSupplyCurrent().getValueAsDouble());
                 // kicker
                 SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());
+                SmartDashboard.putNumber("kickerMotorCurrent",  Robot.kicker.kickerMotor.getOutputCurrent());
 
                 // hopper
                 SmartDashboard.putNumber("hopperMotorVelocityTop", Robot.hopper.indexerMotorTop.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("hopperMotorVelocityBottom", Robot.hopper.indexerMotorBottom.getVelocity().getValueAsDouble());
+                SmartDashboard.putNumber("IndexerMotorCurrentLeft",
+                                Robot.hopper.indexerMotorBottom.getSupplyCurrent().getValueAsDouble());
+                SmartDashboard.putNumber("IndexerMotorCurrentRight",
+                                Robot.hopper.indexerMotorTop.getSupplyCurrent().getValueAsDouble());
 
 
                 // Fudge factors
@@ -72,6 +81,10 @@ public class Dashboard {
                 SmartDashboard.putNumber("output kicker kP", Robot.kicker.kickerMotorController.getP());
                 SmartDashboard.putNumber("output kicker kI", Robot.kicker.kickerMotorController.getI());
                 SmartDashboard.putNumber("output kicker kD", Robot.kicker.kickerMotorController.getD());
+
+                SmartDashboard.putNumber("output indexer kP", Robot.hopper.indexerMotorController.getP());
+                SmartDashboard.putNumber("output indexer kI", Robot.hopper.indexerMotorController.getI());
+                SmartDashboard.putNumber("output indexer kD", Robot.hopper.indexerMotorController.getD());
         }
 
         public void getPIDValues() {
@@ -92,6 +105,12 @@ public class Dashboard {
                         Robot.kicker.kickerMotorController.setP(SmartDashboard.getNumber("input kicker kP", 0));
                         Robot.kicker.kickerMotorController.setI(SmartDashboard.getNumber("input kicker kI", 0));
                         Robot.kicker.kickerMotorController.setD(SmartDashboard.getNumber("input kicker kD", 0));
+
+                        // set indexer pid values
+                        Robot.hopper.indexerMotorController.setP(SmartDashboard.getNumber("input indexer kP", 0));
+                        Robot.hopper.indexerMotorController.setI(SmartDashboard.getNumber("input indexer kI", 0));
+                        Robot.hopper.indexerMotorController.setD(SmartDashboard.getNumber("input indexer kD", 0));
+
                 }
 
         }

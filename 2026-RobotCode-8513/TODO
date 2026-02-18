@@ -1,21 +1,36 @@
 Comp Robot:
-    - automatically face hub in auto
-    - add layouts and really organize every motor position and velocity in advantage scope
-    - kicker class 
-        - run PID on velocity rather than power for more consistant shots
-    - figure out the intake motor issue
-    - slow mode over bump - dont always slow just cap velocity
-    - on teleop (and maybe auto?) enable set goal heading to current heading so it doesnt spin out
+    - kicker class - run PID on velocity rather than power for more consistant shots
     - look into elastic 
-    - rename lower current limits to set so you can add argument for the currents
+        - match countdown
+        - end of inactive/active
+    x rename lower current limits to set so you can add argument for the currents
+    x use/don't use vision toggle
+    x add motor currents and pid editing for all subsystems
 
 Copilot
-    - shuttle position buttons
+    x shuttle position buttons
     - jiggle intake while shooting 
+    - force indexer to start and stop and reverse --> while holding
+    x if not in zone then copilot seelcted shuttle pose
+
 
 Driver
 
 
 Tuning Joystick
     - tuning mode for the shot to turn up/down the speed and hood
+
+
+Get Robot Schedule:
+    - check all Ids
+    - test no vision odometry (tune path following pid)
+    - set offsets for cameras, import the config, accurate vision pose?
+    - tune pid values for subsystems
+    - test all the buttons and manual controls (update fudge factors)
+    - set real values for the velocities (going over bump, driving while shooting)
+    - check hood position + that it updates
+    - tune shot (set values for the interpolation)
+    - check angle for hub shooting and bump
+    - test + tune autos
+    - clean tele drive if needed
 

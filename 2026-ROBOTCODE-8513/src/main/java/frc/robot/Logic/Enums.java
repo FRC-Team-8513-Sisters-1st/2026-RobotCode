@@ -23,4 +23,5 @@ public class Enums {
     public enum AutoRoutines {
         DoNothing, TestAuto, Depot_OneCycle, Outpost_OneCycle
     }
+
 }

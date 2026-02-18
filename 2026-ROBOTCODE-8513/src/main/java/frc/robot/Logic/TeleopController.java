@@ -2,6 +2,7 @@ package frc.robot.Logic;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
@@ -31,6 +32,8 @@ public class TeleopController {
     public boolean autoShooting = true;
 
     public double shooterButtonTime;
+
+    public Pose2d copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone;
 
     public double xV;
     public double yV;
@@ -144,10 +147,26 @@ public class TeleopController {
 
         // if face hub button is pressed, rotate to hub then set the kicker and hopper
         // states
-        if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceHub)) {
-            shootingFacingHub = true;
-            Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(), true,
-                    false);
+        if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceGoal)) {
+            if (Robot.onRed) {
+                if (Robot.drivebase.yagslDrive.getPose().getX() > 11.8) {
+                    shootingFacingHub = true;
+                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
+                            true,
+                            false);
+                } else {
+                    Robot.drivebase.driveFacingPose(new Translation2d(xV, yV), copilotShuttlePosition, true);
+                }
+            } else {
+                if (Robot.drivebase.yagslDrive.getPose().getX() < 4.66) {
+                    shootingFacingHub = true;
+                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
+                            true,
+                            false);
+                } else {
+                    Robot.drivebase.driveFacingPose(new Translation2d(xV, yV), copilotShuttlePosition, true);
+                }
+            }
             if (Robot.shooter.readyToShoot() && autoShooting) {
                 Robot.kicker.kickerState = KickerStates.shooting;
                 Robot.hopper.hopperState = HopperStates.indexing;
@@ -262,9 +281,9 @@ public class TeleopController {
         // shooter/kicker controls
         boolean shootButtonPressed = copilotXboxController
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
-        if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
+        if (autoShooting && shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
             Robot.shooter.shooterState = ShooterStates.shooting;
-        } else if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
+        } else if (autoShooting && shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
             Robot.shooter.shooterState = ShooterStates.stationary;
         }
 
@@ -278,9 +297,32 @@ public class TeleopController {
         }
 
         boolean autoShootButtonPressed = copilotXboxController
-                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.toggleAutoShoot);
         if (autoShootButtonPressed) {
             autoShooting = false;
+        }
+
+        // shuttle position buttons
+        boolean redDepotTrenchButtonPressed = copilotXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.redDepotTrenchButton);
+        boolean blueDepotTrenchButtonPressed = copilotXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.blueDepotTrenchButton);
+        boolean redOutpostTrenchButtonPressed = copilotXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.redOutpostTrenchButton);
+        boolean blueOutpostTrenchButtonPressed = copilotXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.blueOutpostTrenchButton);
+        boolean nuetralZoneButtonPressed = copilotXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.nuetralZoneButton);
+        if (redDepotTrenchButtonPressed) {
+            copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.redDepotTrench;
+        } else if (blueDepotTrenchButtonPressed) {
+            copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.blueDepotTrench;
+        } else if (redOutpostTrenchButtonPressed) {
+            copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.redOutpostTrench;
+        } else if (blueOutpostTrenchButtonPressed) {
+            copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.blueOutpostTrench;
+        } else if (nuetralZoneButtonPressed) {
+            copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone;
         }
     }
 
