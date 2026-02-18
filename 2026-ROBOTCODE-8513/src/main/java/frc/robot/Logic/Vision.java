@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -15,7 +16,6 @@ import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-
 
 public class Vision {
 
@@ -41,9 +41,12 @@ public class Vision {
         Field2d photonField2d_processor = new Field2d();
 
         public void updatePhotonVision() {
-
-                integrateCamera(useEoghanCam, eoghanCam, eoghanPoseEstimator, photonField2d_processor,
-                                visionMaxATDist, false);
+                if (Robot.isReal()) {
+                        integrateCamera(useEoghanCam, eoghanCam, eoghanPoseEstimator, photonField2d_processor,
+                                        visionMaxATDist, false);
+                } else {
+                        Robot.drivebase.yagslDrive.addVisionMeasurement(Robot.drivebase.yagslDrive.getSimulationDriveTrainPose().get(), Timer.getTimestamp());
+                }
 
         }
 
@@ -51,7 +54,7 @@ public class Vision {
                         Field2d photonField, double maxDistance, boolean updateLastTimeSeen) {
                 for (var result : camera.getAllUnreadResults()) {
                         Optional<EstimatedRobotPose> photonPose = estimator.estimateLowestAmbiguityPose(result);
-                        
+
                         System.out.println("Is photon pose present: " + photonPose.isPresent());
                         if (photonPose.isPresent()) {
                                 photonField.setRobotPose(photonPose.get().estimatedPose.toPose2d());

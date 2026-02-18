@@ -58,9 +58,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    if (Robot.isReal() && false) {
-      vision.updatePhotonVision();
-    }
+    vision.updatePhotonVision();
     dashboard.updateDashboard();
 
     robotCurrentPose.setRobotPose(drivebase.yagslDrive.getPose());
