@@ -7,7 +7,6 @@ Comp Robot:
     - slow mode over bump - dont always slow just cap velocity
     - on teleop (and maybe auto?) enable set goal heading to current heading so it doesnt spin out
     - look into elastic 
-    - turning mode for the shot to turn up/down the speed
     - rename lower current limits to set so you can add argument for the currents
 
 Copilot
@@ -17,4 +16,6 @@ Copilot
 Driver
 
 
+Tuning Joystick
+    - tuning mode for the shot to turn up/down the speed and hood
 
