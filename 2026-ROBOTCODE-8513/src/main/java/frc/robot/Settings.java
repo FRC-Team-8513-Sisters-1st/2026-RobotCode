@@ -72,6 +72,10 @@ public class Settings {
             public static int redOutpostTrenchButton = 12;
             public static int blueOutpostTrenchButton = 13;
             public static int nuetralZoneButton = 14;
+            public static int startIndexer = 15;
+            public static int stopIndexer = 16;
+            public static int reverseIndexer = 17;
+            public static int kicker = 18;
 
         }
 

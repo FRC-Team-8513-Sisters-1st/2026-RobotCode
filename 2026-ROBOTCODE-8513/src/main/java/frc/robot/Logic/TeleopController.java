@@ -278,7 +278,7 @@ public class TeleopController {
             Robot.intake.intakeState = IntakeStates.stowed;
         }
 
-        // shooter/kicker controls
+        // shooter controls
         boolean shootButtonPressed = copilotXboxController
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
         if (autoShooting && shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
@@ -287,7 +287,8 @@ public class TeleopController {
             Robot.shooter.shooterState = ShooterStates.stationary;
         }
 
-        boolean indexerKicker = copilotXboxController.getRawButtonPressed(9);
+        // kicker controls
+        boolean indexerKicker = copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.kicker);
         if (indexerKicker && Robot.kicker.kickerState == KickerStates.stationary) {
             Robot.kicker.kickerState = KickerStates.shooting;
             Robot.hopper.hopperState = HopperStates.indexing;
@@ -296,10 +297,25 @@ public class TeleopController {
             Robot.hopper.hopperState = HopperStates.stationary;
         }
 
+        // turns on/off auto shoot
         boolean autoShootButtonPressed = copilotXboxController
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.toggleAutoShoot);
         if (autoShootButtonPressed) {
             autoShooting = false;
+        } else {
+            autoShooting = true;
+        }
+
+        // indexer
+        if (copilotXboxController
+                .getRawButton(Settings.TeleopSettings.ButtonIDs.startIndexer)) {
+            Robot.hopper.hopperState = HopperStates.indexing;
+        } else if (copilotXboxController
+                .getRawButton(Settings.TeleopSettings.ButtonIDs.stopIndexer)) {
+            Robot.hopper.hopperState = HopperStates.stationary;
+        } else if (copilotXboxController
+                .getRawButton(Settings.TeleopSettings.ButtonIDs.reverseIndexer)) {
+            Robot.hopper.hopperState = HopperStates.unjam;
         }
 
         // shuttle position buttons

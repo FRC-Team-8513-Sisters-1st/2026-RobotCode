@@ -1,5 +1,6 @@
 package frc.robot.Logic;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -85,6 +86,10 @@ public class Dashboard {
                 SmartDashboard.putNumber("output indexer kP", Robot.hopper.indexerMotorController.getP());
                 SmartDashboard.putNumber("output indexer kI", Robot.hopper.indexerMotorController.getI());
                 SmartDashboard.putNumber("output indexer kD", Robot.hopper.indexerMotorController.getD());
+
+                // match values
+                SmartDashboard.putNumber("Match Time", Timer.getMatchTime());
+
         }
 
         public void getPIDValues() {
