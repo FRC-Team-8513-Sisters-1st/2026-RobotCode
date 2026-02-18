@@ -6,10 +6,9 @@ Comp Robot:
     - figure out the intake motor issue
     - slow mode over bump - dont always slow just cap velocity
     - on teleop (and maybe auto?) enable set goal heading to current heading so it doesnt spin out
-    - button to snap to nearest 0 or 180 degree heading to go over bump
     - look into elastic 
-    - use the lowered current limit
     - turning mode for the shot to turn up/down the speed
+    - rename lower current limits to set so you can add argument for the currents
 
 Copilot
     - shuttle position buttons
@@ -17,8 +16,6 @@ Copilot
 
 Driver
     - snake mode 
-    - straighten to go over bump (auto drive over bump)
-    - fix go over bump speed 
 
 
 

@@ -55,6 +55,7 @@ public class Settings {
             public static int faceHub = 7;
             public static int stopIntake = 4;
             public static int straightenBump = 8;
+            public static int snakeMode = 1;
 
             // copilot controller
             public static int increaseAngle = 4;

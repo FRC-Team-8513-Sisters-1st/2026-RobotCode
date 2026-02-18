@@ -48,18 +48,21 @@ public class TeleopController {
 
     }
 
+    public double xSpeedJoystick;
+    public double ySpeedJoystick;
+
     public void driveTele() {
 
         // drivebase controls
-        double xSpeedJoystick = -driverXboxController.getRawAxis(Settings.TeleopSettings.forwardBackwardsAxis); // forward
-                                                                                                                // back
+        xSpeedJoystick = -driverXboxController.getRawAxis(Settings.TeleopSettings.forwardBackwardsAxis); // forward
+                                                                                                         // back
         if (xSpeedJoystick < Settings.TeleopSettings.joystickDeadband
                 && xSpeedJoystick > -Settings.TeleopSettings.joystickDeadband) {
             xSpeedJoystick = 0;
         }
         xSpeedJoystick = xfilter.calculate(xSpeedJoystick);
 
-        double ySpeedJoystick = -driverXboxController.getRawAxis(Settings.TeleopSettings.leftRightAxis); // left right
+        ySpeedJoystick = -driverXboxController.getRawAxis(Settings.TeleopSettings.leftRightAxis); // left right
         if (ySpeedJoystick < Settings.TeleopSettings.joystickDeadband
                 && ySpeedJoystick > -Settings.TeleopSettings.joystickDeadband) {
             ySpeedJoystick = 0;
@@ -158,12 +161,24 @@ public class TeleopController {
                 Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
                         Robot.drivebase.getPowerToReachRotation(new Rotation2d(0)), true,
                         false);
+                Robot.drivebase.goalHeading = new Rotation2d(0);
             } else {
                 Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
                         Robot.drivebase.getPowerToReachRotation(new Rotation2d(Math.PI)), true,
                         false);
+                Robot.drivebase.goalHeading = new Rotation2d(Math.PI);
             }
             // otherwise, use the normal drive
+        } else if (driverXboxController
+                .getRawButton(Settings.TeleopSettings.ButtonIDs.snakeMode)) {
+            if (Math.abs(xSpeedJoystick) < Settings.TeleopSettings.joystickDeadband
+                    && Math.abs(ySpeedJoystick) < Settings.TeleopSettings.joystickDeadband) {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), Robot.drivebase.goalHeading, true);
+            } else {
+                Rotation2d snakeModeRotation = new Translation2d(xV, yV).getAngle();
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), snakeModeRotation, true);
+            }
+
         } else {
             shootingFacingHub = false;
             Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), Robot.drivebase.goalHeading, true);
@@ -232,7 +247,7 @@ public class TeleopController {
         }
 
         // Intake copilot emergency controls
-        boolean copilotEmergencyIntakeButtonPressed = Robot.teleop.driverXboxController
+        boolean copilotEmergencyIntakeButtonPressed = Robot.teleop.copilotXboxController
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.emergencyIntake);
         if (Robot.intake.intakeState == IntakeStates.stowed && copilotEmergencyIntakeButtonPressed) {
             // if the robot is stowed
