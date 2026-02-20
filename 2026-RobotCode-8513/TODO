@@ -1,8 +1,9 @@
 Comp Robot:
     - kicker class - run PID on velocity rather than power for more consistant shots
     - look into elastic 
-        - match countdown
+        x match countdown
         - end of inactive/active
+        - add shot positions
     x rename lower current limits to set so you can add argument for the currents
     x use/don't use vision toggle
     x add motor currents and pid editing for all subsystems
@@ -11,7 +12,8 @@ Copilot
     x shuttle position buttons
     - jiggle intake while shooting 
     x force indexer to start and stop and reverse --> while holding
-    x if not in zone then copilot seelcted shuttle pose
+    - FIX if not in zone then copilot seelcted shuttle pose
+    - spin intake in or out
 
 
 Driver

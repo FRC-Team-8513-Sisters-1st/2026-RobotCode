@@ -29,9 +29,11 @@ public class Shooter {
 
     public boolean useInternalController = true;
 
-    public static double angleFudgeFactor = 0;
+    public static double shotDistanceFudgeFactor = 0;
 
     public double goalHoodPosition;
+
+    public double distanceToScoreHub;
 
     // in init function, set slot 0 gains
     public Slot0Configs slot0Configs = new Slot0Configs();
@@ -123,7 +125,8 @@ public class Shooter {
 
     // input distance, returns encoder position
     public double getInterpolatedEncoderValueDistanceToHood(double distanceFromGoal) {
-        return distToHoodEncoderValuesTable.get(distanceFromGoal + angleFudgeFactor);
+         distanceToScoreHub = distToHoodEncoderValuesTable.get(distanceFromGoal + shotDistanceFudgeFactor);
+        return distanceToScoreHub; 
     }
 
     public double RPStoVoltage(double RPS) {

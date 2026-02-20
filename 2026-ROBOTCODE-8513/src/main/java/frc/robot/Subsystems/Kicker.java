@@ -14,23 +14,24 @@ public class Kicker {
     public PIDController kickerMotorController = new PIDController(0.001, 0, 0);
 
     public Kicker() {
+        // brake mode
     }
 
     // set motor power based on state
     public void setMotorPower() {
         if (kickerState == KickerStates.shooting) {
             // set motor to shoot
-            kickerMotor.set(1);
+            kickerMotor.set(getMotorPower());
         } else if (kickerState == KickerStates.stationary) {
             // set motor to stationary
             kickerMotor.set(0);
         }
     }
 
-    public double updateMotorPower() {
+    public double getMotorPower() {
         double currentVelocity = kickerMotor.getEncoder().getVelocity();
-        double targetVelocity = 1000;
-        double outputPower = kickerMotorController.calculate(currentVelocity-targetVelocity, 0);
+        double targetVelocity = 4000;
+        double outputPower = kickerMotorController.calculate(currentVelocity, targetVelocity);
         return outputPower;
 
     }

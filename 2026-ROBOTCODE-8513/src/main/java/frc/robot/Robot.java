@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import org.opencv.core.Mat;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Logic.AutoController;
@@ -19,6 +22,7 @@ import frc.robot.Subsystems.Hopper;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.Kicker;
 import frc.robot.Subsystems.Shooter;
+import frc.robot.Logic.MatchTimeAnalysis;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
@@ -41,6 +45,7 @@ public class Robot extends TimedRobot {
   public static Kicker kicker = new Kicker();
   public static Enums enums = new Enums();
   public static AutoController auto = new AutoController();
+  public static MatchTimeAnalysis matchTimeAnalysis = new MatchTimeAnalysis();
 
   public Field2d robotCurrentPose = new Field2d();
 
@@ -83,6 +88,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     updateAlliance();
     teleop.initTele();
+    double teleStartTime = Timer.getFPGATimestamp();
 
   }
 

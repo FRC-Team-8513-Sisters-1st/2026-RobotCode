@@ -8,6 +8,7 @@ import frc.robot.Settings;
 
 public class Dashboard {
         public Field2d trajField2d = new Field2d();
+        public Field2d copilotField2d = new Field2d();
 
         public void updateDashboard() {
 
@@ -24,6 +25,7 @@ public class Dashboard {
                 SmartDashboard.putString("shooterStates", Robot.shooter.shooterState.name());
                 SmartDashboard.putString("kickerStates", Robot.kicker.kickerState.name());
                 SmartDashboard.putString("hopperStates", Robot.hopper.hopperState.name());
+                SmartDashboard.putData("copilotShuttlePosition", copilotField2d);
 
                 // Motor locations/positions
                 // intake
@@ -53,21 +55,23 @@ public class Dashboard {
                                 Robot.shooter.shooterMotorLeftLeader.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("ShooterMotorCurrentRight",
                                 Robot.shooter.shooterMotorRightFollower.getSupplyCurrent().getValueAsDouble());
+                SmartDashboard.putNumber("distanceToScoreHub", Robot.shooter.distanceToScoreHub);
                 // kicker
                 SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());
-                SmartDashboard.putNumber("kickerMotorCurrent",  Robot.kicker.kickerMotor.getOutputCurrent());
+                SmartDashboard.putNumber("kickerMotorCurrent", Robot.kicker.kickerMotor.getOutputCurrent());
 
                 // hopper
-                SmartDashboard.putNumber("hopperMotorVelocityTop", Robot.hopper.indexerMotorTop.getVelocity().getValueAsDouble());
-                SmartDashboard.putNumber("hopperMotorVelocityBottom", Robot.hopper.indexerMotorBottom.getVelocity().getValueAsDouble());
+                SmartDashboard.putNumber("hopperMotorVelocityTop",
+                                Robot.hopper.indexerMotorTop.getVelocity().getValueAsDouble());
+                SmartDashboard.putNumber("hopperMotorVelocityBottom",
+                                Robot.hopper.indexerMotorBottom.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("IndexerMotorCurrentLeft",
                                 Robot.hopper.indexerMotorBottom.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("IndexerMotorCurrentRight",
                                 Robot.hopper.indexerMotorTop.getSupplyCurrent().getValueAsDouble());
 
-
                 // Fudge factors
-                SmartDashboard.putNumber("shooterAngleFudgeFactorValue", Robot.shooter.angleFudgeFactor);
+                SmartDashboard.putNumber("shooterAngleFudgeFactorValue", Robot.shooter.shotDistanceFudgeFactor);
                 SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);
 
                 // Prompts user input for PID values
@@ -89,7 +93,6 @@ public class Dashboard {
 
                 // match values
                 SmartDashboard.putNumber("Match Time", Timer.getMatchTime());
-
         }
 
         public void getPIDValues() {

@@ -204,6 +204,8 @@ public class TeleopController {
         }
 
         buttonControls();
+        Robot.dashboard.copilotField2d.setRobotPose(copilotShuttlePosition.getX(), copilotShuttlePosition.getY(), copilotShuttlePosition.getRotation());
+
 
         // Subsystem set motor power
         Robot.shooter.setMotorPower();
@@ -245,10 +247,10 @@ public class TeleopController {
 
         // COPILOT CONTROLS
         // adjustment for shooter hood angle
-        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseAngle)) {
-            Robot.shooter.angleFudgeFactor += Settings.ShooterSettings.shooterFudgeFactor;
-        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseAngle)) {
-            Robot.shooter.angleFudgeFactor -= Settings.ShooterSettings.shooterFudgeFactor;
+        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseShotDistance)) {
+            Robot.shooter.shotDistanceFudgeFactor += Settings.ShooterSettings.hoodAngleFudgeFactor;
+        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseShotDistance)) {
+            Robot.shooter.shotDistanceFudgeFactor -= Settings.ShooterSettings.hoodAngleFudgeFactor;
         }
 
         // intake Fudge Factor
@@ -260,9 +262,9 @@ public class TeleopController {
 
         // adjustment for drivebase goal aim fudge factor
         if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)) {
-            Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.angleFudgeFactor;
+            Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.aimFudgeFactor;
         } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)) {
-            Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.angleFudgeFactor;
+            Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.aimFudgeFactor;
         }
 
         // Intake copilot emergency controls
@@ -283,8 +285,12 @@ public class TeleopController {
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
         if (autoShooting && shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
             Robot.shooter.shooterState = ShooterStates.shooting;
+            Robot.kicker.kickerState = KickerStates.shooting;
+            Robot.hopper.hopperState = HopperStates.indexing;
         } else if (autoShooting && shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
             Robot.shooter.shooterState = ShooterStates.stationary;
+            Robot.kicker.kickerState = KickerStates.stationary;
+            Robot.hopper.hopperState = HopperStates.stationary;
         }
 
         // kicker controls

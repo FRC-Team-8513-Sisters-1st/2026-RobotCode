@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.Optional;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -9,6 +11,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Settings {
     public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout
@@ -58,14 +62,16 @@ public class Settings {
             public static int snakeMode = 1;
 
             // copilot controller
-            public static int increaseAngle = 4;
-            public static int decreaseAngle = 1;
+            public static int increaseShotDistance = 4;
+            public static int decreaseShotDistance = 1;
             public static int moveScorePoseRight = 2;
-            public static int moveScorePoseLeft = 3; 
-            public static int heightenIntake = 5; 
-            public static int lowerIntake = 6; 
+            public static int moveScorePoseLeft = 3;
+            public static int heightenIntake = 5;
+            public static int lowerIntake = 6;
             public static int emergencyIntake = 7;
+            // spins shooter motor
             public static int manualShoot = 8;
+            // turns off the drivers auto shoot
             public static int toggleAutoShoot = 9;
             public static int redDepotTrenchButton = 10;
             public static int blueDepotTrenchButton = 11;
@@ -89,9 +95,10 @@ public class Settings {
 
     public class ShooterSettings {
         public static double hoodPosition = 25.0;
-        public static double shooterFudgeFactor = 0.5;
-        public static double angleFudgeFactor = 1;
+        public static double aimFudgeFactor = 0.5;
+        public static double hoodAngleFudgeFactor = 1;
         public static double maxShooterVelocity = 47;
+
     }
 
     public class VisionSettings {
@@ -170,5 +177,4 @@ public class Settings {
 
         m_talonFX.getConfigurator().apply(configs);
     }
-
 }
