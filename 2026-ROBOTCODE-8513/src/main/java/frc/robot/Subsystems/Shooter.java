@@ -34,6 +34,7 @@ public class Shooter {
     public double goalHoodPosition;
 
     public double distanceToScoreHub;
+    public boolean manualShooterTuning = true;
 
     // in init function, set slot 0 gains
     public Slot0Configs slot0Configs = new Slot0Configs();
@@ -83,10 +84,10 @@ public class Shooter {
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
 
-        
+            if (manualShooterTuning == false) {
                 shooterMotorLeftLeader
-                        .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
-           
+                    .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+            }
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true) {
             shooterMotorLeftLeader.set(0);
@@ -98,6 +99,7 @@ public class Shooter {
 
     // pid controller when not using internal
     double targetVelocity;
+
     public double updateMotorPower() {
         double currentVelocity = shooterMotorLeftLeader.getVelocity().getValueAsDouble();
         targetVelocity = 3000;
@@ -105,7 +107,6 @@ public class Shooter {
         return outputPower + targetVelocity / 6140;
     }
 
-    
     public void setHoodAngle() {
         double distanceBetweenCurrentAndGoalInMeters = Robot.drivebase
                 .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
@@ -125,8 +126,8 @@ public class Shooter {
 
     // input distance, returns encoder position
     public double getInterpolatedEncoderValueDistanceToHood(double distanceFromGoal) {
-         distanceToScoreHub = distToHoodEncoderValuesTable.get(distanceFromGoal + shotDistanceFudgeFactor);
-        return distanceToScoreHub; 
+        distanceToScoreHub = distToHoodEncoderValuesTable.get(distanceFromGoal + shotDistanceFudgeFactor);
+        return distanceToScoreHub;
     }
 
     public double RPStoVoltage(double RPS) {
@@ -170,9 +171,9 @@ public class Shooter {
     public void setCurrentLimits(double statorLimit, double supplyLimit) {
         var configs = new CurrentLimitsConfigs();
         configs.StatorCurrentLimitEnable = true;
-        configs.StatorCurrentLimit = statorLimit; 
+        configs.StatorCurrentLimit = statorLimit;
         configs.SupplyCurrentLimitEnable = true;
-        configs.SupplyCurrentLimit = supplyLimit; 
+        configs.SupplyCurrentLimit = supplyLimit;
 
         shooterMotorLeftLeader.getConfigurator().apply(configs);
         shooterMotorRightFollower.getConfigurator().apply(configs);
