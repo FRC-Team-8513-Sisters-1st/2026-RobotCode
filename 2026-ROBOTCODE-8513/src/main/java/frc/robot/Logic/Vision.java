@@ -21,28 +21,28 @@ public class Vision {
 
         boolean updateHeadingWithVision = true;
 
-        boolean useEoghanCam = true;
+        boolean useRightShooterCam = true;
 
         AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
 
-        PhotonCamera eoghanCam = new PhotonCamera("EoghanCam");
+        PhotonCamera rightShooterCam = new PhotonCamera("rightShooterCam");
 
         public double timeATLastSeen;
 
         public double visionMaxATDist = Settings.VisionSettings.maxATDistDisabeled;
 
-        Transform3d eoghanCamTransform = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(12), Units.inchesToMeters(8),
-                                        Units.inchesToMeters(7)),
-                        new Rotation3d(0, 0, Units.degreesToRadians(180)));
+        Transform3d rightShooterCamTranslation = new Transform3d(
+                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
+                                        Units.inchesToMeters(13)),
+                        new Rotation3d(0, -25, Units.degreesToRadians(180)));
 
-        PhotonPoseEstimator eoghanPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, eoghanCamTransform);
+        PhotonPoseEstimator rightShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, rightShooterCamTranslation);
 
         Field2d photonField2d_processor = new Field2d();
 
         public void updatePhotonVision() {
                 if (Robot.isReal()) {
-                        integrateCamera(useEoghanCam, eoghanCam, eoghanPoseEstimator, photonField2d_processor,
+                        integrateCamera(useRightShooterCam, rightShooterCam, rightShooterPoseEstimator, photonField2d_processor,
                                         visionMaxATDist, false);
                 } else {
                         Robot.drivebase.yagslDrive.addVisionMeasurement(Robot.drivebase.yagslDrive.getSimulationDriveTrainPose().get(), Timer.getTimestamp());
@@ -55,7 +55,7 @@ public class Vision {
                 for (var result : camera.getAllUnreadResults()) {
                         Optional<EstimatedRobotPose> photonPose = estimator.estimateLowestAmbiguityPose(result);
 
-                        System.out.println("Is photon pose present: " + photonPose.isPresent());
+                       
                         if (photonPose.isPresent()) {
                                 photonField.setRobotPose(photonPose.get().estimatedPose.toPose2d());
 

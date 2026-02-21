@@ -109,8 +109,8 @@ public class Settings {
     }
 
     public class VisionSettings {
-        public static double maxATDistDisabeled = 10;
-        public static boolean useVision = false;
+        public static double maxATDistDisabeled = 5;
+        public static boolean useVision = true;
     }
 
     public class FieldInfo {
