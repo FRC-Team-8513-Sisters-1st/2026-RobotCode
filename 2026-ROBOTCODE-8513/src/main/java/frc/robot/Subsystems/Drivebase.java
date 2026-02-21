@@ -2,6 +2,8 @@ package frc.robot.Subsystems;
 
 import java.io.File;
 
+import org.dyn4j.geometry.Rotation;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -178,6 +180,24 @@ public class Drivebase {
                     .plus(new Rotation2d(Math.PI));
         }
         goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
+        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
+
+        return dvr;
+    }
+
+    public double getPowerToPose(Pose2d goalPose) {
+        Rotation2d angleToHub;
+
+        if (Robot.onRed) {
+            // red hub location
+            angleToHub = yagslDrive.getPose().minus(goalPose)
+                    .getTranslation().rotateBy(new Rotation2d(Math.PI)).getAngle();
+        } else {
+            // blue hub location
+            angleToHub = yagslDrive.getPose().minus(goalPose)
+                    .getTranslation().getAngle()
+                    .plus(new Rotation2d(Math.PI));
+        }
         dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
 
         return dvr;

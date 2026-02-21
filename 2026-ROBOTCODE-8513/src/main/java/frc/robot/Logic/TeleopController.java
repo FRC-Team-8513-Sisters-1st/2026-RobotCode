@@ -159,7 +159,7 @@ public class TeleopController {
                             true,
                             false);
                 } else {
-                    Robot.drivebase.driveFacingPose(new Translation2d(xV, yV), copilotShuttlePosition, true);
+                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToPose(copilotShuttlePosition), true, false);
                 }
             } else {
                 if (Robot.drivebase.yagslDrive.getPose().getX() < 4.66) {
@@ -168,7 +168,7 @@ public class TeleopController {
                             true,
                             false);
                 } else {
-                    Robot.drivebase.driveFacingPose(new Translation2d(xV, yV), copilotShuttlePosition, true);
+                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToPose(copilotShuttlePosition), true, false);
                 }
             }
             if (Robot.shooter.readyToShoot() && autoShooting) {
