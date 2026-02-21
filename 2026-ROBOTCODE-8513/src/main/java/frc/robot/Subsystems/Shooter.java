@@ -34,7 +34,6 @@ public class Shooter {
     public double goalHoodPosition;
 
     public double distanceToScoreHub;
-    public boolean manualShooterTuning = true;
 
     // in init function, set slot 0 gains
     public Slot0Configs slot0Configs = new Slot0Configs();
@@ -84,10 +83,8 @@ public class Shooter {
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
 
-            if (manualShooterTuning == false) {
-                shooterMotorLeftLeader
+            shooterMotorLeftLeader
                     .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
-            }
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true) {
             shooterMotorLeftLeader.set(0);

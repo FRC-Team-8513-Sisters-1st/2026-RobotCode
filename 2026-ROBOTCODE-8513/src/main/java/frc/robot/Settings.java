@@ -83,6 +83,12 @@ public class Settings {
             public static int reverseIndexer = 17;
             public static int kicker = 18;
 
+            // manual controller
+            public static int intakeToggle = 4;
+            public static int indexerToggle = 2;
+            public static int kickerToggle = 1;
+            public static int shooterToggle = 3;
+
         }
 
     }

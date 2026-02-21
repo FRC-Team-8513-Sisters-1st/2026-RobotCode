@@ -66,11 +66,12 @@ public class Dashboard {
                                 Robot.hopper.indexerMotorTop.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("hopperMotorVelocityBottom",
                                 Robot.hopper.indexerMotorBottom.getVelocity().getValueAsDouble());
-                SmartDashboard.putNumber("IndexerMotorCurrentLeft",
+                SmartDashboard.putNumber("hopperMotorCurrentBottom",
                                 Robot.hopper.indexerMotorBottom.getSupplyCurrent().getValueAsDouble());
-                SmartDashboard.putNumber("IndexerMotorCurrentRight",
+                SmartDashboard.putNumber("hopperMotorCurrentTop",
                                 Robot.hopper.indexerMotorTop.getSupplyCurrent().getValueAsDouble());
 
+                                
                 // Fudge factors
                 SmartDashboard.putNumber("shooterAngleFudgeFactorValue", Robot.shooter.shotDistanceFudgeFactor);
                 SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);

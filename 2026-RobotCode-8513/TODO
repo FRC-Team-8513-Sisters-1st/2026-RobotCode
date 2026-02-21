@@ -20,7 +20,9 @@ Driver
 
 
 Tuning Joystick
-    - tuning mode for the shot to turn up/down the speed and hood
+    x tuning mode for the shot to turn up/down the speed and hood (NEW BRANCH - manualShooterTuning)
+    - manual turn on all the mechanisms
+    - indexer current limits on dash
 
 
 Get Robot Schedule:
