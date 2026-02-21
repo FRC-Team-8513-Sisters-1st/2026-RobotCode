@@ -159,7 +159,8 @@ public class TeleopController {
                             true,
                             false);
                 } else {
-                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToPose(copilotShuttlePosition), true, false);
+                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
+                            Robot.drivebase.getPowerToPose(copilotShuttlePosition), true, false);
                 }
             } else {
                 if (Robot.drivebase.yagslDrive.getPose().getX() < 4.66) {
@@ -168,7 +169,8 @@ public class TeleopController {
                             true,
                             false);
                 } else {
-                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToPose(copilotShuttlePosition), true, false);
+                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
+                            Robot.drivebase.getPowerToPose(copilotShuttlePosition), true, false);
                 }
             }
             if (Robot.shooter.readyToShoot() && autoShooting) {
@@ -208,8 +210,8 @@ public class TeleopController {
         }
 
         buttonControls();
-        Robot.dashboard.copilotField2d.setRobotPose(copilotShuttlePosition.getX(), copilotShuttlePosition.getY(), copilotShuttlePosition.getRotation());
-
+        Robot.dashboard.copilotField2d.setRobotPose(copilotShuttlePosition.getX(), copilotShuttlePosition.getY(),
+                copilotShuttlePosition.getRotation());
 
         // Subsystem set motor power
         Robot.shooter.setMotorPower();
@@ -349,6 +351,44 @@ public class TeleopController {
             copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.blueOutpostTrench;
         } else if (nuetralZoneButtonPressed) {
             copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone;
+        }
+
+        // MANUAL Controller
+        // intake
+        if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeToggle)
+                && Robot.intake.intakeState == IntakeStates.stationaryDeployed
+                || Robot.intake.intakeState == IntakeStates.stowed) {
+            Robot.intake.intakeState = IntakeStates.intaking;
+        } else if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeToggle)
+                && Robot.intake.intakeState == IntakeStates.intaking) {
+            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+        }
+
+        // indexer
+        if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.indexerToggle)
+                && Robot.hopper.hopperState == HopperStates.indexing) {
+            Robot.hopper.hopperState = HopperStates.stationary;
+        } else if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeToggle)
+                && Robot.hopper.hopperState == HopperStates.stationary) {
+            Robot.hopper.hopperState = HopperStates.indexing;
+        }
+
+        // kicker
+        if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.kickerToggle)
+                && Robot.kicker.kickerState == KickerStates.stationary) {
+            Robot.kicker.kickerState = KickerStates.shooting;
+        } else if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeToggle)
+                &&Robot.kicker.kickerState == KickerStates.shooting) {
+            Robot.kicker.kickerState = KickerStates.stationary;
+        }
+
+        // shooter
+        if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.shooterToggle)
+                && Robot.shooter.shooterState == ShooterStates.stationary) {
+            Robot.shooter.shooterState = ShooterStates.shooting;
+        } else if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeToggle)
+                && Robot.shooter.shooterState == ShooterStates.shooting) {
+            Robot.shooter.shooterState = ShooterStates.stationary;
         }
     }
 
