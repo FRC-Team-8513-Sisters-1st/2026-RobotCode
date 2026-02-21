@@ -59,7 +59,7 @@ public class Intake {
         } else if (intakeState == IntakeStates.stationaryDeployed) {
             // deploy intake
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
-            spinIntakeBackward();
+            // spinIntakeBackward();
 
             // intake wheels off
             intakeMotorLeftLeader.setControl(m_request.withOutput(0));

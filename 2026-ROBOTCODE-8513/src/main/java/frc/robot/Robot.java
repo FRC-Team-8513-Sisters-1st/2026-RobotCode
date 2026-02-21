@@ -6,6 +6,11 @@ package frc.robot;
 
 import org.opencv.core.Mat;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -59,6 +64,24 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    var configs = new CurrentLimitsConfigs();
+    configs.StatorCurrentLimitEnable = true;
+    configs.StatorCurrentLimit = 30;
+    configs.SupplyCurrentLimitEnable = true;
+    configs.SupplyCurrentLimit = 30;
+
+    hopper.indexerMotorTop.getConfigurator().apply(configs);
+    hopper.indexerMotorBottom.getConfigurator().apply(configs);
+    intake.intakeDeployMotor.getConfigurator().apply(configs);
+    intake.intakeMotorLeftLeader.getConfigurator().apply(configs);
+    intake.intakeMotorRightFollower.getConfigurator().apply(configs);
+
+    SparkMaxConfig config = new SparkMaxConfig();
+    config.smartCurrentLimit(30);
+
+    kicker.kickerMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    shooter.shooterHoodMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+
   }
 
   @Override
@@ -70,6 +93,10 @@ public class Robot extends TimedRobot {
 
     robotCurrentPose.setRobotPose(drivebase.yagslDrive.getPose());
     SmartDashboard.putData("Current Drivebase Position", robotCurrentPose);
+
+    if (Robot.teleop.manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.resetIntake)) {
+      Robot.intake.intakeDeployMotor.setPosition(0);
+    }
 
   }
 
@@ -94,6 +121,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     teleop.driveTele();
+    
   }
 
   @Override

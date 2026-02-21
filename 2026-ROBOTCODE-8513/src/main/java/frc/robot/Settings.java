@@ -20,8 +20,8 @@ public class Settings {
 
     public static class DrivebaseSettings {
 
-        public static final double maxVelocityMPS = 5;
-        public static boolean getPIDValuesFromDashboard = true;
+        public static final double maxVelocityMPS = 4.2;
+        public static boolean getPIDValuesFromDashboard = false;
 
         public static class RotationPIDConstants {
             public static final double kP = 0.1;
@@ -53,13 +53,13 @@ public class Settings {
 
         public static boolean headingJoystickControls = true;
 
-        public static class ButtonIDs {
-            // driver controller
+        public static class ButtonIDs {            // driver controller
             public static int intake = 5;
             public static int faceGoal = 7;
             public static int stopIntake = 4;
             public static int straightenBump = 8;
             public static int snakeMode = 1;
+            public static int resetHeading = 10;
 
             // copilot controller
             public static int increaseShotDistance = 4;
@@ -88,13 +88,14 @@ public class Settings {
             public static int indexerToggle = 2;
             public static int kickerToggle = 1;
             public static int shooterToggle = 3;
+            public static int resetIntake = 8;
 
         }
 
     }
 
     public class IntakeSettings {
-        public static double stowPosition = -40;
+        public static double stowPosition = -27;
         public static double deployPosition = 0;
         public static double intakeFudgeFactor = 1;
     }
@@ -109,7 +110,7 @@ public class Settings {
 
     public class VisionSettings {
         public static double maxATDistDisabeled = 10;
-        public static boolean useVision = true;
+        public static boolean useVision = false;
     }
 
     public class FieldInfo {

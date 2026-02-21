@@ -19,11 +19,11 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 public class Shooter {
 
-    public static TalonFX shooterMotorLeftLeader = new TalonFX(13);
-    public static TalonFX shooterMotorRightFollower = new TalonFX(14);
-    public static SparkMax shooterHoodMotor = new SparkMax(15, MotorType.kBrushless);
+    public TalonFX shooterMotorLeftLeader = new TalonFX(13);
+    public TalonFX shooterMotorRightFollower = new TalonFX(14);
+    public SparkMax shooterHoodMotor = new SparkMax(15, MotorType.kBrushless);
 
-    public PIDController shooterMotorController = new PIDController(0.1, 0, 0);
+    public PIDController shooterMotorController = new PIDController(1, 0, 0);
 
     public ShooterStates shooterState = ShooterStates.stationary;
 
@@ -53,9 +53,7 @@ public class Shooter {
         distToHoodEncoderValuesTable.put(0.0, 0.0);
         distToHoodEncoderValuesTable.put(1.0, 10.0);
         distToHoodEncoderValuesTable.put(2.0, 30.0);
-    }
 
-    public void initShooter() {
         // internal pid
         shooterMotorLeftLeader.getConfigurator().apply(slot0Configs);
         setCurrentLimits(80, 60);
@@ -65,6 +63,7 @@ public class Shooter {
                 .setControl(new Follower(shooterMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
 
     }
+
 
     public void setMotorPower() {
         // shooter controller if not using interal pid
@@ -109,14 +108,19 @@ public class Shooter {
                 .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
 
         shooterHoodMotor
-                .set(hoodAnglePower(getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
+                .set(-hoodAnglePower(getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
         goalHoodPosition = getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters);
     }
 
     // input target encoder position from the interpolation chart, PIDs, then
     // returns the power to maintain that position
     public double hoodAnglePower(double targetPosition) {
-        double currentPosition = shooterHoodMotor.getEncoder().getPosition();
+        double currentPosition = shooterHoodMotor.getAbsoluteEncoder().getPosition();
+        if (targetPosition < 0.2) {
+            targetPosition = 0.2;
+        } else if (targetPosition > 0.88) {
+            targetPosition = 0.88;
+        }
         double outputPower = shooterMotorController.calculate(currentPosition, targetPosition);
         return outputPower;
     }
@@ -124,7 +128,8 @@ public class Shooter {
     // input distance, returns encoder position
     public double getInterpolatedEncoderValueDistanceToHood(double distanceFromGoal) {
         distanceToScoreHub = distToHoodEncoderValuesTable.get(distanceFromGoal + shotDistanceFudgeFactor);
-        return distanceToScoreHub;
+        // return distanceToScoreHub;
+        return 0.4;
     }
 
     public double RPStoVoltage(double RPS) {

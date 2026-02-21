@@ -57,6 +57,9 @@ public class Dashboard {
                 SmartDashboard.putNumber("ShooterMotorCurrentRight",
                                 Robot.shooter.shooterMotorRightFollower.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("distanceToScoreHub", Robot.shooter.distanceToScoreHub);
+                SmartDashboard.putNumber("shooterHoodABSOLUTEMotorPosition",
+                                Robot.shooter.shooterHoodMotor.getAbsoluteEncoder().getPosition());
+
                 // kicker
                 SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());
                 SmartDashboard.putNumber("kickerMotorCurrent", Robot.kicker.kickerMotor.getOutputCurrent());
@@ -67,11 +70,10 @@ public class Dashboard {
                 SmartDashboard.putNumber("hopperMotorVelocityBottom",
                                 Robot.hopper.indexerMotorBottom.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("hopperMotorCurrentBottom",
-                                Robot.hopper.indexerMotorBottom.getSupplyCurrent().getValueAsDouble());
-                SmartDashboard.putNumber("hopperMotorCurrentTop",
-                                Robot.hopper.indexerMotorTop.getSupplyCurrent().getValueAsDouble());
 
-                                
+                                Robot.hopper.indexerMotorTop.getSupplyCurrent().getValueAsDouble());
+                SmartDashboard.putNumber("Goal hood position", Robot.shooter.goalHoodPosition);
+
                 // Fudge factors
                 SmartDashboard.putNumber("shooterAngleFudgeFactorValue", Robot.shooter.shotDistanceFudgeFactor);
                 SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);
@@ -132,11 +134,10 @@ public class Dashboard {
         public void activeOrInactiveColor() {
                 Color red = new Color(250, 0, 63);
                 Color green = new Color(166, 221, 181);
-                if (Robot.matchTimeAnalysis.activeOrInactive() == "Active"){
-                        SmartDashboard.putString("Color", green.toHexString());;
+                if (Robot.matchTimeAnalysis.activeOrInactive() == "Active") {
+                        SmartDashboard.putString("Color", green.toHexString());
                 } else if (Robot.matchTimeAnalysis.activeOrInactive() == "Inactive") {
-                                                SmartDashboard.putString("Example Color", green.toHexString());;
-
+                        SmartDashboard.putString("Color", red.toHexString());
                 }
         }
 }

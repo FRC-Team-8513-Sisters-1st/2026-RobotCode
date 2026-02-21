@@ -43,14 +43,23 @@ public class TeleopController {
     public double teleStartTime;
 
     public void initTele() {
-        Robot.shooter.initShooter();
         Robot.dashboard.getPIDValues();
         teleStartTime = Timer.getFPGATimestamp();
+
+        Robot.shooter.shooterState = ShooterStates.stationary;
+        Robot.hopper.hopperState = HopperStates.stationary;
+        Robot.kicker.kickerState = KickerStates.stationary;
+        if (Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble() > -5) {
+            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+        } else {
+            Robot.intake.intakeState = IntakeStates.stowed;
+        }
 
         // consume all buttons pressed
         for (int i = 0; i < 14; i++) {
             driverXboxController.getRawButtonPressed(i);
             copilotXboxController.getRawButtonPressed(i);
+            manualJoystick.getRawButtonPressed(i);
         }
 
     }
@@ -90,8 +99,8 @@ public class TeleopController {
         rSpeedJoystick = rfilter.calculate(rSpeedJoystick);
 
         // cube the joystick values for smoother control
-        double xInput = Math.pow(xSpeedJoystick, 1);
-        double yInput = Math.pow(ySpeedJoystick, 1);
+        double xInput = Math.pow(xSpeedJoystick, 3);
+        double yInput = Math.pow(ySpeedJoystick, 3);
         double rInput = Math.pow(rSpeedJoystick, 3);
 
         // if facing hub button, slow speed to 0.3
@@ -206,7 +215,21 @@ public class TeleopController {
 
         } else {
             shootingFacingHub = false;
-            Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), Robot.drivebase.goalHeading, true);
+            Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV),
+            Robot.drivebase.goalHeading, true);
+           // Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
+        }
+
+        if (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.resetHeading)) {
+            if (Robot.onRed) {
+                Robot.drivebase.yagslDrive.resetOdometry(
+                        new Pose2d(Robot.drivebase.yagslDrive.getPose().getTranslation(), new Rotation2d(Math.PI)));
+
+            } else {
+                Robot.drivebase.yagslDrive.resetOdometry(
+                        new Pose2d(Robot.drivebase.yagslDrive.getPose().getTranslation(), new Rotation2d()));
+
+            }
         }
 
         buttonControls();
@@ -355,39 +378,39 @@ public class TeleopController {
 
         // MANUAL Controller
         // intake
-        if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeToggle)
-                && Robot.intake.intakeState == IntakeStates.stationaryDeployed
-                || Robot.intake.intakeState == IntakeStates.stowed) {
+        if ((Robot.intake.intakeState == IntakeStates.stationaryDeployed
+                || Robot.intake.intakeState == IntakeStates.stowed)
+                && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intakeToggle)) {
             Robot.intake.intakeState = IntakeStates.intaking;
-        } else if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeToggle)
-                && Robot.intake.intakeState == IntakeStates.intaking) {
+        } else if (Robot.intake.intakeState == IntakeStates.intaking
+                && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intakeToggle)) {
             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
         }
 
         // indexer
-        if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.indexerToggle)
-                && Robot.hopper.hopperState == HopperStates.indexing) {
+        if (Robot.hopper.hopperState == HopperStates.indexing
+                && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.indexerToggle)) {
             Robot.hopper.hopperState = HopperStates.stationary;
-        } else if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeToggle)
-                && Robot.hopper.hopperState == HopperStates.stationary) {
+        } else if (Robot.hopper.hopperState == HopperStates.stationary
+                && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.indexerToggle)) {
             Robot.hopper.hopperState = HopperStates.indexing;
         }
 
         // kicker
-        if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.kickerToggle)
-                && Robot.kicker.kickerState == KickerStates.stationary) {
+        if (Robot.kicker.kickerState == KickerStates.stationary
+                && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.kickerToggle)) {
             Robot.kicker.kickerState = KickerStates.shooting;
-        } else if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeToggle)
-                &&Robot.kicker.kickerState == KickerStates.shooting) {
+        } else if (Robot.kicker.kickerState == KickerStates.shooting
+                && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.kickerToggle)) {
             Robot.kicker.kickerState = KickerStates.stationary;
         }
 
         // shooter
-        if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.shooterToggle)
-                && Robot.shooter.shooterState == ShooterStates.stationary) {
+        if (Robot.shooter.shooterState == ShooterStates.stationary
+                && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterToggle)) {
             Robot.shooter.shooterState = ShooterStates.shooting;
-        } else if (manualJoystick.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeToggle)
-                && Robot.shooter.shooterState == ShooterStates.shooting) {
+        } else if (Robot.shooter.shooterState == ShooterStates.shooting
+                && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterToggle)) {
             Robot.shooter.shooterState = ShooterStates.stationary;
         }
     }

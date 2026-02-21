@@ -11,7 +11,7 @@ public class Kicker {
     public KickerStates kickerState = KickerStates.stationary;
     public SparkMax kickerMotor = new SparkMax(16, MotorType.kBrushless);
 
-    public PIDController kickerMotorController = new PIDController(0.001, 0, 0);
+    public PIDController kickerMotorController = new PIDController(0.0001, 0, 0);
 
     public Kicker() {
         // brake mode
@@ -32,7 +32,7 @@ public class Kicker {
         double currentVelocity = kickerMotor.getEncoder().getVelocity();
         double targetVelocity = 4000;
         double outputPower = kickerMotorController.calculate(currentVelocity, targetVelocity);
-        return outputPower;
+        return outputPower + targetVelocity/6000;
 
     }
 }

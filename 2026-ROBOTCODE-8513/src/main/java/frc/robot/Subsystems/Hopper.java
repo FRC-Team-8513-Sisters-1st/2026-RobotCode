@@ -8,8 +8,8 @@ import frc.robot.Logic.Enums.HopperStates;
 public class Hopper {
 
     public HopperStates hopperState = HopperStates.stationary;
-    public static TalonFX indexerMotorTop = new TalonFX(23);
-    public static TalonFX indexerMotorBottom = new TalonFX(24);
+    public TalonFX indexerMotorTop = new TalonFX(23);
+    public TalonFX indexerMotorBottom = new TalonFX(24);
 
     //should we use a pid controller for indexer?
     public PIDController indexerMotorController = new PIDController(0.1, 0, 0);

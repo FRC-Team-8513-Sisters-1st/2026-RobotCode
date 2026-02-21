@@ -4,6 +4,7 @@ Comp Robot:
         x match countdown
         x end of inactive/active
         x add shot positions
+        - photon vision status lights
     x rename lower current limits to set so you can add argument for the currents
     x use/don't use vision toggle
     x add motor currents and pid editing for all subsystems
@@ -14,15 +15,18 @@ Copilot
     x force indexer to start and stop and reverse --> while holding
     x FIX if not in zone then copilot seelcted shuttle pose
     x spin intake in or out
+    - manual bring intake up a little while shooting
+
 
 
 Driver
+    - align to hub button should autodrive
 
 
 Tuning Joystick
     x tuning mode for the shot to turn up/down the speed and hood (NEW BRANCH - manualShooterTuning)
-    - manual turn on all the mechanisms
-    - indexer current limits on dash
+    x manual turn on all the mechanisms
+    x indexer current limits on dash
 
 
 Get Robot Schedule:
