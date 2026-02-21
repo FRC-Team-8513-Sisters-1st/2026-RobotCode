@@ -88,7 +88,6 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     updateAlliance();
     teleop.initTele();
-    double teleStartTime = Timer.getFPGATimestamp();
 
   }
 

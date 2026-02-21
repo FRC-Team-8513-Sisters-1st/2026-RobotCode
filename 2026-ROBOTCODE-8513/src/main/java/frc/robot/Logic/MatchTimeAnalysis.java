@@ -70,26 +70,57 @@ public class MatchTimeAnalysis {
     }
 
     public double getTimeLeftInPeriod() {
-        double elapsedMatchTime = Timer.getFPGATimestamp() - Robot.teleopInit.teleStartTime;
-        if (elapsedMatchTime > 0 && elapsedMatchTime <= 10) {
-            double timeLeftInPeriod = 10 - elapsedMatchTime;
+        double elapsedMatchTime = Timer.getFPGATimestamp() - Robot.teleop.teleStartTime;
+        if (elapsedMatchTime >= 0 && elapsedMatchTime < 20) {
+            double timeLeftInPeriod = 20 - elapsedMatchTime;
             return timeLeftInPeriod;
-        } else if (elapsedMatchTime > 10 && elapsedMatchTime <= 35) {
-            double timeLeftInPeriod = 35 - elapsedMatchTime;
+        } else if (elapsedMatchTime >= 20 && elapsedMatchTime < 30) {
+            double timeLeftInPeriod = 30 - elapsedMatchTime;
             return timeLeftInPeriod;
-        } else if (elapsedMatchTime > 35 && elapsedMatchTime <= 60) {
-            double timeLeftInPeriod = 60 - elapsedMatchTime;
+        } else if (elapsedMatchTime >= 30 && elapsedMatchTime < 55) {
+            double timeLeftInPeriod = 55 - elapsedMatchTime;
             return timeLeftInPeriod;
-        } else if (elapsedMatchTime > 60 && elapsedMatchTime <= 85) {
-            double timeLeftInPeriod = 85 - elapsedMatchTime;
+        } else if (elapsedMatchTime >= 55 && elapsedMatchTime < 80) {
+            double timeLeftInPeriod = 80 - elapsedMatchTime;
             return timeLeftInPeriod;
-        } else if (elapsedMatchTime > 85 && elapsedMatchTime <= 110) {
-            double timeLeftInPeriod = 110 - elapsedMatchTime;
+        } else if (elapsedMatchTime >= 80 && elapsedMatchTime < 105) {
+            double timeLeftInPeriod = 105 - elapsedMatchTime;
             return timeLeftInPeriod;
-        } else if (elapsedMatchTime > 110 && elapsedMatchTime <= 140) {
-            double timeLeftInPeriod = 140 - elapsedMatchTime;
+        } else if (elapsedMatchTime >= 105 && elapsedMatchTime < 130) {
+            double timeLeftInPeriod = 130 - elapsedMatchTime;
             return timeLeftInPeriod;
+        } else if (elapsedMatchTime >= 130 && elapsedMatchTime < 160) {
+            double timeLeftInPeriod = 160 - elapsedMatchTime;
+            return timeLeftInPeriod;
+        } else {
+            return 0;
         }
-        
+    }
+
+    public String getShift() {
+        double elapsedMatchTime = Timer.getFPGATimestamp() - Robot.teleop.teleStartTime;
+        if (elapsedMatchTime >= 0 && elapsedMatchTime < 20) {
+            return "Auto";
+        } else if (elapsedMatchTime >= 20 && elapsedMatchTime < 30) {
+            return "Transition";
+        } else if (elapsedMatchTime >= 30 && elapsedMatchTime < 55) {
+            return "Shift 1";
+        } else if (elapsedMatchTime >= 55 && elapsedMatchTime < 80) {
+            return "Shift 2";
+        } else if (elapsedMatchTime >= 80 && elapsedMatchTime < 105) {
+            return "Shift 3";
+        } else if (elapsedMatchTime >= 105 && elapsedMatchTime < 130) {
+            return "Shift 4";
+        } else {
+            return "End Game";
+        }
+    }
+
+    public String activeOrInactive() {
+        if (isHubActive()){
+            return "Active";
+        } else {
+            return "Inactive";
+        }
     }
 }

@@ -3,6 +3,7 @@ package frc.robot.Logic;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Robot;
 import frc.robot.Settings;
 
@@ -93,6 +94,10 @@ public class Dashboard {
 
                 // match values
                 SmartDashboard.putNumber("Match Time", Timer.getMatchTime());
+                SmartDashboard.putNumber("Time Left in Period", Robot.matchTimeAnalysis.getTimeLeftInPeriod());
+                SmartDashboard.putString("Period", Robot.matchTimeAnalysis.getShift());
+                SmartDashboard.putString("Hub Status", Robot.matchTimeAnalysis.activeOrInactive());
+                activeOrInactiveColor();
         }
 
         public void getPIDValues() {
@@ -121,5 +126,16 @@ public class Dashboard {
 
                 }
 
+        }
+
+        public void activeOrInactiveColor() {
+                Color red = new Color(250, 0, 63);
+                Color green = new Color(166, 221, 181);
+                if (Robot.matchTimeAnalysis.activeOrInactive() == "Active"){
+                        SmartDashboard.putString("Color", green.toHexString());;
+                } else if (Robot.matchTimeAnalysis.activeOrInactive() == "Inactive") {
+                                                SmartDashboard.putString("Example Color", green.toHexString());;
+
+                }
         }
 }

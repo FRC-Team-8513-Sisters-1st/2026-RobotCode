@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.HopperStates;
@@ -39,9 +40,12 @@ public class TeleopController {
     public double yV;
     public double rV;
 
+    public double teleStartTime;
+
     public void initTele() {
         Robot.shooter.initShooter();
         Robot.dashboard.getPIDValues();
+        teleStartTime = Timer.getFPGATimestamp();
 
         // consume all buttons pressed
         for (int i = 0; i < 14; i++) {
