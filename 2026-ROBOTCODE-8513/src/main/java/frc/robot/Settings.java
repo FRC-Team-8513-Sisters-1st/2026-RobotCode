@@ -83,6 +83,11 @@ public class Settings {
             public static int reverseIndexer = 17;
             public static int kicker = 18;
 
+            // manual controller
+            public static int shooterManualIncreaseVelocity = 4;
+            public static int shooterManualDecreaseVelocity = 1;
+
+
         }
 
     }
@@ -98,6 +103,7 @@ public class Settings {
         public static double aimFudgeFactor = 0.5;
         public static double hoodAngleFudgeFactor = 1;
         public static double maxShooterVelocity = 47;
+        public static double manualVelocityTuningFactor = 1;
 
     }
 

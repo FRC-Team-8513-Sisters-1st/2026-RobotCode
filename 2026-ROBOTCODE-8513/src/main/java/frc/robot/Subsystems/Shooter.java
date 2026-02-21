@@ -25,7 +25,7 @@ public class Shooter {
 
     public PIDController shooterMotorController = new PIDController(0.1, 0, 0);
 
-    public ShooterStates shooterState = ShooterStates.stationary;
+    public ShooterStates shooterState = ShooterStates.shooting;
 
     public boolean useInternalController = true;
 
@@ -87,6 +87,8 @@ public class Shooter {
             if (manualShooterTuning == false) {
                 shooterMotorLeftLeader
                     .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+            } else {
+                manualShooterTuning();
             }
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true) {
@@ -178,5 +180,16 @@ public class Shooter {
         shooterMotorLeftLeader.getConfigurator().apply(configs);
         shooterMotorRightFollower.getConfigurator().apply(configs);
 
+    }
+
+    public double manualTargetV = 25;
+    public void manualShooterTuning() {
+        if (Robot.teleop.manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterManualIncreaseVelocity)) {
+            manualTargetV = manualTargetV + Settings.ShooterSettings.manualVelocityTuningFactor;
+        } else if (Robot.teleop.manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterManualDecreaseVelocity)) {
+            manualTargetV = manualTargetV - Settings.ShooterSettings.manualVelocityTuningFactor;
+        }
+        shooterMotorLeftLeader
+                    .setControl(m_request.withVelocity(-manualTargetV).withFeedForward(-RPStoVoltage(manualTargetV)));
     }
 }
