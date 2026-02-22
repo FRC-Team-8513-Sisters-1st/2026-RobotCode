@@ -159,13 +159,13 @@ public class Drivebase {
             // red hub location
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint);
             angleToHub = yagslDrive.getPose().minus(goalAimPose)
-                    .getTranslation().rotateBy(new Rotation2d(Math.PI)).getAngle();
+                    .getTranslation().rotateBy(new Rotation2d()).getAngle();
         } else {
             // blue hub location
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
             angleToHub = yagslDrive.getPose().minus(goalAimPose)
                     .getTranslation().getAngle()
-                    .plus(new Rotation2d(Math.PI));
+                    .plus(new Rotation2d());
         }
         goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
         dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
@@ -179,13 +179,14 @@ public class Drivebase {
         if (Robot.onRed) {
             // red hub location
             angleToHub = yagslDrive.getPose().minus(goalPose)
-                    .getTranslation().rotateBy(new Rotation2d(Math.PI)).getAngle();
+                    .getTranslation().rotateBy(new Rotation2d()).getAngle();
         } else {
             // blue hub location
             angleToHub = yagslDrive.getPose().minus(goalPose)
                     .getTranslation().getAngle()
-                    .plus(new Rotation2d(Math.PI));
+                    .plus(new Rotation2d());
         }
+        goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
         dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
 
         return dvr;
@@ -201,11 +202,12 @@ public class Drivebase {
     double shotDisplacement;
 
     public Pose2d offsetPose2dByVelocity(Pose2d originalPose2d) {
+        timeOfFlight();
         double rVX = yagslDrive.getFieldVelocity().vxMetersPerSecond;
         double rVY = yagslDrive.getFieldVelocity().vyMetersPerSecond;
         double x = rVX * timeOfFlight;
         double y = rVY * timeOfFlight;
-        Transform2d transform = new Transform2d(x, y, new Rotation2d());
+        Transform2d transform = new Transform2d(-x, -y, new Rotation2d());
         return originalPose2d.transformBy(transform);
     }
 
