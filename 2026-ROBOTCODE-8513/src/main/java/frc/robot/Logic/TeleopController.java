@@ -62,6 +62,16 @@ public class TeleopController {
             manualJoystick.getRawButtonPressed(i);
         }
 
+         // sets the goal aim pose to the hub (when the aim pose is change bc of
+        // velocity, it is updated)
+        if (Robot.onRed) {
+            Robot.drivebase.goalAimPose = Settings.FieldInfo.redHubCenterPoint;
+
+        } else {
+            Robot.drivebase.goalAimPose = Settings.FieldInfo.blueHubCenterPoint;
+
+        }
+
     }
 
     public double xSpeedJoystick;
@@ -216,8 +226,8 @@ public class TeleopController {
         } else {
             shootingFacingHub = false;
             Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV),
-            Robot.drivebase.goalHeading, true);
-           // Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
+                    Robot.drivebase.goalHeading, true);
+            // Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
         }
 
         if (driverXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.resetHeading)) {
@@ -387,22 +397,17 @@ public class TeleopController {
             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
         }
 
-        // indexer
-        if (Robot.hopper.hopperState == HopperStates.indexing
-                && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.indexerToggle)) {
-            Robot.hopper.hopperState = HopperStates.stationary;
-        } else if (Robot.hopper.hopperState == HopperStates.stationary
-                && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.indexerToggle)) {
-            Robot.hopper.hopperState = HopperStates.indexing;
-        }
-
-        // kicker
+        // kicker and shooter
         if (Robot.kicker.kickerState == KickerStates.stationary
                 && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.kickerToggle)) {
             Robot.kicker.kickerState = KickerStates.shooting;
+            Robot.hopper.hopperState = HopperStates.indexing;
+
         } else if (Robot.kicker.kickerState == KickerStates.shooting
                 && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.kickerToggle)) {
             Robot.kicker.kickerState = KickerStates.stationary;
+            Robot.hopper.hopperState = HopperStates.stationary;
+
         }
 
         // shooter
@@ -412,6 +417,13 @@ public class TeleopController {
         } else if (Robot.shooter.shooterState == ShooterStates.shooting
                 && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterToggle)) {
             Robot.shooter.shooterState = ShooterStates.stationary;
+        }
+
+        if (manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.incHoodPos)) {
+            Robot.shooter.manualTuningHoodPosition += Settings.ShooterSettings.manualHoodPosTuningfactor;
+        } else if (manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decHoodPos)) {
+            Robot.shooter.manualTuningHoodPosition -= Settings.ShooterSettings.manualHoodPosTuningfactor;
+
         }
     }
 

@@ -66,9 +66,9 @@ public class Robot extends TimedRobot {
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     var configs = new CurrentLimitsConfigs();
     configs.StatorCurrentLimitEnable = true;
-    configs.StatorCurrentLimit = 30;
+    configs.StatorCurrentLimit = 60;
     configs.SupplyCurrentLimitEnable = true;
-    configs.SupplyCurrentLimit = 30;
+    configs.SupplyCurrentLimit = 40;
 
     hopper.indexerMotorTop.getConfigurator().apply(configs);
     hopper.indexerMotorBottom.getConfigurator().apply(configs);
@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
     intake.intakeMotorRightFollower.getConfigurator().apply(configs);
 
     SparkMaxConfig config = new SparkMaxConfig();
-    config.smartCurrentLimit(30);
+    config.smartCurrentLimit(40);
 
     kicker.kickerMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     shooter.shooterHoodMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);

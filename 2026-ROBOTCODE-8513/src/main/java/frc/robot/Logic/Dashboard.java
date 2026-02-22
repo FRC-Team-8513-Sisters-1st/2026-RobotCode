@@ -56,9 +56,12 @@ public class Dashboard {
                                 Robot.shooter.shooterMotorLeftLeader.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("ShooterMotorCurrentRight",
                                 Robot.shooter.shooterMotorRightFollower.getSupplyCurrent().getValueAsDouble());
-                SmartDashboard.putNumber("distanceToScoreHub", Robot.shooter.distanceToScoreHub);
                 SmartDashboard.putNumber("shooterHoodABSOLUTEMotorPosition",
                                 Robot.shooter.shooterHoodMotor.getAbsoluteEncoder().getPosition());
+                SmartDashboard.putNumber("manualTuningHoodPosition", Robot.shooter.manualTuningHoodPosition);
+                SmartDashboard.putNumber("manualTargetV", Robot.shooter.manualTargetV);
+                SmartDashboard.putNumber(" distance to hub", Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
+
 
                 // kicker
                 SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());

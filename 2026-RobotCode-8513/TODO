@@ -42,3 +42,7 @@ Get Robot Schedule:
     - test + tune autos
     - clean tele drive if needed
 
+
+
+shot tuning: dist: 2.05, v: 39 pos: .3
+dist: 3.01, v: 44.8 pos: 0.2

@@ -62,16 +62,6 @@ public class Drivebase {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        // sets the goal aim pose to the hub (when the aim pose is change bc of
-        // velocity, it is updated)
-        if (Robot.onRed) {
-            goalAimPose = Settings.FieldInfo.redHubCenterPoint;
-
-        } else {
-            goalAimPose = Settings.FieldInfo.blueHubCenterPoint;
-
-        }
     }
 
     public void driveFacingHeading(Translation2d translation2d, Rotation2d heading, boolean fR) {
