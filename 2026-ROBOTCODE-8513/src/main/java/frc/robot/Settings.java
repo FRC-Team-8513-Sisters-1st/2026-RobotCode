@@ -35,7 +35,8 @@ public class Settings {
         public static int driverJoystickPort = 1;
         public static int copilotJoystickPort = 2;
         public static int manualJoystickPort = 3;
-        public static double joystickDeadband = 0.1;
+        public static double joystickDeadband = 0.02;
+        public static double snakeModeJoystickDeadband = 0.15;
         public static double specialRotationJoystickDeadband = 0.5;
 
         // joystick axis

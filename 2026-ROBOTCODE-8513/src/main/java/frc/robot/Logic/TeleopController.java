@@ -21,7 +21,7 @@ public class TeleopController {
     public Joystick manualJoystick = new Joystick(Settings.TeleopSettings.manualJoystickPort);
 
     public PIDController rJoystickController = new PIDController(0.1, 0, 0);
-    public PIDController bumpPidController = new PIDController(0.1, 0, 0);
+    public PIDController bumpPidController = new PIDController(10, 0, 0);
 
     public Rotation2d goalHeading = new Rotation2d();
 
@@ -128,22 +128,24 @@ public class TeleopController {
             }
             // if driving over bump, do the bump speed calculation and lower speed if we are
             // going over
-        } else if (Robot.drivebase.drivingOverBump() && robotV > Settings.PhysicalRobotValues.bumpMaxVelocity) {
-            if (Robot.onRed) {
-                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
-                        * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV));
-                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
-                        * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV));
-                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
-            } else {
-                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
-                        * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV);
-                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
-                        * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV);
-                rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
-            }
-            // default driving
-        } else {
+        } 
+        // else if (Robot.drivebase.drivingOverBump() && robotV > Settings.PhysicalRobotValues.bumpMaxVelocity) {
+        //     if (Robot.onRed) {
+        //         xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+        //                 * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV));
+        //         yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+        //                 * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV));
+        //         rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+        //     } else {
+        //         xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+        //                 * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV);
+        //         yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+        //                 * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV);
+        //         rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
+        //     }
+        //     // default driving
+        // }
+         else {
             if (Robot.onRed) {
                 xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity());
                 yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity());
@@ -234,12 +236,13 @@ public class TeleopController {
             }
         } else if (driverXboxController
                 .getRawButton(Settings.TeleopSettings.ButtonIDs.snakeMode)) {
-            if (Math.abs(xSpeedJoystick) < Settings.TeleopSettings.joystickDeadband
-                    && Math.abs(ySpeedJoystick) < Settings.TeleopSettings.joystickDeadband) {
+            if (Math.abs(xSpeedJoystick) < Settings.TeleopSettings.snakeModeJoystickDeadband
+                    && Math.abs(ySpeedJoystick) < Settings.TeleopSettings.snakeModeJoystickDeadband) {
                 Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), Robot.drivebase.goalHeading, true);
             } else {
                 Rotation2d snakeModeRotation = new Translation2d(xV, yV).getAngle();
                 Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), snakeModeRotation, true);
+                Robot.drivebase.goalHeading = snakeModeRotation;
             }
 
         } else {
