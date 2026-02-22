@@ -29,7 +29,7 @@ public class Shooter {
 
     public boolean useInternalController = true;
 
-    public static double shotDistanceFudgeFactor = 0;
+    public double shotDistanceFudgeFactor = 0;
 
     public double goalHoodPosition;
 
