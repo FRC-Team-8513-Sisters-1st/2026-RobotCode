@@ -1,14 +1,20 @@
 Elastic:
-    - photon vision status lights
+    - field 2d with robot pose and all 4 vision poses
+    - automatically change elastic page on auto init and tele init
 
 Copilot
     - jiggle intake while shooting/manual bring intake up a little while shooting
     
 Driver
-    - align to hub button should autodrive
-    - slow down after bump?
+    - smaller deadband (0.02)
+    - snake mode joystick deadband (0.1)
+    - comment out drive slow over bump and practice driving slowly
+    - flip shooting pose rotation to back of robot
+    - rename to get powertoFacePose
     - when let go of snake mode robot should hold that heading
-    - when align to bump pressed PID on Y value to closest bump
+    - when align to bump pressed PID the Y value to closest bump
+    - once shooting goal pose on dashboard, make sure shooting goal changes to hub when in your alliance zone
+    - when shooting on the move the goal pose should also change on dashboard
 
 Tuning Joystick
     
@@ -22,11 +28,13 @@ Get Robot Schedule:
         - make sure each vision pose is on dashboard
         - this will be related to putting vision status lights on elastic
     - tune pid values for subsystems
+    - shooter current
     - test all the buttons and manual controls (update fudge factors)
-    - set real values for the velocities (going over bump, driving while shooting)
-    - check hood position + that it updates
+        - fudge facotr on advantage scope
+        - shooting goal pose on advantage scope
+
+    - set real values for the velocities (driving while shooting)
     - tune shot (set values for the interpolation)
-    - check angle for hub shooting and bump
     - test copilot buttons
     - test + tune autos
     - clean tele drive if needed
