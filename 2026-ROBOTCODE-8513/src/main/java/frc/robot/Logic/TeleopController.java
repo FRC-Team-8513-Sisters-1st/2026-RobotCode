@@ -21,6 +21,7 @@ public class TeleopController {
     public Joystick manualJoystick = new Joystick(Settings.TeleopSettings.manualJoystickPort);
 
     public PIDController rJoystickController = new PIDController(0.1, 0, 0);
+    public PIDController bumpPidController = new PIDController(0.1, 0, 0);
 
     public Rotation2d goalHeading = new Rotation2d();
 
@@ -62,7 +63,7 @@ public class TeleopController {
             manualJoystick.getRawButtonPressed(i);
         }
 
-         // sets the goal aim pose to the hub (when the aim pose is change bc of
+        // sets the goal aim pose to the hub (when the aim pose is change bc of
         // velocity, it is updated)
         if (Robot.onRed) {
             Robot.drivebase.goalAimPose = Settings.FieldInfo.redHubCenterPoint;
@@ -201,18 +202,36 @@ public class TeleopController {
             }
             // if straighten bump pressed, check rotation and switch to nearest 0 or 180
         } else if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.straightenBump)) {
+            double currentY = Robot.drivebase.yagslDrive.getPose().getY();
             if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees()) <= 90) {
-                Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
-                        Robot.drivebase.getPowerToReachRotation(new Rotation2d(0)), true,
-                        false);
+                // y correction for driving over bump
+                if (currentY >= 4.08) {
+                    Robot.drivebase.yagslDrive.drive(
+                            new Translation2d(xV, bumpPidController.calculate(currentY, 5.555)),
+                            Robot.drivebase.getPowerToReachRotation(new Rotation2d(0)), true,
+                            false);
+                } else if (currentY < 4.08) {
+                    Robot.drivebase.yagslDrive.drive(
+                            new Translation2d(xV, bumpPidController.calculate(currentY, 2.476)),
+                            Robot.drivebase.getPowerToReachRotation(new Rotation2d(0)), true,
+                            false);
+                }
                 Robot.drivebase.goalHeading = new Rotation2d(0);
             } else {
-                Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
-                        Robot.drivebase.getPowerToReachRotation(new Rotation2d(Math.PI)), true,
-                        false);
-                Robot.drivebase.goalHeading = new Rotation2d(Math.PI);
+                if (currentY >= 4.08) {
+                    Robot.drivebase.yagslDrive.drive(
+                            new Translation2d(xV, bumpPidController.calculate(currentY, 5.555)),
+                            Robot.drivebase.getPowerToReachRotation(new Rotation2d(Math.PI)), true,
+                            false);
+                } else if (currentY < 4.08) {
+                    Robot.drivebase.yagslDrive.drive(
+                            new Translation2d(xV, bumpPidController.calculate(currentY, 2.476)),
+                            Robot.drivebase.getPowerToReachRotation(new Rotation2d(Math.PI)), true,
+                            false);
+                    Robot.drivebase.goalHeading = new Rotation2d(Math.PI);
+                }
+                // otherwise, use the normal drive
             }
-            // otherwise, use the normal drive
         } else if (driverXboxController
                 .getRawButton(Settings.TeleopSettings.ButtonIDs.snakeMode)) {
             if (Math.abs(xSpeedJoystick) < Settings.TeleopSettings.joystickDeadband
