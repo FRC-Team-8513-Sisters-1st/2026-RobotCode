@@ -4,6 +4,8 @@ Elastic:
 
 Copilot
     - jiggle intake while shooting/manual bring intake up a little while shooting
+    - map buttons on co pilot pannels
+    
     
 Driver
     - smaller deadband (0.02)
@@ -15,6 +17,14 @@ Driver
     - when align to bump pressed PID the Y value to closest bump
     - once shooting goal pose on dashboard, make sure shooting goal changes to hub when in your alliance zone
     - when shooting on the move the goal pose should also change on dashboard
+    - update ready to shoot to include
+        - is hub active or will be active in the next 1.5 seconds
+        - heading correct
+        - rpm correct
+        - if ready to shoot when pressing shooter button, spin indexer and kicker
+            - pause indexer kicker if not in threshold
+    - if heading correct, lock pose
+    - have 2 different checks for ready to shoot vs ready to shuttle
 
 Tuning Joystick
     
