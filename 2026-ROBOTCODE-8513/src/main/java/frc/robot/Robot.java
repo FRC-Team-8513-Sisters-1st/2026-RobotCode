@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import org.opencv.core.Mat;
-
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
@@ -14,7 +12,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Logic.AutoController;

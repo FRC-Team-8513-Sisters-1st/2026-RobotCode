@@ -2,8 +2,6 @@ package frc.robot.Subsystems;
 
 import java.io.File;
 
-import org.dyn4j.geometry.Rotation;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
