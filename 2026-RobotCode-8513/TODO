@@ -1,50 +1,41 @@
-Comp Robot:
-    - kicker class - run PID on velocity rather than power for more consistant shots
-    - look into elastic 
-        x match countdown
-        x end of inactive/active
-        x add shot positions
-        - photon vision status lights
-    x rename lower current limits to set so you can add argument for the currents
-    x use/don't use vision toggle
-    x add motor currents and pid editing for all subsystems
+Elastic:
+    - photon vision status lights
 
 Copilot
-    x shuttle position buttons
-    - jiggle intake while shooting 
-    x force indexer to start and stop and reverse --> while holding
-    x FIX if not in zone then copilot seelcted shuttle pose
-    x spin intake in or out
-    - manual bring intake up a little while shooting
-
-
-
+    - jiggle intake while shooting/manual bring intake up a little while shooting
+    
 Driver
     - align to hub button should autodrive
     - slow down after bump?
-    - end of snake mode 
-
+    - when let go of snake mode robot should hold that heading
+    - when align to bump pressed PID on Y value to closest bump
 
 Tuning Joystick
-    x tuning mode for the shot to turn up/down the speed and hood (NEW BRANCH - manualShooterTuning)
-    x manual turn on all the mechanisms
-    x indexer current limits on dash
-
-
+    
 Get Robot Schedule:
-    - check all Ids
     - test no vision odometry (tune path following pid)
+        - have a go straight auto
+        - have a go straight and come back auto
+        - have a go straight and rotate auto
+        - have a drive at angle auto
     - set offsets for cameras, import the config, accurate vision pose?
+        - make sure each vision pose is on dashboard
+        - this will be related to putting vision status lights on elastic
     - tune pid values for subsystems
     - test all the buttons and manual controls (update fudge factors)
     - set real values for the velocities (going over bump, driving while shooting)
     - check hood position + that it updates
     - tune shot (set values for the interpolation)
     - check angle for hub shooting and bump
+    - test copilot buttons
     - test + tune autos
     - clean tele drive if needed
 
 
+Shot tuning on 2/21:
+    shot tuning: dist: 2.05, v: 39 pos: .3
+    dist: 3.01, v: 44.8 pos: 0.2
 
-shot tuning: dist: 2.05, v: 39 pos: .3
-dist: 3.01, v: 44.8 pos: 0.2
+Driver Buttons: https://app.diagrams.net/#G1uRCCOzVmEvHkvo4EhlnghtRV6GGkDXbb#%7B%22pageId%22%3A%22d-_JnBqeQgVWwOmPlnWK%22%7D
+Co Pilot Buttons: https://app.diagrams.net/#G1qHkbT-RruBgJSgykm7fhuSLz0rcQ5_Ag#%7B%22pageId%22%3A%22cDo-9tD7ipAllacoT-Qq%22%7D
+
