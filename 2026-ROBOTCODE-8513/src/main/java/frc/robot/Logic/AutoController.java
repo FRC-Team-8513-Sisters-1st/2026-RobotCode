@@ -32,6 +32,7 @@ public class AutoController {
     }
 
     public void initAuto() {
+        Elastic.selectTab("Autonomous");
         updateAutoRoutineFromDashboard();
         autoStep = 0;
         timeStepStarted = Timer.getFPGATimestamp();
@@ -77,7 +78,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShoot()) {
+                        if (Robot.shooter.readyToShootInHub()) {
                             autoStep = 20;
                         }
                         break;
@@ -121,7 +122,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShoot()) {
+                        if (Robot.shooter.readyToShootInHub()) {
                             autoStep = 20;
                         }
                         break;

@@ -1,5 +1,6 @@
 package frc.robot.Logic;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -104,6 +105,7 @@ public class Dashboard {
                 SmartDashboard.putString("Period", Robot.matchTimeAnalysis.getShift());
                 SmartDashboard.putString("Hub Status", Robot.matchTimeAnalysis.activeOrInactive());
                 activeOrInactiveColor();
+                SmartDashboard.putString("Game data", DriverStation.getGameSpecificMessage());
         }
 
         public void getPIDValues() {
@@ -135,8 +137,8 @@ public class Dashboard {
         }
 
         public void activeOrInactiveColor() {
-                Color red = new Color(250, 0, 63);
-                Color green = new Color(166, 221, 181);
+                Color red = new Color(255, 0, 0);
+                Color green = new Color(0, 255, 0);
                 if (Robot.matchTimeAnalysis.activeOrInactive() == "Active") {
                         SmartDashboard.putString("Color", green.toHexString());
                 } else if (Robot.matchTimeAnalysis.activeOrInactive() == "Inactive") {

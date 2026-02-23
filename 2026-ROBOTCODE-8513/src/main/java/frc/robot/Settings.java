@@ -160,9 +160,12 @@ public class Settings {
 
     public class AutoSettings {
         public class Thresholds {
-            public static double drivebaseRotationTHold = 5;
-            public static double hoodPositionTHold = 2;
+            public static double drivebaseShootRotationTHold = 5;
+            public static double drivebaseShuttleRotationTHold = 7;
+            public static double shootHoodPositionTHold = 2;
+            public static double shuttleHoodPositionTHold = 3;
             public static double shooterVelocityTHold = 100;
+            public static double shooterShuttleVelocityTHold = 150;
         }
     }
 

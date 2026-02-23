@@ -173,7 +173,7 @@ public class Drivebase {
         return dvr;
     }
 
-    public double getPowerToPose(Pose2d goalPose) {
+    public double getPowerToFacePose(Pose2d goalPose) {
         Rotation2d angleToHub;
 
         if (Robot.onRed) {

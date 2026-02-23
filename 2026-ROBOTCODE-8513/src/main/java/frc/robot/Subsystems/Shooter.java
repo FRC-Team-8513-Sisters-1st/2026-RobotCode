@@ -154,16 +154,36 @@ public class Shooter {
     // Checks the anle error, hood position error, and shooter velocity error to
     // determine if the shooter is ready to shoot. Thresholds for each of these
     // values are in settings.
-    public boolean readyToShoot() {
+    public boolean readyToShootInHub() {
         if ((Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees()
-                - Robot.drivebase.goalHeading.getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseRotationTHold)
+                - Robot.drivebase.goalHeading.getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold)
                 && (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
-                        .getPosition()) < Settings.AutoSettings.Thresholds.hoodPositionTHold)
-                && Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
-                        - targetVelocity) < Settings.AutoSettings.Thresholds.shooterVelocityTHold) {
+                        .getPosition()) < Settings.AutoSettings.Thresholds.shootHoodPositionTHold)
+                && (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
+                        - targetVelocity) < Settings.AutoSettings.Thresholds.shooterVelocityTHold) && timeCheckReadyToShoot()) {
             return true;
         }
         return false;
+    }
+
+    public boolean readyToShuttle() {
+        if ((Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees()
+                - Robot.drivebase.goalHeading.getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseShuttleRotationTHold)
+                && (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
+                        .getPosition()) < Settings.AutoSettings.Thresholds.shuttleHoodPositionTHold)
+                && (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
+                        - targetVelocity) < Settings.AutoSettings.Thresholds.shooterShuttleVelocityTHold)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean timeCheckReadyToShoot() {
+        if (Robot.matchTimeAnalysis.activeOrInactive() == "Active" || (Robot.matchTimeAnalysis.activeOrInactive() == "Inactive" && Robot.matchTimeAnalysis.getTimeLeftInPeriod() <= 1.5)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // not using

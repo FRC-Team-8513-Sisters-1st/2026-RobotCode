@@ -8,23 +8,23 @@ Copilot
     
     
 Driver
-    - smaller deadband (0.02)
-    - snake mode joystick deadband (0.1)
-    - comment out drive slow over bump and practice driving slowly
-    - flip shooting pose rotation to back of robot
-    - rename to get powertoFacePose
-    - when let go of snake mode robot should hold that heading
-    - when align to bump pressed PID the Y value to closest bump
+    x smaller deadband (0.02)
+    x snake mode joystick deadband (0.1)
+    x comment out drive slow over bump and practice driving slowly
+    x flip shooting pose rotation to back of robot
+    x rename to get powertoFacePose
+    x when let go of snake mode robot should hold that heading
+    x when align to bump pressed PID the Y value to closest bump
     - once shooting goal pose on dashboard, make sure shooting goal changes to hub when in your alliance zone
     - when shooting on the move the goal pose should also change on dashboard
     - update ready to shoot to include
-        - is hub active or will be active in the next 1.5 seconds
-        - heading correct
-        - rpm correct
+        x is hub active or will be active in the next 1.5 seconds
+        x heading correct
+        ? rpm correct (same as velocity???)
         - if ready to shoot when pressing shooter button, spin indexer and kicker
             - pause indexer kicker if not in threshold
-    - if heading correct, lock pose
-    - have 2 different checks for ready to shoot vs ready to shuttle
+    x if heading correct, lock pose
+    x have 2 different checks for ready to shoot vs ready to shuttle
 
 Tuning Joystick
     
