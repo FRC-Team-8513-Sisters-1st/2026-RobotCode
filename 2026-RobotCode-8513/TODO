@@ -1,6 +1,6 @@
 Elastic:
     - field 2d with robot pose and all 4 vision poses
-    - automatically change elastic page on auto init and tele init
+    x automatically change elastic page on auto init and tele init
 
 Copilot
     - jiggle intake while shooting/manual bring intake up a little while shooting
@@ -23,7 +23,7 @@ Driver
         ? rpm correct (same as velocity???)
         - if ready to shoot when pressing shooter button, spin indexer and kicker
             - pause indexer kicker if not in threshold
-    x if heading correct, lock pose
+    - if heading correct, lock pose
     x have 2 different checks for ready to shoot vs ready to shuttle
 
 Tuning Joystick
