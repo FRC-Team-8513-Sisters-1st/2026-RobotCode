@@ -33,8 +33,9 @@ public class Settings {
 
     public static class TeleopSettings {
         public static int driverJoystickPort = 1;
-        public static int copilotJoystickPort = 2;
-        public static int manualJoystickPort = 3;
+        public static int copilotJoystick1Port = 2;
+        public static int copilotJoystick2Port = 3;
+        public static int manualJoystickPort = 4;
         public static double joystickDeadband = 0.02;
         public static double snakeModeJoystickDeadband = 0.15;
         public static double specialRotationJoystickDeadband = 0.5;
@@ -58,7 +59,7 @@ public class Settings {
             public static int snakeMode = 1;
             public static int resetHeading = 10;
 
-            // copilot controller
+            // copilot controller 1
             public static int increaseShotDistance = 4;
             public static int decreaseShotDistance = 1;
             public static int moveScorePoseRight = 2;
@@ -66,19 +67,19 @@ public class Settings {
             public static int heightenIntake = 5;
             public static int lowerIntake = 6;
             public static int emergencyIntake = 7;
-            // spins shooter motor
-            public static int manualShoot = 8;
-            // turns off the drivers auto shoot
-            public static int toggleAutoShoot = 9;
-            public static int redDepotTrenchButton = 10;
-            public static int blueDepotTrenchButton = 11;
-            public static int redOutpostTrenchButton = 12;
-            public static int blueOutpostTrenchButton = 13;
-            public static int nuetralZoneButton = 14;
-            public static int startIndexer = 15;
-            public static int stopIndexer = 16;
-            public static int reverseIndexer = 17;
-            public static int kicker = 18;
+            public static int jiggleIntake = 8;
+            public static int manualShoot = 9; // force shoot
+            public static int toggleAutoShoot = 10; // force not shoot?
+            public static int reverseIndexer = 11;
+            public static int reverseKicker = 12;
+            // copilot controller 2
+            public static int redDepotTrenchButton = 1;
+            public static int blueDepotTrenchButton = 2;
+            public static int redOutpostTrenchButton = 3;
+            public static int blueOutpostTrenchButton = 4;
+            public static int nuetralZoneButton1 = 5;
+            public static int nuetralZoneButton2 = 5;
+
 
             // manual controller
             public static int intakeToggle = 4;
@@ -152,7 +153,8 @@ public class Settings {
             public static Pose2d blueDepotTrench = new Pose2d(5.514, 7.4, new Rotation2d());
             public static Pose2d redOutpostTrench = new Pose2d(10.935, 7.4, new Rotation2d());
             public static Pose2d blueOutpostTrench = new Pose2d(5.514, 0.6, new Rotation2d());
-            public static Pose2d neutralZone = new Pose2d(8.283, 4.08, new Rotation2d());
+            public static Pose2d neutralZone1 = new Pose2d(8.283, 1.635, new Rotation2d());
+            public static Pose2d neutralZone2 = new Pose2d(8.283, 6.668, new Rotation2d());
 
         }
 

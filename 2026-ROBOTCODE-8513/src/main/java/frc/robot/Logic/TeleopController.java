@@ -18,7 +18,8 @@ import frc.robot.Logic.Enums.ShooterStates;
 public class TeleopController {
 
     public Joystick driverXboxController = new Joystick(Settings.TeleopSettings.driverJoystickPort);
-    public Joystick copilotXboxController = new Joystick(Settings.TeleopSettings.copilotJoystickPort);
+    public Joystick copilotJoystick1 = new Joystick(Settings.TeleopSettings.copilotJoystick1Port);
+    public Joystick copilotJoystick2 = new Joystick(Settings.TeleopSettings.copilotJoystick2Port);
     public Joystick manualJoystick = new Joystick(Settings.TeleopSettings.manualJoystickPort);
 
     public PIDController rJoystickController = new PIDController(0.1, 0, 0);
@@ -36,7 +37,7 @@ public class TeleopController {
 
     public double shooterButtonTime;
 
-    public Pose2d copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone;
+    public Pose2d copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone1;
 
     public double xV;
     public double yV;
@@ -62,7 +63,8 @@ public class TeleopController {
         // consume all buttons pressed
         for (int i = 0; i < 14; i++) {
             driverXboxController.getRawButtonPressed(i);
-            copilotXboxController.getRawButtonPressed(i);
+            copilotJoystick1.getRawButtonPressed(i);
+            copilotJoystick2.getRawButtonPressed(i);
             manualJoystick.getRawButtonPressed(i);
         }
 
@@ -182,7 +184,8 @@ public class TeleopController {
                 if (Robot.drivebase.yagslDrive.getPose().getX() > 11.8) {
                     shootingFacingHub = true;
                     // lcoks pose if no driver translation input
-                    if (xV < 0.1 && yV < 0.1 && Robot.shooter.readyToShootInHub()) {
+                    Robot.drivebase.updateGoalHeadingToFaceHub();
+                    if (Math.abs(xV) < 0.1 && Math.abs(yV) < 0.1 && Robot.shooter.facingHub()) {
                         Robot.drivebase.yagslDrive.lockPose();
                     } else {
                         Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
@@ -200,7 +203,8 @@ public class TeleopController {
                             true,
                             false);
                     // lcoks pose if no driver translation input
-                    if (xV < 0.1 && yV < 0.1 && Robot.shooter.readyToShootInHub()) {
+                    Robot.drivebase.updateGoalHeadingToFaceHub();
+                    if (Math.abs(xV) < 0.1 && Math.abs(yV) < 0.1 && Robot.shooter.facingHub()) {
                         Robot.drivebase.yagslDrive.lockPose();
                     } else {
                         Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
@@ -229,11 +233,15 @@ public class TeleopController {
                             new Translation2d(xV, bumpPidController.calculate(currentY, 5.555)),
                             Robot.drivebase.getPowerToReachRotation(new Rotation2d(0)), true,
                             false);
+                    Robot.drivebase.goalHeading = new Rotation2d();
+
                 } else if (currentY < 4.08) {
                     Robot.drivebase.yagslDrive.drive(
                             new Translation2d(xV, bumpPidController.calculate(currentY, 2.476)),
                             Robot.drivebase.getPowerToReachRotation(new Rotation2d(0)), true,
                             false);
+                    Robot.drivebase.goalHeading = new Rotation2d();
+
                 }
                 Robot.drivebase.goalHeading = new Rotation2d(0);
             } else {
@@ -242,6 +250,8 @@ public class TeleopController {
                             new Translation2d(xV, bumpPidController.calculate(currentY, 5.555)),
                             Robot.drivebase.getPowerToReachRotation(new Rotation2d(Math.PI)), true,
                             false);
+                    Robot.drivebase.goalHeading = new Rotation2d(Math.PI);
+
                 } else if (currentY < 4.08) {
                     Robot.drivebase.yagslDrive.drive(
                             new Translation2d(xV, bumpPidController.calculate(currentY, 2.476)),
@@ -325,28 +335,28 @@ public class TeleopController {
 
         // COPILOT CONTROLS
         // adjustment for shooter hood angle
-        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseShotDistance)) {
+        if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseShotDistance)) {
             Robot.shooter.shotDistanceFudgeFactor += Settings.ShooterSettings.hoodAngleFudgeFactor;
-        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseShotDistance)) {
+        } else if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseShotDistance)) {
             Robot.shooter.shotDistanceFudgeFactor -= Settings.ShooterSettings.hoodAngleFudgeFactor;
         }
 
         // intake Fudge Factor
-        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.heightenIntake)) {
+        if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.heightenIntake)) {
             Robot.intake.intakeFudgeFactor -= Settings.IntakeSettings.intakeFudgeFactor;
-        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.lowerIntake)) {
+        } else if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.lowerIntake)) {
             Robot.intake.intakeFudgeFactor += Settings.IntakeSettings.intakeFudgeFactor;
         }
 
         // adjustment for drivebase goal aim fudge factor
-        if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)) {
+        if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)) {
             Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.aimFudgeFactor;
-        } else if (copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)) {
+        } else if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)) {
             Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.aimFudgeFactor;
         }
 
         // Intake copilot emergency controls
-        boolean copilotEmergencyIntakeButtonPressed = Robot.teleop.copilotXboxController
+        boolean copilotEmergencyIntakeButtonPressed = Robot.teleop.copilotJoystick1
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.emergencyIntake);
         if (Robot.intake.intakeState == IntakeStates.stowed && copilotEmergencyIntakeButtonPressed) {
             // if the robot is stowed
@@ -359,7 +369,7 @@ public class TeleopController {
         }
 
         // shooter controls
-        boolean shootButtonPressed = copilotXboxController
+        boolean shootButtonPressed = copilotJoystick1
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
         if (autoShooting && shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
             Robot.shooter.shooterState = ShooterStates.shooting;
@@ -372,17 +382,15 @@ public class TeleopController {
         }
 
         // kicker controls
-        boolean indexerKicker = copilotXboxController.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.kicker);
-        if (indexerKicker && Robot.kicker.kickerState == KickerStates.stationary) {
+        boolean reverseKicker = copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseKicker);
+        if (reverseKicker && (Robot.kicker.kickerState == KickerStates.stationary
+                || Robot.kicker.kickerState == KickerStates.intaking)) {
             Robot.kicker.kickerState = KickerStates.shooting;
             Robot.hopper.hopperState = HopperStates.indexing;
-        } else if (indexerKicker && Robot.kicker.kickerState == KickerStates.shooting) {
-            Robot.kicker.kickerState = KickerStates.stationary;
-            Robot.hopper.hopperState = HopperStates.stationary;
         }
 
         // turns on/off auto shoot
-        boolean autoShootButtonPressed = copilotXboxController
+        boolean autoShootButtonPressed = copilotJoystick1
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.toggleAutoShoot);
         if (autoShootButtonPressed) {
             autoShooting = false;
@@ -391,28 +399,25 @@ public class TeleopController {
         }
 
         // indexer
-        if (copilotXboxController
-                .getRawButton(Settings.TeleopSettings.ButtonIDs.startIndexer)) {
-            Robot.hopper.hopperState = HopperStates.indexing;
-        } else if (copilotXboxController
-                .getRawButton(Settings.TeleopSettings.ButtonIDs.stopIndexer)) {
-            Robot.hopper.hopperState = HopperStates.stationary;
-        } else if (copilotXboxController
-                .getRawButton(Settings.TeleopSettings.ButtonIDs.reverseIndexer)) {
+        boolean reverseIndexer = copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseIndexer);
+        if (reverseIndexer && (Robot.hopper.hopperState == HopperStates.indexing
+                || Robot.hopper.hopperState == HopperStates.stationary)) {
             Robot.hopper.hopperState = HopperStates.unjam;
         }
 
         // shuttle position buttons
-        boolean redDepotTrenchButtonPressed = copilotXboxController
+        boolean redDepotTrenchButtonPressed = copilotJoystick2
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.redDepotTrenchButton);
-        boolean blueDepotTrenchButtonPressed = copilotXboxController
+        boolean blueDepotTrenchButtonPressed = copilotJoystick2
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.blueDepotTrenchButton);
-        boolean redOutpostTrenchButtonPressed = copilotXboxController
+        boolean redOutpostTrenchButtonPressed = copilotJoystick2
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.redOutpostTrenchButton);
-        boolean blueOutpostTrenchButtonPressed = copilotXboxController
+        boolean blueOutpostTrenchButtonPressed = copilotJoystick2
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.blueOutpostTrenchButton);
-        boolean nuetralZoneButtonPressed = copilotXboxController
-                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.nuetralZoneButton);
+        boolean nuetralZoneButtonPressed1 = copilotJoystick2
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.nuetralZoneButton1);
+        boolean nuetralZoneButtonPressed2 = copilotJoystick2
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.nuetralZoneButton2);
         if (redDepotTrenchButtonPressed) {
             copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.redDepotTrench;
         } else if (blueDepotTrenchButtonPressed) {
@@ -421,8 +426,10 @@ public class TeleopController {
             copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.redOutpostTrench;
         } else if (blueOutpostTrenchButtonPressed) {
             copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.blueOutpostTrench;
-        } else if (nuetralZoneButtonPressed) {
-            copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone;
+        } else if (nuetralZoneButtonPressed1) {
+            copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone1;
+        } else if (nuetralZoneButtonPressed2) {
+            copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone2;
         }
 
         // MANUAL Controller

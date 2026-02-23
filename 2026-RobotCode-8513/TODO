@@ -15,16 +15,17 @@ Driver
     x rename to get powertoFacePose
     x when let go of snake mode robot should hold that heading
     x when align to bump pressed PID the Y value to closest bump
-    - once shooting goal pose on dashboard, make sure shooting goal changes to hub when in your alliance zone
-    - when shooting on the move the goal pose should also change on dashboard
+    x once shooting goal pose on dashboard, make sure shooting goal changes to hub when in your alliance zone
+    x when shooting on the move the goal pose should also change on dashboard
     - update ready to shoot to include
         x is hub active or will be active in the next 1.5 seconds
         x heading correct
         ? rpm correct (same as velocity???)
         - if ready to shoot when pressing shooter button, spin indexer and kicker
             - pause indexer kicker if not in threshold
-    - if heading correct, lock pose
+    x if heading correct, lock pose
     x have 2 different checks for ready to shoot vs ready to shuttle
+    x update goal heading when driving to the hub
 
 Tuning Joystick
     

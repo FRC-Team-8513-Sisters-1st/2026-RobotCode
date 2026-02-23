@@ -11,6 +11,7 @@ import frc.robot.Settings;
 public class Dashboard {
         public Field2d trajField2d = new Field2d();
         public Field2d copilotField2d = new Field2d();
+        public Field2d scoreHubField2d = new Field2d();
 
         public void updateDashboard() {
 
@@ -28,6 +29,7 @@ public class Dashboard {
                 SmartDashboard.putString("kickerStates", Robot.kicker.kickerState.name());
                 SmartDashboard.putString("hopperStates", Robot.hopper.hopperState.name());
                 SmartDashboard.putData("copilotShuttlePosition", copilotField2d);
+                SmartDashboard.putData("hubPos", scoreHubField2d);
 
                 // Motor locations/positions
                 // intake

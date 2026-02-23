@@ -168,6 +168,30 @@ public class Drivebase {
                     .plus(new Rotation2d());
         }
         goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
+        Robot.dashboard.scoreHubField2d.setRobotPose(goalAimPose.getX(), goalAimPose.getY(),
+                goalAimPose.getRotation());
+
+        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
+
+        return dvr;
+    }
+
+    public double updateGoalHeadingToFaceHub() {
+        Rotation2d angleToHub;
+
+        if (Robot.onRed) {
+            // red hub location
+            goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint);
+            angleToHub = yagslDrive.getPose().minus(goalAimPose)
+                    .getTranslation().rotateBy(new Rotation2d()).getAngle();
+        } else {
+            // blue hub location
+            goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
+            angleToHub = yagslDrive.getPose().minus(goalAimPose)
+                    .getTranslation().getAngle()
+                    .plus(new Rotation2d());
+        }
+        goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
         dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
 
         return dvr;
