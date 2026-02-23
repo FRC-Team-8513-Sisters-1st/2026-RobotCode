@@ -45,6 +45,7 @@ public class TeleopController {
     public double teleStartTime;
 
     public void initTele() {
+        Robot.updateAlliance();
         Robot.dashboard.getPIDValues();
         Elastic.selectTab("Teleoperated");
         teleStartTime = Timer.getFPGATimestamp();
@@ -180,10 +181,14 @@ public class TeleopController {
             if (Robot.onRed) {
                 if (Robot.drivebase.yagslDrive.getPose().getX() > 11.8) {
                     shootingFacingHub = true;
-
-                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
-                            true,
-                            false);
+                    // lcoks pose if no driver translation input
+                    if (xV < 0.1 && yV < 0.1 && Robot.shooter.readyToShootInHub()) {
+                        Robot.drivebase.yagslDrive.lockPose();
+                    } else {
+                        Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
+                                true,
+                                false);
+                    }
                 } else {
                     Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
                             Robot.drivebase.getPowerToFacePose(copilotShuttlePosition), true, false);
@@ -194,6 +199,14 @@ public class TeleopController {
                     Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
                             true,
                             false);
+                    // lcoks pose if no driver translation input
+                    if (xV < 0.1 && yV < 0.1 && Robot.shooter.readyToShootInHub()) {
+                        Robot.drivebase.yagslDrive.lockPose();
+                    } else {
+                        Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
+                                true,
+                                false);
+                    }
                 } else {
                     Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
                             Robot.drivebase.getPowerToFacePose(copilotShuttlePosition), true, false);
@@ -202,7 +215,6 @@ public class TeleopController {
             if ((Robot.shooter.readyToShuttle() || Robot.shooter.readyToShootInHub()) && autoShooting) {
                 Robot.kicker.kickerState = KickerStates.shooting;
                 Robot.hopper.hopperState = HopperStates.indexing;
-                Robot.drivebase.yagslDrive.lockPose();
             } else {
                 Robot.kicker.kickerState = KickerStates.stationary;
                 Robot.hopper.hopperState = HopperStates.stationary;
@@ -453,5 +465,4 @@ public class TeleopController {
 
         }
     }
-
 }
