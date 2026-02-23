@@ -1,21 +1,32 @@
 Elastic:
     - field 2d with robot pose and all 4 vision poses
 
-Copilot
+Autos:
+    - outpost
+    - depot
+    - drive over bump
+
+Copilot:
     - jiggle intake while shooting/manual bring intake up a little while shooting
     - map buttons on co pilot pannels
         - MAKE SURE each co pilot button has code
     
     
-Driver
+Driver:
+    
     - make driving while shooting speed a variabel in settings
     - update ready to shoot to include
-        ? rpm correct (same as velocity???)
-        - if ready to shoot when pressing shooter button, spin indexer and kicker
-            - pause indexer kicker if not in threshold
+        - add counter check to ready
+    - interperolate time of flight
+    - put interpolted values from first test into code
+    - test in simulation ready to shoot check
+    - update settings names for fudge factors variables
 
-Tuning Joystick
     
+Manual control:
+    - make diagream like those below
+
+
 Get Robot Schedule:
     - test no vision odometry (tune path following pid)
         - have a go straight auto
@@ -26,22 +37,31 @@ Get Robot Schedule:
         - make sure each vision pose is on dashboard
         - this will be related to putting vision status lights on elastic
     - tune pid values for subsystems
-    - shooter current
     - test all the buttons and manual controls (update fudge factors)
         - fudge facotr on advantage scope
-        - shooting goal pose on advantage scope
-
-    - set real values for the velocities (driving while shooting)
+        
+    
     - tune shot (set values for the interpolation)
+        - record video 
     - test copilot buttons
     - test + tune autos
     - clean tele drive if needed
 
+Mt Olive Wed Schedule:
+    - drive
+    - test intake depoly/retract
+    - test auto drive over bump
+    - test button pannel buttons
+    - test shooting and state machine
+    - test shuttle and button pannel overides
+    - test outpost auto
+    - test depot auto
+    - practice cycling
 
 Shot tuning on 2/21:
     shot tuning: dist: 2.05, v: 39 pos: .3
     dist: 3.01, v: 44.8 pos: 0.2
 
+
 Driver Buttons: https://app.diagrams.net/#G1uRCCOzVmEvHkvo4EhlnghtRV6GGkDXbb#%7B%22pageId%22%3A%22d-_JnBqeQgVWwOmPlnWK%22%7D
 Co Pilot Buttons: https://app.diagrams.net/#G1qHkbT-RruBgJSgykm7fhuSLz0rcQ5_Ag#%7B%22pageId%22%3A%22cDo-9tD7ipAllacoT-Qq%22%7D
-

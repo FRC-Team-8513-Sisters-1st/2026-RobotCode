@@ -306,31 +306,31 @@ public class TeleopController {
             Robot.intake.intakeState = IntakeStates.intaking;
         }
 
-        // TEMPORARY: reset the intake motors
-        if (driverXboxController.getRawButtonPressed(8)) {
-            Settings.resetTalon(Robot.intake.intakeMotorLeftLeader);
-            Settings.resetTalon(Robot.intake.intakeMotorRightFollower);
-        }
-
         // COPILOT CONTROLS
         // adjustment for shooter hood angle
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseShotDistance)) {
             Robot.shooter.shotDistanceFudgeFactor += Settings.ShooterSettings.hoodAngleFudgeFactor;
-        } else if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseShotDistance)) {
+        }
+
+        if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseShotDistance)) {
             Robot.shooter.shotDistanceFudgeFactor -= Settings.ShooterSettings.hoodAngleFudgeFactor;
         }
 
         // intake Fudge Factor
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.heightenIntake)) {
             Robot.intake.intakeFudgeFactor -= Settings.IntakeSettings.intakeFudgeFactor;
-        } else if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.lowerIntake)) {
+        }
+
+        if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.lowerIntake)) {
             Robot.intake.intakeFudgeFactor += Settings.IntakeSettings.intakeFudgeFactor;
         }
 
         // adjustment for drivebase goal aim fudge factor
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)) {
             Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.aimFudgeFactor;
-        } else if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)) {
+        }
+
+        if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)) {
             Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.aimFudgeFactor;
         }
 
@@ -349,13 +349,14 @@ public class TeleopController {
 
         // shooter controls
         boolean shootButtonPressed = copilotJoystick1
-                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.manualShoot);
-        if (autoShooting && shootButtonPressed && Robot.shooter.shooterState == ShooterStates.stationary) {
-            Robot.shooter.shooterState = ShooterStates.shooting;
+                .getRawButton(Settings.TeleopSettings.ButtonIDs.forceShoot);
+        if (shootButtonPressed) {
             Robot.kicker.kickerState = KickerStates.shooting;
             Robot.hopper.hopperState = HopperStates.indexing;
-        } else if (autoShooting && shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
-            Robot.shooter.shooterState = ShooterStates.stationary;
+        }
+        boolean dontShootButtonPresseed = copilotJoystick1
+                .getRawButton(Settings.TeleopSettings.ButtonIDs.forceDontShoot);
+        if (dontShootButtonPresseed) {
             Robot.kicker.kickerState = KickerStates.stationary;
             Robot.hopper.hopperState = HopperStates.stationary;
         }
@@ -368,20 +369,13 @@ public class TeleopController {
             Robot.hopper.hopperState = HopperStates.indexing;
         }
 
-        // turns on/off auto shoot
-        boolean autoShootButtonPressed = copilotJoystick1
-                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.toggleAutoShoot);
-        if (autoShootButtonPressed) {
-            autoShooting = false;
-        } else {
-            autoShooting = true;
-        }
-
         // indexer
         boolean reverseIndexer = copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseIndexer);
         if (reverseIndexer && (Robot.hopper.hopperState == HopperStates.indexing
                 || Robot.hopper.hopperState == HopperStates.stationary)) {
             Robot.hopper.hopperState = HopperStates.unjam;
+        } else if(reverseIndexer && Robot.hopper.hopperState == HopperStates.unjam) {
+            Robot.hopper.hopperState = HopperStates.stationary;
         }
 
         // shuttle position buttons

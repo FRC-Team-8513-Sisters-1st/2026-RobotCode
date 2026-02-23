@@ -68,8 +68,8 @@ public class Settings {
             public static int lowerIntake = 6;
             public static int emergencyIntake = 7;
             public static int jiggleIntake = 8;
-            public static int manualShoot = 9; // force shoot
-            public static int toggleAutoShoot = 10; // force not shoot?
+            public static int forceShoot = 9; // force shoot
+            public static int forceDontShoot = 10; // force not shoot?
             public static int reverseIndexer = 11;
             public static int reverseKicker = 12;
             // copilot controller 2
@@ -98,13 +98,13 @@ public class Settings {
     public class IntakeSettings {
         public static double stowPosition = -27;
         public static double deployPosition = 0;
-        public static double intakeFudgeFactor = 1;
+        public static double intakeFudgeFactor = 0.5;
     }
 
     public class ShooterSettings {
         public static double hoodPosition = 0.22;
-        public static double aimFudgeFactor = 0.5;
-        public static double hoodAngleFudgeFactor = 1;
+        public static double aimFudgeFactor = 0.5; //change name to be angle fudge delta
+        public static double hoodAngleFudgeFactor = 0.1; //shot distance fudge delta
         public static double maxShooterVelocity = 47;
         public static double manualVelocityTuningFactor = 1;
         public static double manualHoodPosTuningfactor = 0.05;
@@ -162,18 +162,17 @@ public class Settings {
 
     public class AutoSettings {
         public class Thresholds {
-            public static double drivebaseShootRotationTHold = 5;
-            public static double drivebaseShuttleRotationTHold = 7;
-            public static double shootHoodPositionTHold = 2;
-            public static double shuttleHoodPositionTHold = 3;
-            public static double shooterVelocityTHold = 100;
-            public static double shooterShuttleVelocityTHold = 150;
+            public static double drivebaseShootRotationTHold = 2;
+            public static double drivebaseShuttleRotationTHold = 5;
+            public static double shootHoodPositionTHold = 0.05;
+            public static double shuttleHoodPositionTHold = 0.1;
+            public static double shooterVelocityTHold = 2;
+            public static double shooterShuttleVelocityTHold = 5;
         }
     }
 
     public static void resetTalon(TalonFX m_talonFX) {
         var stickyFaults = m_talonFX.getStickyFault_OverSupplyV().getValue();
-
         if (stickyFaults) {
 
             m_talonFX.clearStickyFaults();

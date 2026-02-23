@@ -197,24 +197,6 @@ public class Shooter {
         }
     }
 
-    // not using
-    // public void gradualSpinUp(int totalTime) {
-    // double oneSecVelocityIncr = Settings.ShooterSettings.maxShooterVelocity /
-    // totalTime;
-    // double timeStepStarted = 0;
-    // for (int i = 1; i <= totalTime; i++) {
-    // if (Timer.getFPGATimestamp() - timeStepStarted > 1) {
-    // targetVelocity = targetVelocity + oneSecVelocityIncr;
-    // shooterMotorLeftLeader
-    // .setControl(
-    // m_request.withVelocity(-targetVelocity).withFeedForward(-RPStoVoltage(targetVelocity)));
-    // timeStepStarted = Timer.getFPGATimestamp();
-
-    // }
-    // }
-
-    // }
-
     public void setCurrentLimits(double statorLimit, double supplyLimit) {
         var configs = new CurrentLimitsConfigs();
         configs.StatorCurrentLimitEnable = true;
