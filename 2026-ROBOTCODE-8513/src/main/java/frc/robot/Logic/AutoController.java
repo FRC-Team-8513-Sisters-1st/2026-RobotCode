@@ -51,7 +51,7 @@ public class AutoController {
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
-                        Robot.intake.intakeState = IntakeStates.stowed;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
                         Robot.drivebase.initPath("Depot-OneCycle");
 
@@ -95,7 +95,7 @@ public class AutoController {
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
-                        Robot.intake.intakeState = IntakeStates.stowed;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
                         Robot.drivebase.initPath("Outpost-OneCycle");
 

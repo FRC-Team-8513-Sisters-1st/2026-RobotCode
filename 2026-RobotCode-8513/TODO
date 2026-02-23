@@ -5,6 +5,7 @@ Autos:
     - outpost
     - depot
     - drive over bump
+    - update neutral zone zutos to not dogleg (it should drive straight into fuel then arc)
 
 Copilot:
     - jiggle intake while shooting/manual bring intake up a little while shooting
