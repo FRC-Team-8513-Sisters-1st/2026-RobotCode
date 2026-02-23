@@ -60,7 +60,7 @@ public class Shooter {
 
         // internal pid
         shooterMotorLeftLeader.getConfigurator().apply(slot0Configs);
-        setCurrentLimits(80, 60);
+        setCurrentLimits(120, 80);
 
         // follower leader set up
         shooterMotorRightFollower

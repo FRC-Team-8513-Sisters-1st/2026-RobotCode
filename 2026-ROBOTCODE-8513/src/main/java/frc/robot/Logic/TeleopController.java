@@ -177,6 +177,7 @@ public class TeleopController {
             if (Robot.onRed) {
                 if (Robot.drivebase.yagslDrive.getPose().getX() > 11.8) {
                     shootingFacingHub = true;
+
                     Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
                             true,
                             false);
