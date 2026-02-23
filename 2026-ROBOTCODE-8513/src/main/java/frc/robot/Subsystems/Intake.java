@@ -8,9 +8,7 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Robot;
 import frc.robot.Settings;
-import frc.robot.Logic.Enums.HopperStates;
 import frc.robot.Logic.Enums.IntakeStates;
-import frc.robot.Logic.Enums.KickerStates;
 
 public class Intake {
     public IntakeStates intakeState = IntakeStates.stationaryDeployed;
@@ -94,15 +92,6 @@ public class Intake {
     public void spinIntakeBackward() {
         if (intakeDeployMotor.getPosition().getValueAsDouble() < 0) {
             intakeMotorLeftLeader.setControl(m_request.withOutput(-1.0));
-        }
-    }
-
-    public void jiggleIntakeWhileShooting() {
-        double maxPosition = -20;
-        double minPosition = 0;
-
-        if (Robot.kicker.kickerState == KickerStates.shooting && Robot.hopper.hopperState == HopperStates.indexing) {
-
         }
     }
 }

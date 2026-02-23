@@ -1,6 +1,5 @@
 Elastic:
     - field 2d with robot pose and all 4 vision poses
-    x automatically change elastic page on auto init and tele init
 
 Copilot
     - jiggle intake while shooting/manual bring intake up a little while shooting
@@ -9,24 +8,11 @@ Copilot
     
     
 Driver
-    x smaller deadband (0.02)
-    x snake mode joystick deadband (0.1)
-    x comment out drive slow over bump and practice driving slowly
-    x flip shooting pose rotation to back of robot
-    x rename to get powertoFacePose
-    x when let go of snake mode robot should hold that heading
-    x when align to bump pressed PID the Y value to closest bump
-    x once shooting goal pose on dashboard, make sure shooting goal changes to hub when in your alliance zone
-    x when shooting on the move the goal pose should also change on dashboard
+    - make driving while shooting speed a variabel in settings
     - update ready to shoot to include
-        x is hub active or will be active in the next 1.5 seconds
-        x heading correct
         ? rpm correct (same as velocity???)
         - if ready to shoot when pressing shooter button, spin indexer and kicker
             - pause indexer kicker if not in threshold
-    x if heading correct, lock pose
-    x have 2 different checks for ready to shoot vs ready to shuttle
-    x update goal heading when driving to the hub
 
 Tuning Joystick
     

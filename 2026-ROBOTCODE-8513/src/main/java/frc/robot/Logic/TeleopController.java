@@ -7,7 +7,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.HopperStates;
@@ -120,7 +119,7 @@ public class TeleopController {
         double rInput = Math.pow(rSpeedJoystick, 3);
 
         // if facing hub button, slow speed to 0.3
-        double robotV = Robot.drivebase.getRobotVelocityHypotenuse();
+
         if (shootingFacingHub) {
             if (Robot.onRed) {
                 xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3);
@@ -131,27 +130,7 @@ public class TeleopController {
                 yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.3;
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
-            // if driving over bump, do the bump speed calculation and lower speed if we are
-            // going over
-        }
-        // else if (Robot.drivebase.drivingOverBump() && robotV >
-        // Settings.PhysicalRobotValues.bumpMaxVelocity) {
-        // if (Robot.onRed) {
-        // xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
-        // * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV));
-        // yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
-        // * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV));
-        // rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
-        // } else {
-        // xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
-        // * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV);
-        // yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
-        // * (Settings.PhysicalRobotValues.bumpMaxVelocity / robotV);
-        // rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
-        // }
-        // // default driving
-        // }
-        else {
+        } else {
             if (Robot.onRed) {
                 xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity());
                 yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity());
