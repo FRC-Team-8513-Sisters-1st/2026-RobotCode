@@ -247,6 +247,126 @@ public class AutoController {
                         }
                         break;
                 }
+            case Depot:
+                switch (autoStep) {
+                    case 0:
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.intaking;
+
+                        Robot.drivebase.initPath("Depot_Depot_Pt1");
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 10;
+                        break;
+
+                    case 10:
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.intaking;
+
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                            autoStep = 12;
+                        }
+                        break;
+                    case 12:
+                        Robot.drivebase.yagslDrive.lockPose();
+                        if (Timer.getFPGATimestamp() - timeStepStarted > 2) {
+                            autoStep = 15;
+                        }
+                        break;
+
+                    case 15:
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.intaking;
+
+                        Robot.drivebase.initPath("Depot_Depot_Pt2");
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 20;
+                        break;
+                    case 20:
+
+                        if (Robot.drivebase.followLoadedPath()) {
+                            autoStep = 25;
+                        }
+                        break;
+                    case 25:
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        Robot.hopper.hopperState = HopperStates.indexing;
+                        Robot.kicker.kickerState = KickerStates.shooting;
+                        Robot.intake.intakeState = IntakeStates.shooting;
+
+                        Robot.drivebase.yagslDrive.lockPose();
+                        break;
+                }
+            case Outpost:
+                switch (autoStep) {
+                    case 0:
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stowed;
+
+                        Robot.drivebase.initPath("Outpost_Outpost_Pt1");
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 10;
+                        break;
+
+                    case 10:
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stowed;
+
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                            autoStep = 12;
+                        }
+                        break;
+                    case 12:
+                        Robot.drivebase.yagslDrive.lockPose();
+                        if (Timer.getFPGATimestamp() - timeStepStarted > 2) {
+                            autoStep = 15;
+                        }
+                        break;
+
+                    case 15:
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stowed;
+
+                        Robot.drivebase.initPath("Outpost_Outpost_Pt2");
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 20;
+                        break;
+                    case 20:
+
+                        if (Robot.drivebase.followLoadedPath()) {
+                            autoStep = 25;
+                        }
+                        break;
+                    case 25:
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        Robot.hopper.hopperState = HopperStates.indexing;
+                        Robot.kicker.kickerState = KickerStates.shooting;
+                        Robot.intake.intakeState = IntakeStates.intaking;
+
+                        Robot.drivebase.yagslDrive.lockPose();
+                        break;
+                }
                 break;
         }
 

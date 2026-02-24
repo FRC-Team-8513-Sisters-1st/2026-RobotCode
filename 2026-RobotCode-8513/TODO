@@ -2,15 +2,15 @@ Elastic:
     - field 2d with robot pose and all 4 vision poses
 
 Autos:
-    - outpost
+    x outpost
     - depot
-    - update neutral zone zutos to not dogleg (it should drive straight into fuel then arc)
+    x update neutral zone zutos to not dogleg (it should drive straight into fuel then arc)
     - if we have never seen vision, assume robot is at some pose
 
 Copilot:
-    - jiggle intake while shooting/manual bring intake up a little while shooting
+    - set the shooting position for the intake 
     x map buttons on co pilot pannels
-        - MAKE SURE each co pilot button has code (check the intake)
+        x MAKE SURE each co pilot button has code (check the intake)
     
     
 Driver:
