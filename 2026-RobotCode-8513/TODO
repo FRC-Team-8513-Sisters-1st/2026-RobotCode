@@ -5,6 +5,7 @@ Autos:
     - outpost
     - depot
     - update neutral zone zutos to not dogleg (it should drive straight into fuel then arc)
+    - if we have never seen vision, assume robot is at some pose
 
 Copilot:
     - jiggle intake while shooting/manual bring intake up a little while shooting
