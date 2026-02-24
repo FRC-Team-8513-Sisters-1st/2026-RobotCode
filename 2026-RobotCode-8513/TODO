@@ -14,7 +14,7 @@ Copilot:
     
     
 Driver:
-    
+    - add interperolate for shooter velocity
     - make driving while shooting speed a variabel in settings
     - update ready to shoot to include
         - add counter check to ready
