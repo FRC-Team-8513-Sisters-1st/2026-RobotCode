@@ -1,9 +1,12 @@
 package frc.robot.Logic;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.Settings;
 import frc.robot.Logic.Enums.AutoRoutines;
 import frc.robot.Logic.Enums.HopperStates;
 import frc.robot.Logic.Enums.IntakeStates;
@@ -14,9 +17,11 @@ public class AutoController {
 
     public SendableChooser<String> autoSelector;
     public AutoRoutines autoRoutine = AutoRoutines.DoNothing;
+    public AutoRoutines autoToReturnTo = AutoRoutines.DoNothing;
 
     public int autoStep;
     double timeStepStarted = 0;
+    int bumpTholdCounter = 0;
 
     public AutoController() {
         // create auto selector with each enum option
@@ -92,6 +97,9 @@ public class AutoController {
             case Outpost_OneCycle:
                 switch (autoStep) {
                     case 0:
+                        autoToReturnTo = AutoRoutines.Outpost_OneCycle;
+                        autoRoutine = AutoRoutines.GoOverBump;
+
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
@@ -134,6 +142,7 @@ public class AutoController {
                 }
 
             case TestAuto:
+
                 switch (autoStep) {
                     case 0:
                         Robot.shooter.shooterState = ShooterStates.stationary;
@@ -185,10 +194,62 @@ public class AutoController {
                         break;
                     case 25:
                         Robot.drivebase.yagslDrive.lockPose();
+                        break;
+                }
+                break;
+            case GoOverBump:
+                switch (autoStep) {
+                    case 0:
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 10;
+                        break;
+                    case 10:
+                        if (Robot.onRed) {
+                            Robot.drivebase.driveFacingHeading(new Translation2d(-1, 0), new Rotation2d(Math.PI), true);
+                        } else {
+                            Robot.drivebase.driveFacingHeading(new Translation2d(1, 0), new Rotation2d(0), true);
+                        }
+                        if (Math.abs(Robot.drivebase.yagslDrive.getPitch()
+                                .getDegrees()) > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchTHold) {
+                            bumpTholdCounter++;
+                        } else {
+                            bumpTholdCounter = 0;
+                        }
+                        if (bumpTholdCounter >= Settings.AutoSettings.Thresholds.autoDetectedBumpPitchCount) {
+                            bumpTholdCounter = 0;
+                            autoStep = 15;
+                        }
+                        break;
+                    case 15:
+                        if (Math.abs(Robot.drivebase.yagslDrive.getPitch()
+                                .getDegrees()) < Settings.AutoSettings.Thresholds.autoDetectedBumpPitchTHold) {
+                            bumpTholdCounter++;
+                        } else {
+                            bumpTholdCounter = 0;
+                        }
+                        if (Robot.onRed) {
+                            Robot.drivebase.driveFacingHeading(new Translation2d(-1, 0), new Rotation2d(Math.PI),
+                                    true);
+                        } else {
+                            Robot.drivebase.driveFacingHeading(new Translation2d(1, 0), new Rotation2d(0), true);
+                        }
+
+                        if (bumpTholdCounter > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchCount) {
+                            bumpTholdCounter = 0;
+                            autoStep = 5;
+                            autoRoutine = autoToReturnTo;
+                        }
+                        break;
                 }
                 break;
         }
+
     }
 
     public void updateAutoRoutineFromDashboard() {
