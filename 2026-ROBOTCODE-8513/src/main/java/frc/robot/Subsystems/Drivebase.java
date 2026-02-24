@@ -220,7 +220,7 @@ public class Drivebase {
     public double timeOfFlight() {
         Robot.shooter.distanceBetweenCurrentAndGoalInMeters = Robot.drivebase
                 .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
-        timeOfFlight = Robot.shooter.getInterpolatedShooterVelocityFromDistance(Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
+        timeOfFlight = Robot.shooter.getInterpolatedTimeOfFlightFromDistance(Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
         return timeOfFlight;
     }
 

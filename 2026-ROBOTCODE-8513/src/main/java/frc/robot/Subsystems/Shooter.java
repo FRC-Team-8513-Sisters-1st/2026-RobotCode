@@ -69,9 +69,9 @@ public class Shooter {
         distToshooterVelocityEncoderValuesTable.put(3.01,44.8);
 
         // ADD Values
-        distToTimeOfFlightValuesTable.put(0.0,0.0);
-        distToTimeOfFlightValuesTable.put(1.0,10.0);
-        distToTimeOfFlightValuesTable.put(2.0,20.0);
+        distToTimeOfFlightValuesTable.put(1.0,1.0);
+        distToTimeOfFlightValuesTable.put(2.0,1.5);
+        distToTimeOfFlightValuesTable.put(5.0,2.2);
 
         // internal pid
         shooterMotorLeftLeader.getConfigurator().apply(slot0Configs);

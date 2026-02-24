@@ -195,6 +195,7 @@ public class TeleopController {
                             Robot.drivebase.getPowerToFacePose(copilotShuttlePosition), true, false);
                 }
             }
+            Robot.shooter.shooterState = ShooterStates.shooting;
             if ((Robot.shooter.readyToShuttle() || Robot.shooter.readyToShootInHub()) && autoShooting) {
                 Robot.kicker.kickerState = KickerStates.shooting;
                 Robot.hopper.hopperState = HopperStates.indexing;
@@ -204,6 +205,7 @@ public class TeleopController {
             }
             // if straighten bump pressed, check rotation and switch to nearest 0 or 180
         } else if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.straightenBump)) {
+            Robot.shooter.shooterState = ShooterStates.stationary;
             double currentY = Robot.drivebase.yagslDrive.getPose().getY();
             if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees()) <= 90) {
                 // y correction for driving over bump
@@ -250,8 +252,10 @@ public class TeleopController {
                 Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), snakeModeRotation, true);
                 Robot.drivebase.goalHeading = snakeModeRotation;
             }
+            Robot.shooter.shooterState = ShooterStates.stationary;
 
         } else {
+            Robot.shooter.shooterState = ShooterStates.stationary;
             shootingFacingHub = false;
             Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV),
                     Robot.drivebase.goalHeading, true);
