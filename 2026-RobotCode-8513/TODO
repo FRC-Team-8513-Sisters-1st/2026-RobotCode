@@ -9,19 +9,19 @@ Autos:
 
 Copilot:
     - jiggle intake while shooting/manual bring intake up a little while shooting
-    - map buttons on co pilot pannels
-        - MAKE SURE each co pilot button has code
+    x map buttons on co pilot pannels
+        - MAKE SURE each co pilot button has code (check the intake)
     
     
 Driver:
-    - add interperolate for shooter velocity
+    x add interperolate for shooter velocity
     - make driving while shooting speed a variabel in settings
-    - update ready to shoot to include
-        - add counter check to ready
-    - interperolate time of flight
-    - put interpolted values from first test into code
+    x update ready to shoot to include
+        x add counter check to ready
+    x interperolate time of flight
+    x put interpolted values from first test into code
     - test in simulation ready to shoot check
-    - update settings names for fudge factors variables
+    x update settings names for fudge factors variables
 
     
 Manual control:

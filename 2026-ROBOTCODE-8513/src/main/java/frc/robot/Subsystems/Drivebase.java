@@ -171,7 +171,7 @@ public class Drivebase {
         Robot.dashboard.scoreHubField2d.setRobotPose(goalAimPose.getX(), goalAimPose.getY(),
                 goalAimPose.getRotation());
 
-        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
+        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(goalHeading).getDegrees(), 0);
 
         return dvr;
     }
@@ -218,7 +218,9 @@ public class Drivebase {
 
     // calculates the tof
     public double timeOfFlight() {
-        timeOfFlight = 1;
+        Robot.shooter.distanceBetweenCurrentAndGoalInMeters = Robot.drivebase
+                .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
+        timeOfFlight = Robot.shooter.getInterpolatedShooterVelocityFromDistance(Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
         return timeOfFlight;
     }
 

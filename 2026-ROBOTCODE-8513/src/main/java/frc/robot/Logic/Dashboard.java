@@ -81,7 +81,7 @@ public class Dashboard {
                 SmartDashboard.putNumber("Goal hood position", Robot.shooter.goalHoodPosition);
 
                 // Fudge factors
-                SmartDashboard.putNumber("shooterAngleFudgeFactorValue", Robot.shooter.shotDistanceFudgeFactor);
+                SmartDashboard.putNumber("shotDistanceFudgeFactorValue", Robot.shooter.shotDistanceFudgeFactor);
                 SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);
 
                 // Prompts user input for PID values

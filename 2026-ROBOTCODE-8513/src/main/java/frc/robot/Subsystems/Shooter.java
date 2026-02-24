@@ -32,8 +32,11 @@ public class Shooter {
     public double shotDistanceFudgeFactor = 0;
 
     public double goalHoodPosition;
+    double readyToShootInHubCounter = 0;
+
 
     public double distanceToScoreHub;
+    public double goalShooterVelocity;
     public boolean manualShooterTuning = true;
     public double manualTuningHoodPosition = 0.2;
     public boolean manualHoodTuning = true;
@@ -44,7 +47,12 @@ public class Shooter {
 
     // create a velocity closed-loop request, voltage output, slot 0 configs
     public final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+    
+    // interpolation
     public InterpolatingDoubleTreeMap distToHoodEncoderValuesTable = new InterpolatingDoubleTreeMap();
+    public InterpolatingDoubleTreeMap distToshooterVelocityEncoderValuesTable = new InterpolatingDoubleTreeMap();
+    public InterpolatingDoubleTreeMap distToTimeOfFlightValuesTable = new InterpolatingDoubleTreeMap();
+
 
     public Shooter() {
         // internal pid controller shooter motors
@@ -53,10 +61,17 @@ public class Shooter {
         slot0Configs.kI = 0; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
 
-        // interpolating value
-        distToHoodEncoderValuesTable.put(0.0, 0.0);
-        distToHoodEncoderValuesTable.put(1.0, 10.0);
-        distToHoodEncoderValuesTable.put(2.0, 30.0);
+        // interpolating 
+        distToHoodEncoderValuesTable.put(2.05, 0.3);
+        distToHoodEncoderValuesTable.put(3.01, 0.2);
+
+        distToshooterVelocityEncoderValuesTable.put(2.05,39.0);
+        distToshooterVelocityEncoderValuesTable.put(3.01,44.8);
+
+        // ADD Values
+        distToTimeOfFlightValuesTable.put(0.0,0.0);
+        distToTimeOfFlightValuesTable.put(1.0,10.0);
+        distToTimeOfFlightValuesTable.put(2.0,20.0);
 
         // internal pid
         shooterMotorLeftLeader.getConfigurator().apply(slot0Configs);
@@ -80,7 +95,7 @@ public class Shooter {
         }
 
         // shooter controller if using interal pid
-        double targetV = 48;
+        double targetV = getInterpolatedShooterVelocity();
         SmartDashboard.putNumber("ShooterV", shooterMotorRightFollower.getVelocity().getValueAsDouble());
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
@@ -126,6 +141,13 @@ public class Shooter {
         goalHoodPosition = getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters);
     }
 
+    public double getInterpolatedShooterVelocity() {
+        distanceBetweenCurrentAndGoalInMeters = Robot.drivebase
+                .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
+        goalShooterVelocity = getInterpolatedShooterVelocityFromDistance(distanceBetweenCurrentAndGoalInMeters);
+        return goalShooterVelocity;
+    }
+
     // input target encoder position from the interpolation chart, PIDs, then
     // returns the power to maintain that position
     public double hoodAnglePower(double targetPosition) {
@@ -146,6 +168,18 @@ public class Shooter {
         return 0.4;
     }
 
+    // input distance, return shooterVelocity
+    public double getInterpolatedShooterVelocityFromDistance(double distanceFromGoal) {
+        double velocityToScoreHub = distToshooterVelocityEncoderValuesTable.get(distanceFromGoal);
+        return velocityToScoreHub;
+    }
+
+    // input distance, return timeOfFlight
+    public double getInterpolatedTimeOfFlightFromDistance(double distanceFromGoal) {
+        double TOFToScoreHub = distToTimeOfFlightValuesTable.get(distanceFromGoal);
+        return TOFToScoreHub;
+    }
+
     public double RPStoVoltage(double RPS) {
         double voltage = (RPS + 0.773138) / 8.70426;
         return voltage;
@@ -161,9 +195,17 @@ public class Shooter {
                 && (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
                         - targetVelocity) < Settings.AutoSettings.Thresholds.shooterVelocityTHold)
                 && timeCheckReadyToShoot()) {
-            return true;
+                    readyToShootInHubCounter++;
+        }else {
+            readyToShootInHubCounter = 0;
         }
-        return false;
+
+        if (readyToShootInHubCounter >= 4) {
+            readyToShootInHubCounter = 0;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean facingHub() {

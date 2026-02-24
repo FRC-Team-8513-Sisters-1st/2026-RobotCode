@@ -61,24 +61,24 @@ public class Settings {
 
             // copilot controller 1
             public static int increaseShotDistance = 4;
-            public static int decreaseShotDistance = 1;
-            public static int moveScorePoseRight = 2;
-            public static int moveScorePoseLeft = 3;
-            public static int heightenIntake = 5;
-            public static int lowerIntake = 6;
-            public static int emergencyIntake = 7;
-            public static int jiggleIntake = 8;
-            public static int forceShoot = 9; // force shoot
-            public static int forceDontShoot = 10; // force not shoot?
+            public static int decreaseShotDistance = 6;
+            public static int moveScorePoseRight = 3;
+            public static int moveScorePoseLeft = 5;
+            public static int heightenIntake = 8;
+            public static int lowerIntake = 9;
+            public static int emergencyIntake = 10;
+            public static int jiggleIntake = 7;
+            public static int forceShoot = 2; // force shoot
+            public static int forceDontShoot = 1; // force not shoot?
             public static int reverseIndexer = 11;
             public static int reverseKicker = 12;
             // copilot controller 2
-            public static int redDepotTrenchButton = 1;
-            public static int blueDepotTrenchButton = 2;
-            public static int redOutpostTrenchButton = 3;
-            public static int blueOutpostTrenchButton = 4;
-            public static int nuetralZoneButton1 = 5;
-            public static int nuetralZoneButton2 = 5;
+            public static int redDepotTrenchButton = 9;
+            public static int blueDepotTrenchButton = 10;
+            public static int redOutpostTrenchButton = 7;
+            public static int blueOutpostTrenchButton = 11;
+            public static int nuetralZoneButton1 = 8;
+            public static int nuetralZoneButton2 = 12;
 
 
             // manual controller
@@ -104,8 +104,8 @@ public class Settings {
 
     public class ShooterSettings {
         public static double hoodPosition = 0.22;
-        public static double aimFudgeFactor = 0.5; //change name to be angle fudge delta
-        public static double hoodAngleFudgeFactor = 0.1; //shot distance fudge delta
+        public static double angleFudgeDelta = 0.1; 
+        public static double shotDistanceFudgeDelta = 0.1; 
         public static double maxShooterVelocity = 47;
         public static double manualVelocityTuningFactor = 1;
         public static double manualHoodPosTuningfactor = 0.05;

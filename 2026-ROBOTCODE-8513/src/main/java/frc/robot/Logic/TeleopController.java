@@ -309,11 +309,11 @@ public class TeleopController {
         // COPILOT CONTROLS
         // adjustment for shooter hood angle
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseShotDistance)) {
-            Robot.shooter.shotDistanceFudgeFactor += Settings.ShooterSettings.hoodAngleFudgeFactor;
+            Robot.shooter.shotDistanceFudgeFactor += Settings.ShooterSettings.shotDistanceFudgeDelta;
         }
 
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseShotDistance)) {
-            Robot.shooter.shotDistanceFudgeFactor -= Settings.ShooterSettings.hoodAngleFudgeFactor;
+            Robot.shooter.shotDistanceFudgeFactor -= Settings.ShooterSettings.shotDistanceFudgeDelta;
         }
 
         // intake Fudge Factor
@@ -327,11 +327,11 @@ public class TeleopController {
 
         // adjustment for drivebase goal aim fudge factor
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)) {
-            Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.aimFudgeFactor;
+            Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.angleFudgeDelta;
         }
 
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)) {
-            Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.aimFudgeFactor;
+            Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.angleFudgeDelta;
         }
 
         // Intake copilot emergency controls
@@ -378,9 +378,8 @@ public class TeleopController {
         // kicker controls
         boolean reverseKicker = copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseKicker);
         if (reverseKicker && (Robot.kicker.kickerState == KickerStates.stationary
-                || Robot.kicker.kickerState == KickerStates.intaking)) {
-            Robot.kicker.kickerState = KickerStates.shooting;
-            Robot.hopper.hopperState = HopperStates.indexing;
+                || Robot.kicker.kickerState == KickerStates.shooting)) {
+            Robot.kicker.kickerState = KickerStates.intaking;
         }
 
         // indexer
