@@ -288,7 +288,7 @@ public class TeleopController {
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake);
         boolean stopIntakeButtonPressed = Robot.teleop.driverXboxController
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake);
-        if (Robot.intake.intakeState == IntakeStates.stowed && intakeButtonPressed) {
+        if ((Robot.intake.intakeState == IntakeStates.stowed || Robot.intake.intakeState == IntakeStates.shooting) && intakeButtonPressed) {
             // if the robot is stowed
             Robot.intake.intakeState = IntakeStates.intaking;
         } else if ((Robot.intake.intakeState == IntakeStates.intaking
@@ -341,10 +341,24 @@ public class TeleopController {
             // if the robot is stowed
             Robot.intake.intakeState = IntakeStates.intaking;
         } else if ((Robot.intake.intakeState == IntakeStates.intaking
-                || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
+                || Robot.intake.intakeState == IntakeStates.stationaryDeployed
+                || Robot.intake.intakeState == IntakeStates.shooting)
                 && copilotEmergencyIntakeButtonPressed) {
             // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.stowed;
+        }
+
+        boolean copilotshootIntakeButtonPressed = Robot.teleop.copilotJoystick1
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.jiggleIntake);
+        if (Robot.intake.intakeState == IntakeStates.stowed && copilotshootIntakeButtonPressed) {
+            // if the robot is stowed
+        } else if ((Robot.intake.intakeState == IntakeStates.intaking
+                || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
+                && copilotshootIntakeButtonPressed) {
+            // if the robot is intaking or stationary
+            Robot.intake.intakeState = IntakeStates.shooting;
+        } else if (Robot.intake.intakeState == IntakeStates.shooting && copilotshootIntakeButtonPressed) {
+            Robot.intake.intakeState = IntakeStates.intaking;
         }
 
         // shooter controls
@@ -374,7 +388,7 @@ public class TeleopController {
         if (reverseIndexer && (Robot.hopper.hopperState == HopperStates.indexing
                 || Robot.hopper.hopperState == HopperStates.stationary)) {
             Robot.hopper.hopperState = HopperStates.unjam;
-        } else if(reverseIndexer && Robot.hopper.hopperState == HopperStates.unjam) {
+        } else if (reverseIndexer && Robot.hopper.hopperState == HopperStates.unjam) {
             Robot.hopper.hopperState = HopperStates.stationary;
         }
 

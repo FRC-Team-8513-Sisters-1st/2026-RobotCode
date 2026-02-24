@@ -62,6 +62,12 @@ public class Intake {
             // intake wheels off
             intakeMotorLeftLeader.setControl(m_request.withOutput(0));
 
+        } else if (intakeState == IntakeStates.shooting) {
+            // deploy intake
+            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
+
+            // intake wheels off
+            intakeMotorLeftLeader.setControl(m_request.withOutput(0));
         }
 
         // TEMPORARY: manual joystick control for intake

@@ -4,7 +4,6 @@ Elastic:
 Autos:
     - outpost
     - depot
-    - drive over bump
     - update neutral zone zutos to not dogleg (it should drive straight into fuel then arc)
 
 Copilot:

@@ -99,6 +99,7 @@ public class Settings {
         public static double stowPosition = -27;
         public static double deployPosition = 0;
         public static double intakeFudgeFactor = 0.5;
+        public static double shootingPosition = -10;
     }
 
     public class ShooterSettings {
