@@ -8,7 +8,7 @@ Autos:
     - if we have never seen vision, assume robot is at some pose
 
 Copilot:
-    - set the shooting position for the intake 
+    x shooting button for coplilot
     x map buttons on co pilot pannels
         x MAKE SURE each co pilot button has code (check the intake)
     

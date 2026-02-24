@@ -22,10 +22,20 @@ public class Vision {
         boolean updateHeadingWithVision = true;
 
         boolean useRightShooterCam = true;
+        boolean useLeftShooterCam = true;
+        boolean useHighShooterCam = true;
+        boolean useRightCam = true;
 
         AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
 
+        // 1
         PhotonCamera rightShooterCam = new PhotonCamera("rightShooterCam");
+        // 4
+        PhotonCamera leftShooterCam = new PhotonCamera("leftShooterCam");
+        // 3
+        PhotonCamera highShooterCam = new PhotonCamera("highShooterCam");
+        // 2
+        PhotonCamera rightCam = new PhotonCamera("rightShooterCam");
 
         public double timeATLastSeen;
 
@@ -35,17 +45,58 @@ public class Vision {
                         new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
                                         Units.inchesToMeters(13)),
                         new Rotation3d(0, -25, Units.degreesToRadians(180)));
+        Transform3d leftShooterCamTranslation = new Transform3d(
+                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
+                                        Units.inchesToMeters(13)),
+                        new Rotation3d(0, -25, Units.degreesToRadians(180)));
+        Transform3d highShooterCamTranslation = new Transform3d(
+                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
+                                        Units.inchesToMeters(13)),
+                        new Rotation3d(0, -25, Units.degreesToRadians(180)));
+        Transform3d rightCamTranslation = new Transform3d(
+                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
+                                        Units.inchesToMeters(13)),
+                        new Rotation3d(0, -25, Units.degreesToRadians(180)));
 
-        PhotonPoseEstimator rightShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, rightShooterCamTranslation);
+        PhotonPoseEstimator rightShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                        rightShooterCamTranslation);
+        PhotonPoseEstimator leftShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                        leftShooterCamTranslation);
+        PhotonPoseEstimator highShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                        leftShooterCamTranslation);
+        PhotonPoseEstimator rightPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                        leftShooterCamTranslation);
 
-        Field2d photonField2d_processor = new Field2d();
+        Field2d photonField2d_rightShooter = new Field2d();
+        Field2d photonField2d_leftShooter = new Field2d();
+        Field2d photonField2d_highShooter = new Field2d();
+        Field2d photonField2d_right = new Field2d();
+
+        public Vision() {
+                SmartDashboard.putData("photonPose rightShooter", photonField2d_rightShooter);
+                SmartDashboard.putData("photonPose leftShooter", photonField2d_leftShooter);
+                SmartDashboard.putData("photonPose highShooter", photonField2d_highShooter);
+                SmartDashboard.putData("photonPose right", photonField2d_right);
+
+        }
 
         public void updatePhotonVision() {
                 if (Robot.isReal()) {
-                        integrateCamera(useRightShooterCam, rightShooterCam, rightShooterPoseEstimator, photonField2d_processor,
+                        integrateCamera(useRightShooterCam, rightShooterCam, rightShooterPoseEstimator,
+                                        photonField2d_rightShooter,
+                                        visionMaxATDist, false);
+                        integrateCamera(useLeftShooterCam, leftShooterCam, leftShooterPoseEstimator,
+                                        photonField2d_leftShooter,
+                                        visionMaxATDist, false);
+                        integrateCamera(useHighShooterCam, highShooterCam, highShooterPoseEstimator,
+                                        photonField2d_highShooter,
+                                        visionMaxATDist, false);
+                        integrateCamera(useRightCam, rightCam, rightPoseEstimator, photonField2d_right,
                                         visionMaxATDist, false);
                 } else {
-                        Robot.drivebase.yagslDrive.addVisionMeasurement(Robot.drivebase.yagslDrive.getSimulationDriveTrainPose().get(), Timer.getTimestamp());
+                        Robot.drivebase.yagslDrive.addVisionMeasurement(
+                                        Robot.drivebase.yagslDrive.getSimulationDriveTrainPose().get(),
+                                        Timer.getTimestamp());
                 }
 
         }
@@ -55,7 +106,6 @@ public class Vision {
                 for (var result : camera.getAllUnreadResults()) {
                         Optional<EstimatedRobotPose> photonPose = estimator.estimateLowestAmbiguityPose(result);
 
-                       
                         if (photonPose.isPresent()) {
                                 photonField.setRobotPose(photonPose.get().estimatedPose.toPose2d());
 
