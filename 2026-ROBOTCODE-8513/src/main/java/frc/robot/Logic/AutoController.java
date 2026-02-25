@@ -307,6 +307,7 @@ public class AutoController {
                         Robot.drivebase.yagslDrive.lockPose();
                         break;
                 }
+                break;
             case Outpost:
                 switch (autoStep) {
                     case 0:
