@@ -23,7 +23,7 @@ public class Vision {
 
         boolean useRightShooterCam = true;
         boolean useLeftShooterCam = true;
-        boolean useLeftCam = false;
+        boolean useLeftCam = true;
         boolean useRightCam = true;
 
         AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
@@ -50,9 +50,9 @@ public class Vision {
                                         Units.inchesToMeters(16)),
                         new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180)));
         Transform3d leftCamTranlation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
+                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(12),
                                         Units.inchesToMeters(13)),
-                        new Rotation3d(0, Units.degreesToRadians(-25), Units.degreesToRadians(180)));
+                        new Rotation3d(0, Units.degreesToRadians(-50), Units.degreesToRadians(90)));
         Transform3d rightCamTranslation = new Transform3d(
                         new Translation3d(Units.inchesToMeters(-11), Units.inchesToMeters(-11),
                                         Units.inchesToMeters(20)),
