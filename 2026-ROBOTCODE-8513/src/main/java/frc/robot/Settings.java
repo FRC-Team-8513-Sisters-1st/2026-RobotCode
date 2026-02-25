@@ -50,6 +50,7 @@ public class Settings {
         public static int rightJoystickY = 6;
 
         public static boolean headingJoystickControls = true;
+        public static double snakeModeVelocityFactor = 0.3;
 
         public static class ButtonIDs {            // driver controller
             public static int intake = 5;

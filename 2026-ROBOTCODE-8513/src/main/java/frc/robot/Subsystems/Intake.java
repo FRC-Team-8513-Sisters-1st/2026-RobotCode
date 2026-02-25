@@ -6,6 +6,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.IntakeStates;
@@ -24,6 +25,7 @@ public class Intake {
 
     public boolean useManualIntakeControl = false;
     public double intakeFudgeFactor = 0;
+    public double timeLeftStowedState;
 
     public Intake() {
         intakeMotorRightFollower
@@ -37,8 +39,12 @@ public class Intake {
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
             // spinIntakeBackward();
 
-            // intake wheels on
-            intakeMotorLeftLeader.setControl(m_request.withOutput(1.0));
+            if (Timer.getFPGATimestamp() - timeLeftStowedState < 0.5) {
+                intakeMotorLeftLeader.setControl(m_request.withOutput(-0.3));
+            } else {
+                // intake wheels on
+                intakeMotorLeftLeader.setControl(m_request.withOutput(1.0));
+            }
 
         } else if (intakeState == IntakeStates.stowed) {
             // stow intake
@@ -46,6 +52,8 @@ public class Intake {
 
             // intake wheels off
             intakeMotorLeftLeader.setControl(m_request.withOutput(0));
+
+            timeLeftStowedState = Timer.getFPGATimestamp();
 
         } else if (intakeState == IntakeStates.outtaking) {
             // deploy intake
@@ -68,6 +76,8 @@ public class Intake {
 
             // intake wheels off
             intakeMotorLeftLeader.setControl(m_request.withOutput(0));
+
+            timeLeftStowedState = Timer.getFPGATimestamp();
         }
 
         // TEMPORARY: manual joystick control for intake

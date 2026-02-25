@@ -22,8 +22,8 @@ Driver:
     x put interpolted values from first test into code
     - test in simulation ready to shoot check
     x update settings names for fudge factors variables
-    - for the first half second of intaking spin the wheels backwards
-    - snake mode max speed 
+    x for the first half second of intaking spin the wheels backwards
+    x snake mode max speed 
     
 Manual control:
     - make diagream like those below
