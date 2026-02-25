@@ -249,7 +249,7 @@ public class TeleopController {
                 Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), Robot.drivebase.goalHeading, true);
             } else {
                 Rotation2d snakeModeRotation = new Translation2d(xV, yV).getAngle();
-                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), snakeModeRotation, true);
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV * Settings.TeleopSettings.snakeModeVelocityFactor, yV * Settings.TeleopSettings.snakeModeVelocityFactor), snakeModeRotation, true);
                 Robot.drivebase.goalHeading = snakeModeRotation;
             }
             Robot.shooter.shooterState = ShooterStates.stationary;

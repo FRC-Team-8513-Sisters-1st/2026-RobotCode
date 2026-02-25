@@ -1,0 +1,4 @@
+10.85.13.50  rightShooterCam
+10.85.13.51  highShooterCam
+10.85.13.52  rightCam
+10.85.13.53  leftShooterCam

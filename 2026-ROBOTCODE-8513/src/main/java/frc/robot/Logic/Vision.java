@@ -23,7 +23,7 @@ public class Vision {
 
         boolean useRightShooterCam = true;
         boolean useLeftShooterCam = true;
-        boolean useHighShooterCam = true;
+        boolean useLeftCam = false;
         boolean useRightCam = true;
 
         AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
@@ -33,9 +33,9 @@ public class Vision {
         // 4
         PhotonCamera leftShooterCam = new PhotonCamera("leftShooterCam");
         // 3
-        PhotonCamera highShooterCam = new PhotonCamera("highShooterCam");
+        PhotonCamera leftCam = new PhotonCamera("leftCam");
         // 2
-        PhotonCamera rightCam = new PhotonCamera("rightShooterCam");
+        PhotonCamera rightCam = new PhotonCamera("rightCam");
 
         public double timeATLastSeen;
 
@@ -44,38 +44,38 @@ public class Vision {
         Transform3d rightShooterCamTranslation = new Transform3d(
                         new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
                                         Units.inchesToMeters(13)),
-                        new Rotation3d(0, -25, Units.degreesToRadians(180)));
+                        new Rotation3d(0, Units.degreesToRadians(-25), Units.degreesToRadians(180)));
         Transform3d leftShooterCamTranslation = new Transform3d(
                         new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(12),
-                                        Units.inchesToMeters(13)),
-                        new Rotation3d(0, -25, Units.degreesToRadians(180)));
-        Transform3d highShooterCamTranslation = new Transform3d(
+                                        Units.inchesToMeters(16)),
+                        new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180)));
+        Transform3d leftCamTranlation = new Transform3d(
                         new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
                                         Units.inchesToMeters(13)),
-                        new Rotation3d(0, -25, Units.degreesToRadians(180)));
+                        new Rotation3d(0, Units.degreesToRadians(-25), Units.degreesToRadians(180)));
         Transform3d rightCamTranslation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
-                                        Units.inchesToMeters(13)),
-                        new Rotation3d(0, -25, Units.degreesToRadians(180)));
+                        new Translation3d(Units.inchesToMeters(-11), Units.inchesToMeters(-11),
+                                        Units.inchesToMeters(20)),
+                        new Rotation3d(0, Units.degreesToRadians(-50), Units.degreesToRadians(-90)));
 
         PhotonPoseEstimator rightShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
                         rightShooterCamTranslation);
         PhotonPoseEstimator leftShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
                         leftShooterCamTranslation);
-        PhotonPoseEstimator highShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
-                        leftShooterCamTranslation);
+        PhotonPoseEstimator lefPhotonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                        leftCamTranlation);
         PhotonPoseEstimator rightPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
-                        leftShooterCamTranslation);
+                        rightCamTranslation);
 
         Field2d photonField2d_rightShooter = new Field2d();
         Field2d photonField2d_leftShooter = new Field2d();
-        Field2d photonField2d_highShooter = new Field2d();
+        Field2d photoField2d_left = new Field2d();
         Field2d photonField2d_right = new Field2d();
 
         public Vision() {
                 SmartDashboard.putData("photonPose rightShooter", photonField2d_rightShooter);
                 SmartDashboard.putData("photonPose leftShooter", photonField2d_leftShooter);
-                SmartDashboard.putData("photonPose highShooter", photonField2d_highShooter);
+                SmartDashboard.putData("photonPose left", photoField2d_left);
                 SmartDashboard.putData("photonPose right", photonField2d_right);
 
         }
@@ -88,8 +88,8 @@ public class Vision {
                         integrateCamera(useLeftShooterCam, leftShooterCam, leftShooterPoseEstimator,
                                         photonField2d_leftShooter,
                                         visionMaxATDist, false);
-                        integrateCamera(useHighShooterCam, highShooterCam, highShooterPoseEstimator,
-                                        photonField2d_highShooter,
+                        integrateCamera(useLeftCam, leftCam, lefPhotonPoseEstimator,
+                                        photoField2d_left,
                                         visionMaxATDist, false);
                         integrateCamera(useRightCam, rightCam, rightPoseEstimator, photonField2d_right,
                                         visionMaxATDist, false);

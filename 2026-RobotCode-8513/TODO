@@ -2,28 +2,16 @@ Elastic:
     - field 2d with robot pose and all 4 vision poses
 
 Autos:
-    x outpost
     - depot
-    x update neutral zone zutos to not dogleg (it should drive straight into fuel then arc)
     - if we have never seen vision, assume robot is at some pose
 
 Copilot:
-    x shooting button for coplilot
-    x map buttons on co pilot pannels
-        x MAKE SURE each co pilot button has code (check the intake)
-    - even if co pilof\t dorces shot dont shoot if no rpm
+    - even if copilot forces shot dont shoot if no rpm
     
 Driver:
-    x add interperolate for shooter velocity
     - make driving while shooting speed a variabel in settings
-    x update ready to shoot to include
-        x add counter check to ready
-    x interperolate time of flight
-    x put interpolted values from first test into code
+    - put all interpolated values on dashboard
     - test in simulation ready to shoot check
-    x update settings names for fudge factors variables
-    x for the first half second of intaking spin the wheels backwards
-    x snake mode max speed 
     
 Manual control:
     - make diagream like those below
