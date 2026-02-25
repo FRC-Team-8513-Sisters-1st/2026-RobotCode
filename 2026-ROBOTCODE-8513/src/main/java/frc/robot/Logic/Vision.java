@@ -46,7 +46,7 @@ public class Vision {
                                         Units.inchesToMeters(13)),
                         new Rotation3d(0, -25, Units.degreesToRadians(180)));
         Transform3d leftShooterCamTranslation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
+                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(12),
                                         Units.inchesToMeters(13)),
                         new Rotation3d(0, -25, Units.degreesToRadians(180)));
         Transform3d highShooterCamTranslation = new Transform3d(

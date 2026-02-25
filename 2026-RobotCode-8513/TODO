@@ -11,7 +11,7 @@ Copilot:
     x shooting button for coplilot
     x map buttons on co pilot pannels
         x MAKE SURE each co pilot button has code (check the intake)
-    
+    - even if co pilof\t dorces shot dont shoot if no rpm
     
 Driver:
     x add interperolate for shooter velocity
@@ -22,7 +22,8 @@ Driver:
     x put interpolted values from first test into code
     - test in simulation ready to shoot check
     x update settings names for fudge factors variables
-
+    - for the first half second of intaking spin the wheels backwards
+    - snake mode max speed 
     
 Manual control:
     - make diagream like those below

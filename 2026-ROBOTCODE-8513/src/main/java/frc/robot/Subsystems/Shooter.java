@@ -37,9 +37,9 @@ public class Shooter {
 
     public double distanceToScoreHub;
     public double goalShooterVelocity;
-    public boolean manualShooterTuning = true;
+    public boolean manualShooterTuning = false;
     public double manualTuningHoodPosition = 0.2;
-    public boolean manualHoodTuning = true;
+    public boolean manualHoodTuning = false;
     public double distanceBetweenCurrentAndGoalInMeters;
 
     // in init function, set slot 0 gains
