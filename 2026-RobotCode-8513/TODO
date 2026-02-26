@@ -17,6 +17,8 @@ Driver:
     - look at intake state when shooting
     - teloep init goa lheaidng curent heading
     - we are shooting dont d o0.5 second spin back
+    - update shooter PID to 1khz
+    
 Manual control:
     - make diagream like those below
 
