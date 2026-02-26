@@ -392,7 +392,7 @@ public class AutoController {
 
     // asumes the robot pose if there has been no apriltags
     public void ifNoCameraAssumeRobotPos(Pose2d autoStartPose) {
-        if (Robot.vision.timeATLastSeen == Timer.getFPGATimestamp()) {
+        if (Timer.getFPGATimestamp() - Robot.vision.timeATLastSeen > 20) {
             Robot.drivebase.yagslDrive.resetOdometry(autoStartPose);
         }
     }

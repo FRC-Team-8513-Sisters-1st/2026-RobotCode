@@ -198,13 +198,20 @@ public class TeleopController {
                 }
             }
             Robot.shooter.shooterState = ShooterStates.shooting;
-            if ((Robot.shooter.readyToShuttle() || Robot.shooter.readyToShootInHub()) && autoShooting) {
+            if ((Robot.shooter.readyToShuttle() || Robot.shooter.readyToShootInHub()) && autoShooting && Robot.shooter.shooterState == ShooterStates.shooting) {
                 Robot.kicker.kickerState = KickerStates.shooting;
                 Robot.hopper.hopperState = HopperStates.indexing;
             } else {
                 Robot.kicker.kickerState = KickerStates.stationary;
                 Robot.hopper.hopperState = HopperStates.stationary;
             }
+            
+            // when the driver releasese the shooting button the mechanisms stop
+            if (driverXboxController.getRawButtonReleased(Settings.TeleopSettings.ButtonIDs.faceGoal)) {
+                Robot.kicker.kickerState = KickerStates.stationary;
+                Robot.hopper.hopperState = HopperStates.stationary;
+            }
+
             // if straighten bump pressed, check rotation and switch to nearest 0 or 180
         } else if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.straightenBump)) {
             Robot.shooter.shooterState = ShooterStates.stationary;
@@ -364,13 +371,13 @@ public class TeleopController {
             // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.shooting;
         } else if (Robot.intake.intakeState == IntakeStates.shooting && copilotshootIntakeButtonPressed) {
-            Robot.intake.intakeState = IntakeStates.intaking;
+            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
         }
 
         // shooter controls
         boolean shootButtonPressed = copilotJoystick1
                 .getRawButton(Settings.TeleopSettings.ButtonIDs.forceShoot);
-        if (shootButtonPressed) {
+        if (shootButtonPressed && Robot.shooter.shooterState == ShooterStates.shooting) {
             Robot.kicker.kickerState = KickerStates.shooting;
             Robot.hopper.hopperState = HopperStates.indexing;
         }

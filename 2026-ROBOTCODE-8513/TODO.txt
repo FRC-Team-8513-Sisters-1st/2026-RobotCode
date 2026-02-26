@@ -6,11 +6,11 @@ Autos:
     - Bump
         - check if when we drive over intake first if that is pitch + or -
             - then check if we pich in both diretions before landing flat and moving on in auto
-    **check this** if we have never seen vision, assume robot is at starting pose
+    x if we have never seen vision, assume robot is at starting pose
 
 Copilot:
     x when unjam kicker button go back to stationary
-    - do NOT spin the indexer or kicker wheels if the shooter is not spinning
+    x do NOT spin the indexer or kicker wheels if the shooter is not spinning
 
 Driver:
     x make driving while shooting speed a variabel in settings
@@ -18,12 +18,13 @@ Driver:
     - test in simulation ready to shoot check
         x to do this put each of the checks on the dashboard 
         x where we do the checks, make each check a variable, then in the IF just check the value of the variables
-    - look at intake state when shooting
+    x look at intake state when shooting
     x Only spin intake backwards when going from Stowed to deployed. 
     - set all current limits in hardwareClinet/phenixTuner - remove them from code
     x Update shooter PID to 1kHz
         x https://v6.docs.ctr-electronics.com/en/latest/docs/migration/migration-guide/control-requests-guide.html#changing-update-frequency-control-frame-period 
     - disable foc on the intake
+        - https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/controls/VoltageOut.html#EnableFOC 
     
 Manual control:
     - make diagream like those below
