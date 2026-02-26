@@ -1,28 +1,29 @@
 Elastic:
     - field 2d with robot pose and all 4 vision poses
-    - put all the checks that are true or false for auto shoot
+    x put all the checks that are true or false for auto shoot
 
 Autos:
     - Bump
         - check if when we drive over intake first if that is pitch + or -
             - then check if we pich in both diretions before landing flat and moving on in auto
-    - if we have never seen vision, assume robot is at starting pose
+    **check this** if we have never seen vision, assume robot is at starting pose
 
 Copilot:
-    - when unjam kicker button go back to stationary
+    x when unjam kicker button go back to stationary
     - do NOT spin the indexer or kicker wheels if the shooter is not spinning
 
 Driver:
-    - make driving while shooting speed a variabel in settings
-    - put all interpolated values on dashboard
+    x make driving while shooting speed a variabel in settings
+    x put all interpolated values on dashboard
     - test in simulation ready to shoot check
-        - to do this put each of the checks on the dashboard 
-        - where we do the checks, make each check a variable, then in the IF just check the value of the variables
+        x to do this put each of the checks on the dashboard 
+        x where we do the checks, make each check a variable, then in the IF just check the value of the variables
     - look at intake state when shooting
-    - Only spin intake backwards when going from Stowed to deployed. 
+    x Only spin intake backwards when going from Stowed to deployed. 
     - set all current limits in hardwareClinet/phenixTuner - remove them from code
-    - Update shooter PID to 1kHz
-        - https://v6.docs.ctr-electronics.com/en/latest/docs/migration/migration-guide/control-requests-guide.html#changing-update-frequency-control-frame-period
+    x Update shooter PID to 1kHz
+        x https://v6.docs.ctr-electronics.com/en/latest/docs/migration/migration-guide/control-requests-guide.html#changing-update-frequency-control-frame-period 
+    - disable foc on the intake
     
 Manual control:
     - make diagream like those below

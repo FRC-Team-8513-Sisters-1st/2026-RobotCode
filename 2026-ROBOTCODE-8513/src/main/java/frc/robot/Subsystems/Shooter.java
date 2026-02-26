@@ -34,7 +34,6 @@ public class Shooter {
     public double goalHoodPosition;
     double readyToShootInHubCounter = 0;
 
-
     public double distanceToScoreHub;
     public double goalShooterVelocity;
     public boolean manualShooterTuning = false;
@@ -42,17 +41,20 @@ public class Shooter {
     public boolean manualHoodTuning = manualShooterTuning;
     public double distanceBetweenCurrentAndGoalInMeters;
 
+    // ready to shoot checks
+    public boolean hoodPositionReady = false;
+    public boolean velocityReady = false;
+
     // in init function, set slot 0 gains
     public Slot0Configs slot0Configs = new Slot0Configs();
 
     // create a velocity closed-loop request, voltage output, slot 0 configs
     public final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-    
+
     // interpolation
     public InterpolatingDoubleTreeMap distToHoodEncoderValuesTable = new InterpolatingDoubleTreeMap();
     public InterpolatingDoubleTreeMap distToshooterVelocityEncoderValuesTable = new InterpolatingDoubleTreeMap();
     public InterpolatingDoubleTreeMap distToTimeOfFlightValuesTable = new InterpolatingDoubleTreeMap();
-
 
     public Shooter() {
         // internal pid controller shooter motors
@@ -61,27 +63,24 @@ public class Shooter {
         slot0Configs.kI = 0.05; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
 
-
-        // interpolating 
+        // interpolating
         distToHoodEncoderValuesTable.put(2.15, 0.3);
         distToHoodEncoderValuesTable.put(2.49, 0.25);
         distToHoodEncoderValuesTable.put(2.99, 0.2);
         distToHoodEncoderValuesTable.put(3.52, 0.2);
         distToHoodEncoderValuesTable.put(3.94, 0.2);
 
-
-        distToshooterVelocityEncoderValuesTable.put(2.15,39.0);
-        distToshooterVelocityEncoderValuesTable.put(2.49,40.5);
-        distToshooterVelocityEncoderValuesTable.put(2.99,42.5);
-        distToshooterVelocityEncoderValuesTable.put(3.52,46.0);
-        distToshooterVelocityEncoderValuesTable.put(3.94,49.0);
+        distToshooterVelocityEncoderValuesTable.put(2.15, 39.0);
+        distToshooterVelocityEncoderValuesTable.put(2.49, 40.5);
+        distToshooterVelocityEncoderValuesTable.put(2.99, 42.5);
+        distToshooterVelocityEncoderValuesTable.put(3.52, 46.0);
+        distToshooterVelocityEncoderValuesTable.put(3.94, 49.0);
 
         // ADD Values
-        distToTimeOfFlightValuesTable.put(2.15,0.78);
-        distToTimeOfFlightValuesTable.put(2.49,0.9);
-        distToTimeOfFlightValuesTable.put(3.52,1.13);
-        distToTimeOfFlightValuesTable.put(3.94,1.21);
-
+        distToTimeOfFlightValuesTable.put(2.15, 0.78);
+        distToTimeOfFlightValuesTable.put(2.49, 0.9);
+        distToTimeOfFlightValuesTable.put(3.52, 1.13);
+        distToTimeOfFlightValuesTable.put(3.94, 1.21);
 
         // internal pid
         shooterMotorLeftLeader.getConfigurator().apply(slot0Configs);
@@ -90,6 +89,8 @@ public class Shooter {
         // follower leader set up
         shooterMotorRightFollower
                 .setControl(new Follower(shooterMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
+
+        m_request.UpdateFreqHz = 1000;
 
     }
 
@@ -199,14 +200,26 @@ public class Shooter {
     // determine if the shooter is ready to shoot. Thresholds for each of these
     // values are in settings.
     public boolean readyToShootInHub() {
+        if (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
+                .getPosition()) < Settings.AutoSettings.Thresholds.shootHoodPositionTHold) {
+            hoodPositionReady = true;
+        } else {
+            hoodPositionReady = false;
+        }
+
+        if (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
+                - targetVelocity) < Settings.AutoSettings.Thresholds.shooterVelocityTHold) {
+            velocityReady = true;
+        } else {
+            velocityReady = false;
+        }
+
         if (facingHub()
-                && (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
-                        .getPosition()) < Settings.AutoSettings.Thresholds.shootHoodPositionTHold)
-                && (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
-                        - targetVelocity) < Settings.AutoSettings.Thresholds.shooterVelocityTHold)
+                && hoodPositionReady
+                && velocityReady
                 && timeCheckReadyToShoot()) {
-                    readyToShootInHubCounter++;
-        }else {
+            readyToShootInHubCounter++;
+        } else {
             readyToShootInHubCounter = 0;
         }
 

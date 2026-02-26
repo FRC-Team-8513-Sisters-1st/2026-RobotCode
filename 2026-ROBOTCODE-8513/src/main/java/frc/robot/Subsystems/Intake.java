@@ -76,8 +76,6 @@ public class Intake {
 
             // intake wheels off
             intakeMotorLeftLeader.setControl(m_request.withOutput(0));
-
-            timeLeftStowedState = Timer.getFPGATimestamp();
         }
 
         // TEMPORARY: manual joystick control for intake

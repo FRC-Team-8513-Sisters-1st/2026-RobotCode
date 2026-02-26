@@ -108,6 +108,19 @@ public class Dashboard {
                 SmartDashboard.putString("Hub Status", Robot.matchTimeAnalysis.activeOrInactive());
                 activeOrInactiveColor();
                 SmartDashboard.putString("Game data", DriverStation.getGameSpecificMessage());
+
+                // auto ready to shoot values
+                SmartDashboard.putBoolean("hoodPositionReady", Robot.shooter.hoodPositionReady);
+                SmartDashboard.putBoolean("velocityReady", Robot.shooter.velocityReady);
+                SmartDashboard.putBoolean("facingHub", Robot.shooter.facingHub());
+                SmartDashboard.putBoolean("timeCheckReadyToShoot", Robot.shooter.timeCheckReadyToShoot());
+
+                // interpolated values
+                SmartDashboard.putNumber("interpolatedHoodPosition", Robot.shooter.goalHoodPosition);
+                SmartDashboard.putNumber("interpolatedShooterVelocity", Robot.shooter.goalShooterVelocity);
+                SmartDashboard.putNumber("interpolatedTOF", Robot.drivebase.timeOfFlight);
+                SmartDashboard.putNumber("distanceToGoal", Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
+
         }
 
         public void getPIDValues() {

@@ -1,5 +1,6 @@
 package frc.robot.Logic;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
@@ -250,6 +251,8 @@ public class AutoController {
             case Depot:
                 switch (autoStep) {
                     case 0:
+                        ifNoCameraAssumeRobotPos(new Pose2d(3.560, 5.504, new Rotation2d(180)));
+
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
@@ -311,6 +314,8 @@ public class AutoController {
             case Outpost:
                 switch (autoStep) {
                     case 0:
+                        ifNoCameraAssumeRobotPos(new Pose2d(3.948, 2.929, new Rotation2d(180)));
+
                         Robot.shooter.shooterState = ShooterStates.shooting;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
@@ -382,6 +387,13 @@ public class AutoController {
             autoRoutine = AutoRoutines.valueOf(autoSelector.getSelected());
         } catch (Exception e) {
             autoRoutine = AutoRoutines.DoNothing;
+        }
+    }
+
+    // asumes the robot pose if there has been no apriltags
+    public void ifNoCameraAssumeRobotPos(Pose2d autoStartPose) {
+        if (Robot.vision.timeATLastSeen == Timer.getFPGATimestamp()) {
+            Robot.drivebase.yagslDrive.resetOdometry(autoStartPose);
         }
     }
 

@@ -38,7 +38,8 @@ public class Settings {
         public static int manualJoystickPort = 4;
         public static double joystickDeadband = 0.02;
         public static double snakeModeJoystickDeadband = 0.15;
-        public static double specialRotationJoystickDeadband = 0.5;
+        public static double specialRotationJoystickDeadband = 0.85;
+        public static double drivingWhileShootingSpeed = 0.3;
 
         // joystick axis
         public static int forwardBackwardsAxis = 1;
