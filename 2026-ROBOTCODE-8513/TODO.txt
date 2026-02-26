@@ -3,25 +3,29 @@ Elastic:
     - put all the checks that are true or false for auto shoot
 
 Autos:
-    - depot
-    - if we have never seen vision, assume robot is at some pose
+    - Bump
+        - check if when we drive over intake first if that is pitch + or -
+            - then check if we pich in both diretions before landing flat and moving on in auto
+    - if we have never seen vision, assume robot is at starting pose
 
 Copilot:
-    - even if copilot forces shot dont shoot if no rpm
     - when unjam kicker button go back to stationary
     - do NOT spin the indexer or kicker wheels if the shooter is not spinning
+
 Driver:
     - make driving while shooting speed a variabel in settings
     - put all interpolated values on dashboard
     - test in simulation ready to shoot check
+        - to do this put each of the checks on the dashboard 
+        - where we do the checks, make each check a variable, then in the IF just check the value of the variables
     - look at intake state when shooting
-    - teloep init goa lheaidng curent heading
-    - we are shooting dont d o0.5 second spin back
-    - update shooter PID to 1khz
+    - Only spin intake backwards when going from Stowed to deployed. 
+    - set all current limits in hardwareClinet/phenixTuner - remove them from code
+    - Update shooter PID to 1kHz
+        - https://v6.docs.ctr-electronics.com/en/latest/docs/migration/migration-guide/control-requests-guide.html#changing-update-frequency-control-frame-period
     
 Manual control:
     - make diagream like those below
-
 
 Get Robot Schedule:
     - test no vision odometry (tune path following pid)
@@ -33,26 +37,15 @@ Get Robot Schedule:
         - make sure each vision pose is on dashboard
         - this will be related to putting vision status lights on elastic
     - tune pid values for subsystems
-    - test all the buttons and manual controls (update fudge factors)
-        - fudge facotr on advantage scope
-        
-    
+    - test all the buttons and manual controls (update fudge factors)           
     - tune shot (set values for the interpolation)
-        - record video 
-    - test copilot buttons
+        - manually tune hood and velocity
+    - then take interpolated shots and record to get TOF interpolation
     - test + tune autos
     - clean tele drive if needed
 
-Mt Olive Wed Schedule:
-    - drive
-    - test intake depoly/retract
-    - test auto drive over bump
-    - test button pannel buttons
-    - test shooting and state machine
-    - test shuttle and button pannel overides
-    - test outpost auto
-    - test depot auto
-    - practice cycling
+Week 0 Schedule
+    - 
 
 Shot tuning on 2/21:
     shot tuning: dist: 2.05, v: 39 pos: .3
