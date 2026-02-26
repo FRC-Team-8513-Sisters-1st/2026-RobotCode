@@ -12,6 +12,7 @@ Driver:
     - make driving while shooting speed a variabel in settings
     - put all interpolated values on dashboard
     - test in simulation ready to shoot check
+    - update shooter PID to 1khz
     
 Manual control:
     - make diagream like those below
