@@ -23,7 +23,7 @@ public class Shooter {
     public TalonFX shooterMotorRightFollower = new TalonFX(14);
     public SparkMax shooterHoodMotor = new SparkMax(15, MotorType.kBrushless);
 
-    public PIDController shooterMotorController = new PIDController(1.5, 0.01, 0);
+    public PIDController shooterMotorController = new PIDController(1.5, 0.1, 0);
 
     public ShooterStates shooterState = ShooterStates.stationary;
 
@@ -39,7 +39,7 @@ public class Shooter {
     public double goalShooterVelocity;
     public boolean manualShooterTuning = false;
     public double manualTuningHoodPosition = 0.2;
-    public boolean manualHoodTuning = false;
+    public boolean manualHoodTuning = manualShooterTuning;
     public double distanceBetweenCurrentAndGoalInMeters;
 
     // in init function, set slot 0 gains
@@ -58,20 +58,30 @@ public class Shooter {
         // internal pid controller shooter motors
         slot0Configs.kV = 0; // A velocity target of 1 rps results in 0.12 V output
         slot0Configs.kP = 0.5; // An error of 1 rps results in 0.11 V output
-        slot0Configs.kI = 0; // no output for integrated error
+        slot0Configs.kI = 0.05; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
 
-        // interpolating 
-        distToHoodEncoderValuesTable.put(2.05, 0.3);
-        distToHoodEncoderValuesTable.put(3.01, 0.2);
 
-        distToshooterVelocityEncoderValuesTable.put(2.05,39.0);
-        distToshooterVelocityEncoderValuesTable.put(3.01,44.8);
+        // interpolating 
+        distToHoodEncoderValuesTable.put(2.15, 0.3);
+        distToHoodEncoderValuesTable.put(2.49, 0.25);
+        distToHoodEncoderValuesTable.put(2.99, 0.2);
+        distToHoodEncoderValuesTable.put(3.52, 0.2);
+        distToHoodEncoderValuesTable.put(3.94, 0.2);
+
+
+        distToshooterVelocityEncoderValuesTable.put(2.15,39.0);
+        distToshooterVelocityEncoderValuesTable.put(2.49,40.5);
+        distToshooterVelocityEncoderValuesTable.put(2.99,42.5);
+        distToshooterVelocityEncoderValuesTable.put(3.52,46.0);
+        distToshooterVelocityEncoderValuesTable.put(3.94,49.0);
 
         // ADD Values
-        distToTimeOfFlightValuesTable.put(1.0,1.0);
-        distToTimeOfFlightValuesTable.put(2.0,1.5);
-        distToTimeOfFlightValuesTable.put(5.0,2.2);
+        distToTimeOfFlightValuesTable.put(2.15,0.78);
+        distToTimeOfFlightValuesTable.put(2.49,0.9);
+        distToTimeOfFlightValuesTable.put(3.52,1.13);
+        distToTimeOfFlightValuesTable.put(3.94,1.21);
+
 
         // internal pid
         shooterMotorLeftLeader.getConfigurator().apply(slot0Configs);

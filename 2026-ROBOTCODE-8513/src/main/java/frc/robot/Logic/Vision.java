@@ -21,7 +21,7 @@ public class Vision {
 
         boolean updateHeadingWithVision = true;
 
-        boolean useRightShooterCam = true;
+        boolean useRightShooterCam = false;
         boolean useLeftShooterCam = true;
         boolean useLeftCam = true;
         boolean useRightCam = true;

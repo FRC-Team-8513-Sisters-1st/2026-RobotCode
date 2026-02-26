@@ -1,5 +1,6 @@
 Elastic:
     - field 2d with robot pose and all 4 vision poses
+    - put all the checks that are true or false for auto shoot
 
 Autos:
     - depot
@@ -7,12 +8,15 @@ Autos:
 
 Copilot:
     - even if copilot forces shot dont shoot if no rpm
-    
+    - when unjam kicker button go back to stationary
+    - do NOT spin the indexer or kicker wheels if the shooter is not spinning
 Driver:
     - make driving while shooting speed a variabel in settings
     - put all interpolated values on dashboard
     - test in simulation ready to shoot check
-    
+    - look at intake state when shooting
+    - teloep init goa lheaidng curent heading
+    - we are shooting dont d o0.5 second spin back
 Manual control:
     - make diagream like those below
 

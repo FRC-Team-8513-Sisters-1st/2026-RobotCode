@@ -35,16 +35,16 @@ public class Dashboard {
                 // intake
                 SmartDashboard.putNumber("intakeDeployPosition",
                                 Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
-                SmartDashboard.putNumber("intakerightvelocity",
-                                Robot.intake.intakeMotorRightFollower.getVelocity().getValueAsDouble());
+                //SmartDashboard.putNumber("intakerightvelocity",
+                  //              Robot.intake.intakeMotorRightFollower.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("intakeleftvelocity",
                                 Robot.intake.intakeMotorLeftLeader.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("left intake motor power", Robot.intake.intakeMotorLeftLeader.get());
-                SmartDashboard.putNumber("right intake motor power", Robot.intake.intakeMotorRightFollower.get());
+                //SmartDashboard.putNumber("right intake motor power", Robot.intake.intakeMotorRightFollower.get());
                 SmartDashboard.putNumber("IntakeMotorCurrentLeft",
                                 Robot.intake.intakeMotorLeftLeader.getSupplyCurrent().getValueAsDouble());
-                SmartDashboard.putNumber("IntakeMotorCurrentRight",
-                                Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
+                //SmartDashboard.putNumber("IntakeMotorCurrentRight",
+                  //              Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",

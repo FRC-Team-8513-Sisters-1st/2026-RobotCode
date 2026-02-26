@@ -18,7 +18,7 @@ public class Intake {
     final DutyCycleOut m_request = new DutyCycleOut(0);
 
     public TalonFX intakeMotorLeftLeader = new TalonFX(32);
-    public TalonFX intakeMotorRightFollower = new TalonFX(31);
+    // public TalonFX intakeMotorRightFollower = new TalonFX(31);
     public TalonFX intakeDeployMotor = new TalonFX(33);
 
     public PIDController intakeMotorController = new PIDController(0.1, 0, 0);
@@ -28,8 +28,8 @@ public class Intake {
     public double timeLeftStowedState;
 
     public Intake() {
-        intakeMotorRightFollower
-                .setControl(new Follower(intakeMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
+        // intakeMotorRightFollower
+           //     .setControl(new Follower(intakeMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
     }
 
     public void setMotorPower() {

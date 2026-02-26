@@ -250,7 +250,7 @@ public class AutoController {
             case Depot:
                 switch (autoStep) {
                     case 0:
-                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.intaking;
@@ -263,7 +263,7 @@ public class AutoController {
                         break;
 
                     case 10:
-                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.intaking;
@@ -314,7 +314,7 @@ public class AutoController {
                         Robot.shooter.shooterState = ShooterStates.shooting;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
-                        Robot.intake.intakeState = IntakeStates.stowed;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
                         Robot.drivebase.initPath("Outpost_Outpost_Pt1");
 
@@ -371,6 +371,10 @@ public class AutoController {
                 break;
         }
 
+        Robot.intake.setMotorPower();
+        Robot.hopper.setMotorPower();
+        Robot.kicker.setMotorPower();
+        Robot.shooter.setMotorPower();
     }
 
     public void updateAutoRoutineFromDashboard() {

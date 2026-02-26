@@ -77,6 +77,8 @@ public class TeleopController {
 
         }
 
+        Robot.drivebase.goalHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
+
     }
 
     public double xSpeedJoystick;

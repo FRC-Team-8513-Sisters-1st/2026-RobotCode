@@ -25,6 +25,9 @@ public class Kicker {
         } else if (kickerState == KickerStates.stationary) {
             // set motor to stationary
             kickerMotor.set(0);
+        } else if (kickerState == KickerStates.intaking) {
+            // set motor to reverse
+            kickerMotor.set(-1);
         }
     }
 

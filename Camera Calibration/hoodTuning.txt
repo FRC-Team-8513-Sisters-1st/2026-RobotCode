@@ -1,0 +1,4 @@
+dist: 2.15, v: 39 pos: .3 time:.78
+dist: 2.49, v: 40.5 pos: 0.25 time: 0.9
+dist: 2.99, v: 42.5 pos: 0.2 time: 
+dist: 3.52, v: 45 pos: 0.2 time: 

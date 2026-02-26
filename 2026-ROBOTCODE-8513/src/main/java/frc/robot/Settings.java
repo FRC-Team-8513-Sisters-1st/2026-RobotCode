@@ -50,7 +50,7 @@ public class Settings {
         public static int rightJoystickY = 6;
 
         public static boolean headingJoystickControls = true;
-        public static double snakeModeVelocityFactor = 0.3;
+        public static double snakeModeVelocityFactor = 0.5;
 
         public static class ButtonIDs {            // driver controller
             public static int intake = 5;
@@ -151,10 +151,10 @@ public class Settings {
 
         // shuttling positions
         public class ShuttlingPositions {
-            public static Pose2d redDepotTrench = new Pose2d(10.935, 0.6, new Rotation2d());
-            public static Pose2d blueDepotTrench = new Pose2d(5.514, 7.4, new Rotation2d());
-            public static Pose2d redOutpostTrench = new Pose2d(10.935, 7.4, new Rotation2d());
-            public static Pose2d blueOutpostTrench = new Pose2d(5.514, 0.6, new Rotation2d());
+            public static Pose2d redDepotTrench = new Pose2d(12.935, 1.6, new Rotation2d());
+            public static Pose2d blueDepotTrench = new Pose2d(1.514, 6.4, new Rotation2d());
+            public static Pose2d redOutpostTrench = new Pose2d(12.935, 6.4, new Rotation2d());
+            public static Pose2d blueOutpostTrench = new Pose2d(1.514, 1.6, new Rotation2d());
             public static Pose2d neutralZone1 = new Pose2d(8.283, 1.635, new Rotation2d());
             public static Pose2d neutralZone2 = new Pose2d(8.283, 6.668, new Rotation2d());
 
@@ -168,7 +168,7 @@ public class Settings {
             public static double drivebaseShuttleRotationTHold = 5;
             public static double shootHoodPositionTHold = 0.05;
             public static double shuttleHoodPositionTHold = 0.1;
-            public static double shooterVelocityTHold = 2;
+            public static double shooterVelocityTHold = 4;
             public static double shooterShuttleVelocityTHold = 5;
             public static double autoDetectedBumpPitchTHold = 3;
             public static double autoDetectedBumpPitchCount = 4;
