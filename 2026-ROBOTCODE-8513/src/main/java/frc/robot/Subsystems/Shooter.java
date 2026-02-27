@@ -59,7 +59,7 @@ public class Shooter {
     public Shooter() {
         // internal pid controller shooter motors
         slot0Configs.kV = 0; // A velocity target of 1 rps results in 0.12 V output
-        slot0Configs.kP = 0.5; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kP = 0.4; // An error of 1 rps results in 0.11 V output
         slot0Configs.kI = 0.05; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
 

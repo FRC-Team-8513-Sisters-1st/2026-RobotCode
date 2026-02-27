@@ -1,7 +1,6 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -63,12 +62,13 @@ public class Intake {
             // spinIntakeBackward();
 
             if (Timer.getFPGATimestamp() - timeLeftStowedState < 0.5) {
+                targetV = -20;
                 intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(0.3)));
+                        .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
             } else {
                 // intake wheels on
                 intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+                        .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
             }
 
         } else if (intakeState == IntakeStates.stowed) {
