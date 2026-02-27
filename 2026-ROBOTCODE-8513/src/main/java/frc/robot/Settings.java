@@ -92,6 +92,8 @@ public class Settings {
             public static int shooterManualDecreaseVelocity = 5;
             public static int incHoodPos = 9;
             public static int decHoodPos = 10;
+            public static int gradualShooterSpinUp = 11;
+
 
         }
 
