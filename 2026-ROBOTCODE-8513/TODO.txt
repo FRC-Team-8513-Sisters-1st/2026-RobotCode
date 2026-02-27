@@ -24,7 +24,7 @@ Driver:
     - set all current limits in hardwareClinet/phenixTuner - remove them from code
     x Update shooter PID to 1kHz
         x https://v6.docs.ctr-electronics.com/en/latest/docs/migration/migration-guide/control-requests-guide.html#changing-update-frequency-control-frame-period 
-    - disable foc on the intake
+    x disable foc on the intake (ADDED PID TO INTAKE MOTORS)
         - https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/controls/VoltageOut.html#EnableFOC 
     
 Manual control:
@@ -32,7 +32,7 @@ Manual control:
 
 Get Robot Schedule:
     - test no vision odometry (tune path following pid)
-        - have a go straight auto
+        - have a go straight auto 
         - have a go straight and come back auto
         - have a go straight and rotate auto
         - have a drive at angle auto

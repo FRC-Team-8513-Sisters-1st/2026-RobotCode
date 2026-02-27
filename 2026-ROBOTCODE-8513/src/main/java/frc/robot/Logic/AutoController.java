@@ -51,6 +51,106 @@ public class AutoController {
                 Robot.drivebase.yagslDrive.lockPose();
                 break;
 
+            case MoveForward1Meter:
+                switch (autoStep) {
+                    case 0:
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+
+                        Robot.drivebase.initPath("Move Forward");
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 10;
+                        break;
+
+                    case 10:
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                        }
+                        break;
+                }
+                break;
+
+            case MoveForward1MeterComeBack:
+                switch (autoStep) {
+                    case 0:
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+
+                        Robot.drivebase.initPath("Move Forward");
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 10;
+                        break;
+
+                    case 10:
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                            autoStep = 15;
+                        }
+                        break;
+
+                    case 15:
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 2.8) {
+                            Robot.drivebase.initPath("Come Back");
+                            autoStep = 20;
+                        }
+                        break;
+                }
+                break;
+
+            case RotateWhileDriving:
+                switch (autoStep) {
+                    case 0:
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+
+                        Robot.drivebase.initPath("Drive While Rotating");
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 10;
+                        break;
+
+                    case 10:
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                        }
+                        break;
+                }
+                break;
+
+             case DriveAtAnAngle:
+                switch (autoStep) {
+                    case 0:
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+
+                        Robot.drivebase.initPath("Drive At Angle");
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 10;
+                        break;
+
+                    case 10:
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                        }
+                        break;
+                }
+                break;
+
             case Depot_OneCycle:
                 switch (autoStep) {
                     case 0:
