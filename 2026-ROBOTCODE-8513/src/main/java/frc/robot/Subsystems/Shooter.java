@@ -36,7 +36,7 @@ public class Shooter {
 
     public double distanceToScoreHub;
     public double goalShooterVelocity;
-    public boolean manualShooterTuning = false;
+    public boolean manualShooterTuning = true;
     public double manualTuningHoodPosition = 0.2;
     public boolean manualHoodTuning = manualShooterTuning;
     public double distanceBetweenCurrentAndGoalInMeters;

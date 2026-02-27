@@ -36,7 +36,7 @@ public class Dashboard {
                 SmartDashboard.putNumber("intakeDeployPosition",
                                 Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
                 SmartDashboard.putNumber("intakerightvelocity",
-                              Robot.intake.intakeMotorRightFollower.getVelocity().getValueAsDouble());
+                                Robot.intake.intakeMotorRightFollower.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("intakeleftvelocity",
                                 Robot.intake.intakeMotorLeftLeader.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("left intake motor power", Robot.intake.intakeMotorLeftLeader.get());
@@ -44,7 +44,7 @@ public class Dashboard {
                 SmartDashboard.putNumber("IntakeMotorCurrentLeft",
                                 Robot.intake.intakeMotorLeftLeader.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("IntakeMotorCurrentRight",
-                              Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
+                                Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",
@@ -65,7 +65,6 @@ public class Dashboard {
                 SmartDashboard.putNumber("manualTargetV", Robot.shooter.manualTargetV);
                 SmartDashboard.putNumber(" distance to hub", Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
 
-
                 // kicker
                 SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());
                 SmartDashboard.putNumber("kickerMotorCurrent", Robot.kicker.kickerMotor.getOutputCurrent());
@@ -79,6 +78,10 @@ public class Dashboard {
 
                                 Robot.hopper.indexerMotorTop.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("Goal hood position", Robot.shooter.goalHoodPosition);
+
+                // robot pitch
+                SmartDashboard.putNumber("Robot Pitch", Robot.drivebase.yagslDrive.getPitch()
+                                .getDegrees());
 
                 // Fudge factors
                 SmartDashboard.putNumber("shotDistanceFudgeFactorValue", Robot.shooter.shotDistanceFudgeFactor);

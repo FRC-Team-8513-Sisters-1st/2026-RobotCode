@@ -1,5 +1,5 @@
 Elastic:
-    - field 2d with robot pose and all 4 vision poses
+    x field 2d with robot pose and all 4 vision poses
     x put all the checks that are true or false for auto shoot
 
 Autos:
