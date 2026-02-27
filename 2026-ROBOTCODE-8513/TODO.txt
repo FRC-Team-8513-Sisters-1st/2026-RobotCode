@@ -30,6 +30,8 @@ Driver:
 Manual control:
     - make diagream like those below
 
+    - update the windows and cancel auto updates
+
 Get Robot Schedule:
     - test no vision odometry (tune path following pid)
         - have a go straight auto 
