@@ -84,7 +84,6 @@ public class Shooter {
 
         // internal pid
         shooterMotorLeftLeader.getConfigurator().apply(slot0Configs);
-        setCurrentLimits(120, 80);
 
         // follower leader set up
         shooterMotorRightFollower
@@ -129,7 +128,6 @@ public class Shooter {
 
     // pid controller when not using internal
     double targetVelocity;
-
     public double updateMotorPower() {
         double currentVelocity = shooterMotorLeftLeader.getVelocity().getValueAsDouble();
         targetVelocity = 3000;

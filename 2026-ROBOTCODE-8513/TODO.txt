@@ -11,6 +11,7 @@ Autos:
 Copilot:
     x when unjam kicker button go back to stationary
     x do NOT spin the indexer or kicker wheels if the shooter is not spinning
+    - button to gradually spin up the shooter
 
 Driver:
     x make driving while shooting speed a variabel in settings
