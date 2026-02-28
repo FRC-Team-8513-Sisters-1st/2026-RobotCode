@@ -229,9 +229,8 @@ public class Shooter {
     }
 
     public boolean facingHub() {
-        if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees()
-                - Robot.drivebase.goalHeading
-                        .getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold) {
+        if (Robot.drivebase.yagslDrive.getOdometryHeading().minus(Robot.drivebase.goalHeading)
+                .getDegrees() < Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold) {
             return true;
         } else {
             return false;
@@ -287,6 +286,6 @@ public class Shooter {
 
     public void gradualSpinUp() {
         if (Timer.getFPGATimestamp() - Robot.teleop.timeGradualWasPressed <= 0.5)
-        setCurrentLimits(20, 30);
+            setCurrentLimits(20, 30);
     }
 }
