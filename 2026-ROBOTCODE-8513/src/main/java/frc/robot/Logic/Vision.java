@@ -21,7 +21,7 @@ public class Vision {
 
         boolean updateHeadingWithVision = true;
 
-        boolean useRightShooterCam = false;
+        boolean useRightShooterCam = true;
         boolean useLeftShooterCam = true;
         boolean useLeftCam = true;
         boolean useRightCam = true;
@@ -44,7 +44,7 @@ public class Vision {
         Transform3d rightShooterCamTranslation = new Transform3d(
                         new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
                                         Units.inchesToMeters(13)),
-                        new Rotation3d(0, Units.degreesToRadians(-25), Units.degreesToRadians(180)));
+                        new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180)));
         Transform3d leftShooterCamTranslation = new Transform3d(
                         new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(12),
                                         Units.inchesToMeters(16)),
@@ -52,11 +52,11 @@ public class Vision {
         Transform3d leftCamTranlation = new Transform3d(
                         new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(12),
                                         Units.inchesToMeters(13)),
-                        new Rotation3d(0, Units.degreesToRadians(-50), Units.degreesToRadians(90)));
+                        new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(90)));
         Transform3d rightCamTranslation = new Transform3d(
                         new Translation3d(Units.inchesToMeters(-11), Units.inchesToMeters(-11),
                                         Units.inchesToMeters(20)),
-                        new Rotation3d(0, Units.degreesToRadians(-50), Units.degreesToRadians(-90)));
+                        new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(-90)));
 
         PhotonPoseEstimator rightShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
                         rightShooterCamTranslation);
