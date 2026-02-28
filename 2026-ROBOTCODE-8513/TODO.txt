@@ -11,7 +11,6 @@ Autos:
 Copilot:
     x when unjam kicker button go back to stationary
     x do NOT spin the indexer or kicker wheels if the shooter is not spinning
-    - button to gradually spin up the shooter
 
 Driver:
     x make driving while shooting speed a variabel in settings
@@ -25,10 +24,12 @@ Driver:
     x Update shooter PID to 1kHz
         x https://v6.docs.ctr-electronics.com/en/latest/docs/migration/migration-guide/control-requests-guide.html#changing-update-frequency-control-frame-period 
     x disable foc on the intake (ADDED PID TO INTAKE MOTORS)
-        - https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/controls/VoltageOut.html#EnableFOC 
+        x https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/controls/VoltageOut.html#EnableFOC 
     
 Manual control:
-    - make diagream like those below
+    x make diagream like those below
+    x button to gradually spin up the shooter
+
 
     - update the windows and cancel auto updates
 
@@ -59,3 +60,5 @@ Shot tuning on 2/21:
 
 Driver Buttons: https://app.diagrams.net/#G1uRCCOzVmEvHkvo4EhlnghtRV6GGkDXbb#%7B%22pageId%22%3A%22d-_JnBqeQgVWwOmPlnWK%22%7D
 Co Pilot Buttons: https://app.diagrams.net/#G1qHkbT-RruBgJSgykm7fhuSLz0rcQ5_Ag#%7B%22pageId%22%3A%22cDo-9tD7ipAllacoT-Qq%22%7D
+Manual Buttons: https://drive.google.com/file/d/1ukn6wE2wagI7a8BWJb04coxWEV2F8x2a/view?usp=sharing 
+                (check if this works now)

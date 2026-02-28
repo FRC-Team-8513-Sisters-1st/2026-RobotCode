@@ -10,6 +10,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Settings;
@@ -125,6 +126,7 @@ public class Shooter {
 
     // pid controller when not using internal
     double targetVelocity;
+
     public double updateMotorPower() {
         double currentVelocity = shooterMotorLeftLeader.getVelocity().getValueAsDouble();
         targetVelocity = 3000;
@@ -281,5 +283,10 @@ public class Shooter {
         }
         shooterMotorLeftLeader
                 .setControl(m_request.withVelocity(-manualTargetV).withFeedForward(-RPStoVoltage(manualTargetV)));
+    }
+
+    public void gradualSpinUp() {
+        if (Timer.getFPGATimestamp() - Robot.teleop.timeGradualWasPressed <= 0.5)
+        setCurrentLimits(20, 30);
     }
 }

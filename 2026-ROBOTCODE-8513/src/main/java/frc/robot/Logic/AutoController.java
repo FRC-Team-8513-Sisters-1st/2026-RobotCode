@@ -128,7 +128,7 @@ public class AutoController {
                 }
                 break;
 
-             case DriveAtAnAngle:
+            case DriveAtAnAngle:
                 switch (autoStep) {
                     case 0:
                         Robot.shooter.shooterState = ShooterStates.stationary;
@@ -471,6 +471,58 @@ public class AutoController {
                         Robot.intake.intakeState = IntakeStates.intaking;
 
                         Robot.drivebase.yagslDrive.lockPose();
+                        break;
+                }
+
+            // just started -- will continue tomorrow
+            case OliviaAttemptGoOverBump:
+                switch (autoStep) {
+                    case 0:
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 10;
+                        break;
+                    case 10:
+                        if (Robot.onRed) {
+                            Robot.drivebase.driveFacingHeading(new Translation2d(-1, 0), new Rotation2d(Math.PI), true);
+                        } else {
+                            Robot.drivebase.driveFacingHeading(new Translation2d(1, 0), new Rotation2d(0), true);
+                        }
+                        if (Math.abs(Robot.drivebase.yagslDrive.getPitch()
+                                .getDegrees()) > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchTHold) {
+                            bumpTholdCounter++;
+                        } else {
+                            bumpTholdCounter = 0;
+                        }
+                        if (bumpTholdCounter >= Settings.AutoSettings.Thresholds.autoDetectedBumpPitchCount) {
+                            bumpTholdCounter = 0;
+                            autoStep = 15;
+                        }
+                        break;
+                    case 15:
+                        if (Math.abs(Robot.drivebase.yagslDrive.getPitch()
+                                .getDegrees()) < Settings.AutoSettings.Thresholds.autoDetectedBumpPitchTHold) {
+                            bumpTholdCounter++;
+                        } else {
+                            bumpTholdCounter = 0;
+                        }
+                        if (Robot.onRed) {
+                            Robot.drivebase.driveFacingHeading(new Translation2d(-1, 0), new Rotation2d(Math.PI),
+                                    true);
+                        } else {
+                            Robot.drivebase.driveFacingHeading(new Translation2d(1, 0), new Rotation2d(0), true);
+                        }
+
+                        if (bumpTholdCounter > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchCount) {
+                            bumpTholdCounter = 0;
+                            autoStep = 5;
+                            autoRoutine = autoToReturnTo;
+                        }
                         break;
                 }
                 break;

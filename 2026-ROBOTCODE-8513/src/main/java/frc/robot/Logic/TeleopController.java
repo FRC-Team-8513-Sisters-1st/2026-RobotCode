@@ -33,6 +33,7 @@ public class TeleopController {
     public boolean shootingFacingHub = false;
     public boolean useSpecialNewRotation = true;
     public boolean autoShooting = true;
+    public double timeGradualWasPressed;
 
     public double shooterButtonTime;
 
@@ -477,6 +478,12 @@ public class TeleopController {
         } else if (manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decHoodPos)) {
             Robot.shooter.manualTuningHoodPosition -= Settings.ShooterSettings.manualHoodPosTuningfactor;
 
+        }
+
+        boolean gradualSpinUpPressed = manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.gradualShooterSpinUp);
+        if (gradualSpinUpPressed) {
+            Robot.shooter.gradualSpinUp();
+            timeGradualWasPressed = Timer.getFPGATimestamp();
         }
     }
 }
