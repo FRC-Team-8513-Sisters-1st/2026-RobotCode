@@ -47,7 +47,7 @@ public class Intake {
 
         m_request.UpdateFreqHz = 1000;
         // disable FOC
-        // m_request.withEnableFOC(false);
+        m_request.withEnableFOC(false);
 
     }
 

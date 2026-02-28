@@ -77,6 +77,8 @@ public class TeleopController {
 
         }
 
+        Robot.vision.updateHeadingWithVision = false;
+
         Robot.drivebase.goalHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
 
     }
@@ -275,10 +277,12 @@ public class TeleopController {
             if (Robot.onRed) {
                 Robot.drivebase.yagslDrive.resetOdometry(
                         new Pose2d(Robot.drivebase.yagslDrive.getPose().getTranslation(), new Rotation2d(Math.PI)));
+                Robot.drivebase.goalHeading = new Rotation2d(Math.PI);
 
             } else {
                 Robot.drivebase.yagslDrive.resetOdometry(
                         new Pose2d(Robot.drivebase.yagslDrive.getPose().getTranslation(), new Rotation2d()));
+                Robot.drivebase.goalHeading = new Rotation2d();
 
             }
         }

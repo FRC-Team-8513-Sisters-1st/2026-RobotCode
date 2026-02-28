@@ -2,6 +2,7 @@ package frc.robot.Logic;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -115,12 +116,17 @@ public class Vision {
                                 SmartDashboard.putNumber("Tag 0", tag0Dist);
 
                                 double poseAmbiguitiy = result.getBestTarget().getPoseAmbiguity();
-                                if (useCamera && tag0Dist < maxDistance && poseAmbiguitiy < 0.15) {
+                                if (useCamera && tag0Dist < maxDistance && poseAmbiguitiy < 0.25) {
                                         if (updateHeadingWithVision) {
                                                 Robot.drivebase.yagslDrive.addVisionMeasurement(
                                                                 photonPose.get().estimatedPose.toPose2d(),
                                                                 photonPose.get().timestampSeconds);
                                                                 timeATLastSeen = Timer.getFPGATimestamp();
+                                        } else {
+                                                Pose2d pvWithoutHeading = new Pose2d(photonPose.get().estimatedPose.getTranslation().toTranslation2d(), Robot.drivebase.yagslDrive.getOdometryHeading());
+                                        Robot.drivebase.yagslDrive.addVisionMeasurement(
+                                                                pvWithoutHeading,
+                                                                photonPose.get().timestampSeconds);
                                         }
                                 }
 
