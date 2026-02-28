@@ -2,7 +2,6 @@ package frc.robot.Logic;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -20,12 +19,12 @@ import org.photonvision.PhotonPoseEstimator;
 
 public class Vision {
 
-        boolean updateHeadingWithVision = false;
+        boolean updateHeadingWithVision = true;
 
         boolean useRightShooterCam = false;
-        boolean useLeftShooterCam = false;
-        boolean useLeftCam = false;
-        boolean useRightCam = false;
+        boolean useLeftShooterCam = true;
+        boolean useLeftCam = true;
+        boolean useRightCam = true;
 
         AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
 
@@ -43,21 +42,21 @@ public class Vision {
         public double visionMaxATDist = Settings.VisionSettings.maxATDistDisabeled;
 
         Transform3d rightShooterCamTranslation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-10.015), Units.inchesToMeters(-10.687),
-                                        Units.inchesToMeters(24.591)),
-                        new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180)));
+                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(-12),
+                                        Units.inchesToMeters(13)),
+                        new Rotation3d(0, Units.degreesToRadians(-25), Units.degreesToRadians(180)));
         Transform3d leftShooterCamTranslation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-11.046), Units.inchesToMeters(11.318),
-                                        Units.inchesToMeters(21.247)),
+                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(12),
+                                        Units.inchesToMeters(16)),
                         new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180)));
         Transform3d leftCamTranlation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-10.444), Units.inchesToMeters(11.318),
-                                        Units.inchesToMeters(21.247)),
-                        new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(90)));
+                        new Translation3d(Units.inchesToMeters(-12), Units.inchesToMeters(12),
+                                        Units.inchesToMeters(13)),
+                        new Rotation3d(0, Units.degreesToRadians(-50), Units.degreesToRadians(90)));
         Transform3d rightCamTranslation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-11.046), Units.inchesToMeters(-11.447),
-                                        Units.inchesToMeters(15.878)),
-                        new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(-90)));
+                        new Translation3d(Units.inchesToMeters(-11), Units.inchesToMeters(-11),
+                                        Units.inchesToMeters(20)),
+                        new Rotation3d(0, Units.degreesToRadians(-50), Units.degreesToRadians(-90)));
 
         PhotonPoseEstimator rightShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
                         rightShooterCamTranslation);
@@ -105,10 +104,7 @@ public class Vision {
         public void integrateCamera(boolean useCamera, PhotonCamera camera, PhotonPoseEstimator estimator,
                         Field2d photonField, double maxDistance, boolean updateLastTimeSeen) {
                 for (var result : camera.getAllUnreadResults()) {
-                        Optional<EstimatedRobotPose> photonPose = estimator.estimateCoprocMultiTagPose(result);
-                        if (photonPose.isEmpty()) {
-                                photonPose = estimator.estimateLowestAmbiguityPose(result);
-                        }
+                        Optional<EstimatedRobotPose> photonPose = estimator.estimateLowestAmbiguityPose(result);
 
                         if (photonPose.isPresent()) {
                                 photonField.setRobotPose(photonPose.get().estimatedPose.toPose2d());
@@ -119,16 +115,10 @@ public class Vision {
                                 SmartDashboard.putNumber("Tag 0", tag0Dist);
 
                                 double poseAmbiguitiy = result.getBestTarget().getPoseAmbiguity();
-                                if (useCamera && tag0Dist < maxDistance && poseAmbiguitiy < 0.25) {
+                                if (useCamera && tag0Dist < maxDistance && poseAmbiguitiy < 0.15) {
                                         if (updateHeadingWithVision) {
                                                 Robot.drivebase.yagslDrive.addVisionMeasurement(
                                                                 photonPose.get().estimatedPose.toPose2d(),
-                                                                photonPose.get().timestampSeconds);
-                                                                timeATLastSeen = Timer.getFPGATimestamp();
-                                        } else {
-                                                Pose2d pvWithoutHeading = new Pose2d(photonPose.get().estimatedPose.getTranslation().toTranslation2d(), Robot.drivebase.yagslDrive.getOdometryHeading());
-                                        Robot.drivebase.yagslDrive.addVisionMeasurement(
-                                                                pvWithoutHeading,
                                                                 photonPose.get().timestampSeconds);
                                         }
                                 }
