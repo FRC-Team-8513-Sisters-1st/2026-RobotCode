@@ -229,6 +229,7 @@ public class Shooter {
     }
 
     public boolean facingHub() {
+        Robot.drivebase.getPowerToFaceHub();
         if (Robot.drivebase.yagslDrive.getOdometryHeading().minus(Robot.drivebase.goalHeading)
                 .getDegrees() < Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold) {
             return true;

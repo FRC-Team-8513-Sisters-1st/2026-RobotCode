@@ -167,6 +167,7 @@ public class TeleopController {
                 if (Robot.drivebase.yagslDrive.getPose().getX() > 11.8) {
                     shootingFacingHub = true;
                     // lcoks pose if no driver translation input
+                    // Robot.drivebase.updateGoalHeadingToFaceHub();
                     if (Math.abs(xV) < 0.1 && Math.abs(yV) < 0.1 && Robot.shooter.facingHub()) {
                         Robot.drivebase.yagslDrive.lockPose();
                     } else {
