@@ -56,7 +56,7 @@ public class Settings {
         public static class ButtonIDs {            // driver controller
             public static int intake = 5;
             public static int faceGoal = 7;
-            public static int stopIntake = 4;
+            public static int stopIntake = 6;
             public static int straightenBump = 8;
             public static int snakeMode = 1;
             public static int resetHeading = 10;

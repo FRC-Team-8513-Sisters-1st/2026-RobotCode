@@ -31,6 +31,7 @@ public class Shooter {
     public boolean useInternalController = true;
 
     public double shotDistanceFudgeFactor = 0;
+    public double targetV = 0;
 
     public double goalHoodPosition;
     double readyToShootInHubCounter = 0;
@@ -95,25 +96,15 @@ public class Shooter {
     }
 
     public void setMotorPower() {
-        // shooter controller if not using interal pid
-        if (shooterState == ShooterStates.shooting && useInternalController == false) {
-            shooterMotorLeftLeader.set(updateMotorPower());
-            shooterMotorRightFollower.set(updateMotorPower());
-
-        } else if (shooterState == ShooterStates.stationary && useInternalController == false) {
-            shooterMotorLeftLeader.set(0);
-            shooterMotorRightFollower.set(0);
-        }
 
         // shooter controller if using interal pid
-        double targetV = getInterpolatedShooterVelocity();
-        SmartDashboard.putNumber("ShooterV", shooterMotorRightFollower.getVelocity().getValueAsDouble());
+        targetV = -getInterpolatedShooterVelocity();
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
 
             if (manualShooterTuning == false) {
                 shooterMotorLeftLeader
-                        .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+                        .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
 
             } else {
                 manualShooterTuning();
@@ -125,16 +116,6 @@ public class Shooter {
         }
 
         setHoodAngle();
-    }
-
-    // pid controller when not using internal
-    double targetVelocity;
-
-    public double updateMotorPower() {
-        double currentVelocity = shooterMotorLeftLeader.getVelocity().getValueAsDouble();
-        targetVelocity = 3000;
-        double outputPower = shooterMotorController.calculate(currentVelocity, targetVelocity);
-        return outputPower + targetVelocity / 6140;
     }
 
     public void setHoodAngle() {
@@ -200,15 +181,15 @@ public class Shooter {
     // determine if the shooter is ready to shoot. Thresholds for each of these
     // values are in settings.
     public boolean readyToShootInHub() {
-        if (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
+        if (Math.abs(goalHoodPosition - shooterHoodMotor.getAbsoluteEncoder()
                 .getPosition()) < Settings.AutoSettings.Thresholds.shootHoodPositionTHold) {
             hoodPositionReady = true;
         } else {
             hoodPositionReady = false;
         }
 
-        if (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
-                - targetVelocity) < Settings.AutoSettings.Thresholds.shooterVelocityTHold) {
+        if (Math.abs(shooterMotorLeftLeader.getVelocity().getValueAsDouble()
+                - targetV) < Settings.AutoSettings.Thresholds.shooterVelocityTHold) {
             velocityReady = true;
         } else {
             velocityReady = false;
@@ -232,8 +213,7 @@ public class Shooter {
     }
 
     public boolean facingHub() {
-        if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees()
-                - Robot.drivebase.goalHeading
+        if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().minus(Robot.drivebase.goalHeading)
                         .getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold) {
             return true;
         } else {
@@ -246,7 +226,7 @@ public class Shooter {
                 && (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
                         .getPosition()) < Settings.AutoSettings.Thresholds.shuttleHoodPositionTHold)
                 && (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
-                        - targetVelocity) < Settings.AutoSettings.Thresholds.shooterShuttleVelocityTHold)) {
+                        - targetV) < Settings.AutoSettings.Thresholds.shooterShuttleVelocityTHold)) {
             return true;
         }
         return false;

@@ -48,7 +48,7 @@ public class Intake {
 
         m_request.UpdateFreqHz = 1000;
         // disable FOC
-        // m_request.withEnableFOC(false);
+        m_request.withEnableFOC(false);
 
     }
 
@@ -64,11 +64,11 @@ public class Intake {
 
             if (Timer.getFPGATimestamp() - timeLeftStowedState < 0.5) {
                 intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(0.3)));
+                        .setControl(m_request.withVelocity(-20).withFeedForward(RPStoVoltage(-20)));
             } else {
                 // intake wheels on
                 intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+                        .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
             }
 
         } else if (intakeState == IntakeStates.stowed) {
