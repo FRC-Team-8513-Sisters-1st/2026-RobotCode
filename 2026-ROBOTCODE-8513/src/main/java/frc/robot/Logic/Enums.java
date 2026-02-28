@@ -21,7 +21,7 @@ public class Enums {
     }
 
     public enum AutoRoutines {
-        DoNothing, TestAuto, Depot_OneCycle, Outpost_OneCycle, GoOverBump, Outpost, Depot, MoveForward1Meter, MoveForward1MeterComeBack, RotateWhileDriving, DriveAtAnAngle
+        DoNothing, TestAuto, Depot_OneCycle, Outpost_OneCycle, GoOverBump, Outpost, Depot, MoveForward1Meter, MoveForward1MeterComeBack, RotateWhileDriving, DriveAtAnAngle, OliviaAttemptGoOverBump
     }
 
 }
