@@ -105,7 +105,10 @@ public class Vision {
         public void integrateCamera(boolean useCamera, PhotonCamera camera, PhotonPoseEstimator estimator,
                         Field2d photonField, double maxDistance, boolean updateLastTimeSeen) {
                 for (var result : camera.getAllUnreadResults()) {
-                        Optional<EstimatedRobotPose> photonPose = estimator.estimateLowestAmbiguityPose(result);
+                        Optional<EstimatedRobotPose> photonPose = estimator.estimateCoprocMultiTagPose(result);
+                        if (photonPose.isEmpty()) {
+                                photonPose = estimator.estimateLowestAmbiguityPose(result);
+                        }
 
                         if (photonPose.isPresent()) {
                                 photonField.setRobotPose(photonPose.get().estimatedPose.toPose2d());
