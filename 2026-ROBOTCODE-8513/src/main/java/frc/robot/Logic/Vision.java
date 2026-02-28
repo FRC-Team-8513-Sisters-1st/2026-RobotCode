@@ -120,6 +120,7 @@ public class Vision {
                                                 Robot.drivebase.yagslDrive.addVisionMeasurement(
                                                                 photonPose.get().estimatedPose.toPose2d(),
                                                                 photonPose.get().timestampSeconds);
+                                                timeATLastSeen = Timer.getFPGATimestamp();
                                         }
                                 }
 

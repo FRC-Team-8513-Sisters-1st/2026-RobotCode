@@ -64,6 +64,7 @@ public class Dashboard {
                 SmartDashboard.putNumber("manualTuningHoodPosition", Robot.shooter.manualTuningHoodPosition);
                 SmartDashboard.putNumber("manualTargetV", Robot.shooter.manualTargetV);
                 SmartDashboard.putNumber(" distance to hub", Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
+                SmartDashboard.putNumber("targetV", Robot.shooter.targetV);
 
                 // kicker
                 SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());

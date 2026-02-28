@@ -62,9 +62,8 @@ public class Intake {
             // spinIntakeBackward();
 
             if (Timer.getFPGATimestamp() - timeLeftStowedState < 0.5) {
-                targetV = -20;
                 intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
+                        .setControl(m_request.withVelocity(-20).withFeedForward(RPStoVoltage(-20)));
             } else {
                 // intake wheels on
                 intakeMotorLeftLeader
