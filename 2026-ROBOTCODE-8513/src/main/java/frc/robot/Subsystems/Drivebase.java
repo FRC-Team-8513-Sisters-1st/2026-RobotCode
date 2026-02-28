@@ -65,7 +65,7 @@ public class Drivebase {
     public void driveFacingHeading(Translation2d translation2d, Rotation2d heading, boolean fR) {
         double angleError = Robot.drivebase.yagslDrive.getOdometryHeading().minus(heading).getDegrees();
         double rotationCorrection = rotationPidController.calculate(angleError, 0);
-
+        goalHeading = heading;
         Robot.drivebase.yagslDrive.drive(translation2d,
                 rotationCorrection,
                 fR,
@@ -176,42 +176,15 @@ public class Drivebase {
         return dvr;
     }
 
-    public double updateGoalHeadingToFaceHub() {
-        Rotation2d angleToHub;
-
-        if (Robot.onRed) {
-            // red hub location
-            goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint);
-            angleToHub = yagslDrive.getPose().minus(goalAimPose)
-                    .getTranslation().rotateBy(new Rotation2d()).getAngle();
-        } else {
-            // blue hub location
-            goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
-            angleToHub = yagslDrive.getPose().minus(goalAimPose)
-                    .getTranslation().getAngle()
-                    .plus(new Rotation2d());
-        }
-        goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
-        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
-
-        return dvr;
-    }
 
     public double getPowerToFacePose(Pose2d goalPose) {
-        Rotation2d angleToHub;
+        Rotation2d angleToPose;
 
-        if (Robot.onRed) {
-            // red hub location
-            angleToHub = yagslDrive.getPose().minus(goalPose)
-                    .getTranslation().rotateBy(new Rotation2d()).getAngle();
-        } else {
-            // blue hub location
-            angleToHub = yagslDrive.getPose().minus(goalPose)
-                    .getTranslation().getAngle()
-                    .plus(new Rotation2d());
-        }
-        goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
-        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
+            angleToPose = yagslDrive.getPose().minus(goalPose)
+                    .getTranslation().getAngle();
+        
+        goalHeading = angleToPose.plus(new Rotation2d(aimFudgeFactor));
+        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToPose).getDegrees(), 0);
 
         return dvr;
     }

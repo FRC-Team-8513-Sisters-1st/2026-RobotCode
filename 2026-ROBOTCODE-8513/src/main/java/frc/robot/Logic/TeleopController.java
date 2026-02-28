@@ -24,13 +24,10 @@ public class TeleopController {
     public PIDController rJoystickController = new PIDController(0.1, 0, 0);
     public PIDController bumpPidController = new PIDController(10, 0, 0);
 
-    public Rotation2d goalHeading = new Rotation2d();
-
     SlewRateLimiter xfilter = new SlewRateLimiter(4);
     SlewRateLimiter yfilter = new SlewRateLimiter(4);
     SlewRateLimiter rfilter = new SlewRateLimiter(4);
 
-    public boolean shootingFacingHub = false;
     public boolean useSpecialNewRotation = true;
     public boolean autoShooting = true;
     public double timeGradualWasPressed;
@@ -78,7 +75,6 @@ public class TeleopController {
 
         }
 
-
         Robot.drivebase.goalHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
 
     }
@@ -124,14 +120,18 @@ public class TeleopController {
 
         // if facing hub button, slow speed to 0.3
 
-        if (shootingFacingHub) {
+        if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceGoal)) {
             if (Robot.onRed) {
-                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * Settings.TeleopSettings.drivingWhileShootingSpeed);
-                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * Settings.TeleopSettings.drivingWhileShootingSpeed);
+                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+                        * Settings.TeleopSettings.drivingWhileShootingSpeed);
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+                        * Settings.TeleopSettings.drivingWhileShootingSpeed);
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             } else {
-                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * Settings.TeleopSettings.drivingWhileShootingSpeed;
-                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * Settings.TeleopSettings.drivingWhileShootingSpeed;
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+                        * Settings.TeleopSettings.drivingWhileShootingSpeed;
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()
+                        * Settings.TeleopSettings.drivingWhileShootingSpeed;
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
         } else {
@@ -149,7 +149,6 @@ public class TeleopController {
         // special rotation
         if (Math.hypot(rySpeedJoystick,
                 rxSpeedJoystick) < Settings.TeleopSettings.specialRotationJoystickDeadband) {
-            Robot.drivebase.goalHeading = Robot.drivebase.goalHeading;
         } else {
             Rotation2d rotation;
             if (Robot.onRed) {
@@ -165,7 +164,6 @@ public class TeleopController {
         if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceGoal)) {
             if (Robot.onRed) {
                 if (Robot.drivebase.yagslDrive.getPose().getX() > 11.8) {
-                    shootingFacingHub = true;
                     // lcoks pose if no driver translation input
                     // Robot.drivebase.updateGoalHeadingToFaceHub();
                     if (Math.abs(xV) < 0.1 && Math.abs(yV) < 0.1 && Robot.shooter.facingHub()) {
@@ -181,7 +179,6 @@ public class TeleopController {
                 }
             } else {
                 if (Robot.drivebase.yagslDrive.getPose().getX() < 4.66) {
-                    shootingFacingHub = true;
                     Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
                             true,
                             false);
@@ -199,16 +196,11 @@ public class TeleopController {
                 }
             }
             Robot.shooter.shooterState = ShooterStates.shooting;
-            if (Robot.shooter.readyToShootInHub() && autoShooting && Robot.shooter.shooterState == ShooterStates.shooting) {
+            if (Robot.shooter.readyToShootInHub() && autoShooting
+                    && Robot.shooter.shooterState == ShooterStates.shooting) {
                 Robot.kicker.kickerState = KickerStates.shooting;
                 Robot.hopper.hopperState = HopperStates.indexing;
             } else {
-                Robot.kicker.kickerState = KickerStates.stationary;
-                Robot.hopper.hopperState = HopperStates.stationary;
-            }
-            
-            // when the driver releasese the shooting button the mechanisms stop
-            if (driverXboxController.getRawButtonReleased(Settings.TeleopSettings.ButtonIDs.faceGoal)) {
                 Robot.kicker.kickerState = KickerStates.stationary;
                 Robot.hopper.hopperState = HopperStates.stationary;
             }
@@ -224,14 +216,12 @@ public class TeleopController {
                             new Translation2d(xV, bumpPidController.calculate(currentY, 5.555)),
                             Robot.drivebase.getPowerToReachRotation(new Rotation2d(0)), true,
                             false);
-                    Robot.drivebase.goalHeading = new Rotation2d();
 
                 } else if (currentY < 4.08) {
                     Robot.drivebase.yagslDrive.drive(
                             new Translation2d(xV, bumpPidController.calculate(currentY, 2.476)),
                             Robot.drivebase.getPowerToReachRotation(new Rotation2d(0)), true,
                             false);
-                    Robot.drivebase.goalHeading = new Rotation2d();
 
                 }
                 Robot.drivebase.goalHeading = new Rotation2d(0);
@@ -259,14 +249,15 @@ public class TeleopController {
                 Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), Robot.drivebase.goalHeading, true);
             } else {
                 Rotation2d snakeModeRotation = new Translation2d(xV, yV).getAngle();
-                Robot.drivebase.driveFacingHeading(new Translation2d(xV * Settings.TeleopSettings.snakeModeVelocityFactor, yV * Settings.TeleopSettings.snakeModeVelocityFactor), snakeModeRotation, true);
+                Robot.drivebase
+                        .driveFacingHeading(new Translation2d(xV * Settings.TeleopSettings.snakeModeVelocityFactor,
+                                yV * Settings.TeleopSettings.snakeModeVelocityFactor), snakeModeRotation, true);
                 Robot.drivebase.goalHeading = snakeModeRotation;
             }
             Robot.shooter.shooterState = ShooterStates.stationary;
 
         } else {
             Robot.shooter.shooterState = ShooterStates.stationary;
-            shootingFacingHub = false;
             Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV),
                     Robot.drivebase.goalHeading, true);
             // Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
@@ -284,6 +275,12 @@ public class TeleopController {
                 Robot.drivebase.goalHeading = new Rotation2d();
 
             }
+        }
+
+        // when the driver releasese the shooting button the mechanisms stop
+        if (driverXboxController.getRawButtonReleased(Settings.TeleopSettings.ButtonIDs.faceGoal)) {
+            Robot.kicker.kickerState = KickerStates.stationary;
+            Robot.hopper.hopperState = HopperStates.stationary;
         }
 
         buttonControls();
@@ -304,7 +301,8 @@ public class TeleopController {
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake);
         boolean stopIntakeButtonPressed = Robot.teleop.driverXboxController
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake);
-        if ((Robot.intake.intakeState == IntakeStates.stowed || Robot.intake.intakeState == IntakeStates.shooting) && intakeButtonPressed) {
+        if ((Robot.intake.intakeState == IntakeStates.stowed || Robot.intake.intakeState == IntakeStates.shooting)
+                && intakeButtonPressed) {
             // if the robot is stowed
             Robot.intake.intakeState = IntakeStates.intaking;
         } else if ((Robot.intake.intakeState == IntakeStates.intaking
@@ -403,7 +401,8 @@ public class TeleopController {
 
         // indexer
         boolean reverseIndexer = copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseIndexer);
-        boolean releasedIndexer = copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseIndexer);
+        boolean releasedIndexer = copilotJoystick1
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseIndexer);
         if (reverseIndexer && (Robot.hopper.hopperState == HopperStates.indexing
                 || Robot.hopper.hopperState == HopperStates.stationary)) {
             Robot.hopper.hopperState = HopperStates.unjam;
@@ -478,7 +477,8 @@ public class TeleopController {
 
         }
 
-        boolean gradualSpinUpPressed = manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.gradualShooterSpinUp);
+        boolean gradualSpinUpPressed = manualJoystick
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.gradualShooterSpinUp);
         if (gradualSpinUpPressed) {
             Robot.shooter.gradualSpinUp();
             timeGradualWasPressed = Timer.getFPGATimestamp();
