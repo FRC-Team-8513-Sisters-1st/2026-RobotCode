@@ -191,7 +191,7 @@ public class Shooter {
             velocityReady = false;
         }
 
-        if (facingHub()
+        if (facingHub(Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold)
                 && hoodPositionReady
                 && velocityReady
                 && timeCheckReadyToShoot()) {
@@ -201,24 +201,24 @@ public class Shooter {
         }
 
         if (readyToShootInHubCounter >= 4) {
-            readyToShootInHubCounter = 0;
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean facingHub() {
+    public boolean facingHub(double precision) {
         if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().minus(Robot.drivebase.goalHeading)
-                        .getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold) {
+                        .getDegrees()) < precision) {
             return true;
         } else {
             return false;
         }
     }
+    
 
     public boolean readyToShuttle() {
-        if (facingHub()
+        if (facingHub(Settings.AutoSettings.Thresholds.drivebaseShuttleRotationTHold)
                 && (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
                         .getPosition()) < Settings.AutoSettings.Thresholds.shuttleHoodPositionTHold)
                 && (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
@@ -229,8 +229,8 @@ public class Shooter {
     }
 
     public boolean timeCheckReadyToShoot() {
-        if (Robot.matchTimeAnalysis.activeOrInactive() == "Active"
-                || (Robot.matchTimeAnalysis.activeOrInactive() == "Inactive"
+        if (Robot.matchTimeAnalysis.activeOrInactive().equals("Active")
+                || (Robot.matchTimeAnalysis.activeOrInactive().equals("Inactive")
                         && Robot.matchTimeAnalysis.getTimeLeftInPeriod() <= 1.5)) {
             return true;
         } else {

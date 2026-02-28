@@ -167,7 +167,7 @@ public class TeleopController {
                     shootingFacingHub = true;
                     // lcoks pose if no driver translation input
                     Robot.drivebase.updateGoalHeadingToFaceHub();
-                    if (Math.abs(xV) < 0.1 && Math.abs(yV) < 0.1 && Robot.shooter.facingHub()) {
+                    if (Math.abs(xV) < 0.1 && Math.abs(yV) < 0.1 && Robot.shooter.facingHub(Settings.AutoSettings.Thresholds.drivebaseLockPoseWhenShootingThold)) {
                         Robot.drivebase.yagslDrive.lockPose();
                     } else {
                         Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
@@ -186,7 +186,7 @@ public class TeleopController {
                             false);
                     // lcoks pose if no driver translation input
                     Robot.drivebase.updateGoalHeadingToFaceHub();
-                    if (Math.abs(xV) < 0.1 && Math.abs(yV) < 0.1 && Robot.shooter.facingHub()) {
+                    if (Math.abs(xV) < 0.1 && Math.abs(yV) < 0.1 && Robot.shooter.facingHub(Settings.AutoSettings.Thresholds.drivebaseLockPoseWhenShootingThold)) {
                         Robot.drivebase.yagslDrive.lockPose();
                     } else {
                         Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),

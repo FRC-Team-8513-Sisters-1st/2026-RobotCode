@@ -113,7 +113,7 @@ public class Dashboard {
                 // auto ready to shoot values
                 SmartDashboard.putBoolean("hoodPositionReady", Robot.shooter.hoodPositionReady);
                 SmartDashboard.putBoolean("velocityReady", Robot.shooter.velocityReady);
-                SmartDashboard.putBoolean("facingHub", Robot.shooter.facingHub());
+                SmartDashboard.putBoolean("facingHub", Robot.shooter.facingHub(Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold));
                 SmartDashboard.putBoolean("timeCheckReadyToShoot", Robot.shooter.timeCheckReadyToShoot());
 
                 // interpolated values
