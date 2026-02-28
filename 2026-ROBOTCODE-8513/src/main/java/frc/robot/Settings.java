@@ -171,7 +171,7 @@ public class Settings {
             public static double drivebaseShuttleRotationTHold = 5;
             public static double shootHoodPositionTHold = 0.05;
             public static double shuttleHoodPositionTHold = 0.1;
-            public static double shooterVelocityTHold = 1;
+            public static double shooterVelocityTHold = 1.5;
             public static double shooterShuttleVelocityTHold = 2.5;
             public static double autoDetectedBumpPitchTHold = 3;
             public static double autoDetectedBumpPitchCount = 4;
