@@ -197,7 +197,7 @@ public class Shooter {
     // determine if the shooter is ready to shoot. Thresholds for each of these
     // values are in settings.
     public boolean readyToShootInHub() {
-        if (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
+        if (Math.abs(goalHoodPosition - shooterHoodMotor.getAbsoluteEncoder()
                 .getPosition()) < Settings.AutoSettings.Thresholds.shootHoodPositionTHold) {
             hoodPositionReady = true;
         } else {
