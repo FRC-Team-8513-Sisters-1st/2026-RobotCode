@@ -20,12 +20,12 @@ import org.photonvision.PhotonPoseEstimator;
 
 public class Vision {
 
-        boolean updateHeadingWithVision = true;
+        boolean updateHeadingWithVision = false;
 
-        boolean useRightShooterCam = true;
-        boolean useLeftShooterCam = true;
-        boolean useLeftCam = true;
-        boolean useRightCam = true;
+        boolean useRightShooterCam = false;
+        boolean useLeftShooterCam = false;
+        boolean useLeftCam = false;
+        boolean useRightCam = false;
 
         AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
 

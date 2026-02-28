@@ -87,7 +87,7 @@ public class Shooter {
         shooterMotorRightFollower
                 .setControl(new Follower(shooterMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
 
-        m_request.UpdateFreqHz = 1000;
+        m_request.UpdateFreqHz = 100;
 
     }
 

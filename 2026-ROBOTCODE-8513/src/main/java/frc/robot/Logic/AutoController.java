@@ -154,6 +154,10 @@ public class AutoController {
             case Depot_OneCycle:
                 switch (autoStep) {
                     case 0:
+                        autoToReturnTo = AutoRoutines.Depot_OneCycle;
+                        autoRoutine = AutoRoutines.OliviaAttemptGoOverBump;
+                        break;
+                    case 5:
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
@@ -493,20 +497,21 @@ public class AutoController {
                         } else {
                             Robot.drivebase.driveFacingHeading(new Translation2d(1, 0), new Rotation2d(0), true);
                         }
-                        if (Math.abs(Robot.drivebase.yagslDrive.getPitch()
-                                .getDegrees()) > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchTHold) {
+                        if (Robot.drivebase.yagslDrive.getPitch()
+                                .getDegrees() > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchTHold || Timer.getFPGATimestamp() - timeStepStarted >= 1.5 ) {
                             bumpTholdCounter++;
                         } else {
                             bumpTholdCounter = 0;
                         }
                         if (bumpTholdCounter >= Settings.AutoSettings.Thresholds.autoDetectedBumpPitchCount) {
                             bumpTholdCounter = 0;
+                            timeStepStarted = Timer.getFPGATimestamp();
                             autoStep = 15;
                         }
                         break;
                     case 15:
-                        if (Math.abs(Robot.drivebase.yagslDrive.getPitch()
-                                .getDegrees()) < Settings.AutoSettings.Thresholds.autoDetectedBumpPitchTHold) {
+                        if (Robot.drivebase.yagslDrive.getPitch()
+                                .getDegrees() < -Settings.AutoSettings.Thresholds.autoDetectedBumpPitchTHold || Timer.getFPGATimestamp() - timeStepStarted > 1.5) {
                             bumpTholdCounter++;
                         } else {
                             bumpTholdCounter = 0;
