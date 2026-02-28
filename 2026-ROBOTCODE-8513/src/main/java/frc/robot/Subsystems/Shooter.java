@@ -11,7 +11,6 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.ShooterStates;
@@ -61,22 +60,19 @@ public class Shooter {
     public Shooter() {
         // internal pid controller shooter motors
         slot0Configs.kV = 0; // A velocity target of 1 rps results in 0.12 V output
-        slot0Configs.kP = 0.5; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kP = 0.4; // An error of 1 rps results in 0.11 V output
         slot0Configs.kI = 0.05; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
 
         // interpolating
-        distToHoodEncoderValuesTable.put(2.15, 0.3);
-        distToHoodEncoderValuesTable.put(2.49, 0.25);
-        distToHoodEncoderValuesTable.put(2.99, 0.2);
-        distToHoodEncoderValuesTable.put(3.52, 0.2);
-        distToHoodEncoderValuesTable.put(3.94, 0.2);
+        distToHoodEncoderValuesTable.put(1.83, 0.35);
+        distToHoodEncoderValuesTable.put(2.54, 0.2);
+        distToHoodEncoderValuesTable.put(10.0, 0.2);
 
-        distToshooterVelocityEncoderValuesTable.put(2.15, 39.0);
-        distToshooterVelocityEncoderValuesTable.put(2.49, 40.5);
-        distToshooterVelocityEncoderValuesTable.put(2.99, 42.5);
-        distToshooterVelocityEncoderValuesTable.put(3.52, 46.0);
-        distToshooterVelocityEncoderValuesTable.put(3.94, 49.0);
+        distToshooterVelocityEncoderValuesTable.put(1.83, 37.0);
+        distToshooterVelocityEncoderValuesTable.put(2.54, 39.0);
+        distToshooterVelocityEncoderValuesTable.put(3.52, 44.0);
+        distToshooterVelocityEncoderValuesTable.put(4.07, 48.0);
 
         // ADD Values
         distToTimeOfFlightValuesTable.put(2.15, 0.78);
@@ -91,7 +87,7 @@ public class Shooter {
         shooterMotorRightFollower
                 .setControl(new Follower(shooterMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
 
-        m_request.UpdateFreqHz = 1000;
+        m_request.UpdateFreqHz = 250;
 
     }
 
