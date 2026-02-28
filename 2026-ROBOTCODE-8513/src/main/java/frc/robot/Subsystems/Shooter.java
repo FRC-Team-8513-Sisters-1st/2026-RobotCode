@@ -103,14 +103,14 @@ public class Shooter {
         }
 
         // shooter controller if using interal pid
-        double targetV = getInterpolatedShooterVelocity();
+        targetVelocity = getInterpolatedShooterVelocity();
         SmartDashboard.putNumber("ShooterV", shooterMotorRightFollower.getVelocity().getValueAsDouble());
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
 
             if (manualShooterTuning == false) {
                 shooterMotorLeftLeader
-                        .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+                        .setControl(m_request.withVelocity(-targetVelocity).withFeedForward(-RPStoVoltage(targetVelocity)));
 
             } else {
                 manualShooterTuning();
@@ -204,7 +204,7 @@ public class Shooter {
             hoodPositionReady = false;
         }
 
-        if (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
+        if (Math.abs(shooterMotorLeftLeader.getVelocity().getValueAsDouble()
                 - targetVelocity) < Settings.AutoSettings.Thresholds.shooterVelocityTHold) {
             velocityReady = true;
         } else {
