@@ -201,7 +201,7 @@ public class TeleopController {
                 }
             }
             Robot.shooter.shooterState = ShooterStates.shooting;
-            if ((Robot.shooter.readyToShuttle() || Robot.shooter.readyToShootInHub()) && autoShooting && Robot.shooter.shooterState == ShooterStates.shooting) {
+            if (Robot.shooter.readyToShootInHub() && autoShooting && Robot.shooter.shooterState == ShooterStates.shooting) {
                 Robot.kicker.kickerState = KickerStates.shooting;
                 Robot.hopper.hopperState = HopperStates.indexing;
             } else {

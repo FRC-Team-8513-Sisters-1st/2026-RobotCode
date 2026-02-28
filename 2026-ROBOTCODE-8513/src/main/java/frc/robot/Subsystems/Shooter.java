@@ -103,14 +103,14 @@ public class Shooter {
         }
 
         // shooter controller if using interal pid
-        double targetV = getInterpolatedShooterVelocity();
+        targetVelocity = getInterpolatedShooterVelocity();
         SmartDashboard.putNumber("ShooterV", shooterMotorRightFollower.getVelocity().getValueAsDouble());
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
 
             if (manualShooterTuning == false) {
                 shooterMotorLeftLeader
-                        .setControl(m_request.withVelocity(-targetV).withFeedForward(-RPStoVoltage(targetV)));
+                        .setControl(m_request.withVelocity(-targetVelocity).withFeedForward(-RPStoVoltage(targetVelocity)));
 
             } else {
                 manualShooterTuning();
@@ -197,14 +197,14 @@ public class Shooter {
     // determine if the shooter is ready to shoot. Thresholds for each of these
     // values are in settings.
     public boolean readyToShootInHub() {
-        if (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
+        if (Math.abs(goalHoodPosition - shooterHoodMotor.getAbsoluteEncoder()
                 .getPosition()) < Settings.AutoSettings.Thresholds.shootHoodPositionTHold) {
             hoodPositionReady = true;
         } else {
             hoodPositionReady = false;
         }
 
-        if (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
+        if (Math.abs(shooterMotorLeftLeader.getVelocity().getValueAsDouble()
                 - targetVelocity) < Settings.AutoSettings.Thresholds.shooterVelocityTHold) {
             velocityReady = true;
         } else {
@@ -229,9 +229,8 @@ public class Shooter {
     }
 
     public boolean facingHub() {
-        if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees()
-                - Robot.drivebase.goalHeading
-                        .getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold) {
+        if (Robot.drivebase.yagslDrive.getOdometryHeading().minus(Robot.drivebase.goalHeading)
+                .getDegrees() < Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold) {
             return true;
         } else {
             return false;
@@ -287,6 +286,6 @@ public class Shooter {
 
     public void gradualSpinUp() {
         if (Timer.getFPGATimestamp() - Robot.teleop.timeGradualWasPressed <= 0.5)
-        setCurrentLimits(20, 30);
+            setCurrentLimits(20, 30);
     }
 }
