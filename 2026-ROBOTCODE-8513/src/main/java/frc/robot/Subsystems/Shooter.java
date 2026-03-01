@@ -152,8 +152,7 @@ public class Shooter {
     // input distance, returns encoder position
     public double getInterpolatedEncoderValueDistanceToHood(double distanceFromGoal) {
         distanceToScoreHub = distToHoodEncoderValuesTable.get(distanceFromGoal + shotDistanceFudgeFactor);
-        // return distanceToScoreHub;
-        return 0.4;
+        return distanceToScoreHub;
     }
 
     // input distance, return shooterVelocity
