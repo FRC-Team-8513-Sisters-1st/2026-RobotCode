@@ -37,8 +37,8 @@ public class Settings {
         public static int copilotJoystick2Port = 3;
         public static int manualJoystickPort = 4;
         public static double joystickDeadband = 0.02;
-        public static double snakeModeJoystickDeadband = 0.15;
-        public static double specialRotationJoystickDeadband = 0.85;
+        public static double snakeModeJoystickDeadband = 0.35;
+        public static double specialRotationJoystickDeadband = 0.90;
         public static double drivingWhileShootingSpeed = 0.3;
 
         // joystick axis
@@ -51,7 +51,7 @@ public class Settings {
         public static int rightJoystickY = 6;
 
         public static boolean headingJoystickControls = true;
-        public static double snakeModeVelocityFactor = 0.5;
+        public static double snakeModeVelocityFactor = 0.4;
 
         public static class ButtonIDs {            // driver controller
             public static int intake = 5;
@@ -103,7 +103,7 @@ public class Settings {
         public static double stowPosition = -27;
         public static double deployPosition = 0;
         public static double intakeFudgeFactor = 0.5;
-        public static double shootingPosition = -10;
+        public static double shootingPosition = -12.5;
     }
 
     public class ShooterSettings {
