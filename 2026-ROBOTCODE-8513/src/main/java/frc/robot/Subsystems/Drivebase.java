@@ -40,7 +40,7 @@ public class Drivebase {
     double otfEndVelocity = 0;
     public boolean forcePathHeading = false;
     double dvr;
-    public Pose2d goalAimPose;
+    public Pose2d goalAimPose = new Pose2d();
 
     // edit these values and put in settings later
     public PIDController followPathXController = new PIDController(10, 0, 0);

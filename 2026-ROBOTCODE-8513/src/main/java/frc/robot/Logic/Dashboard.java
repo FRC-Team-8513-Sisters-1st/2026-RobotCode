@@ -19,6 +19,8 @@ public class Dashboard {
                 SmartDashboard.putData("trajGoalPose", trajField2d);
                 SmartDashboard.putNumber("actualHeading", Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees());
                 SmartDashboard.putNumber("goalHeading", Robot.drivebase.goalHeading.getDegrees());
+                SmartDashboard.putNumber("pitch", Robot.drivebase.yagslDrive.getPitch().getDegrees());
+
 
                 // Auto selection
                 SmartDashboard.putString("Auto selected", Robot.auto.autoRoutine.name());
