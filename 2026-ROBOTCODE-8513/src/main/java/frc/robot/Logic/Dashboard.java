@@ -1,17 +1,39 @@
 package frc.robot.Logic;
 
+import edu.wpi.first.networktables.ConnectionInfo;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Robot;
 import frc.robot.Settings;
+import frc.robot.Logic.Enums.TCPChooser;
 
 public class Dashboard {
+        public SendableChooser<String> TCPSelector;    
+        public TCPChooser tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
+
         public Field2d trajField2d = new Field2d();
         public Field2d copilotField2d = new Field2d();
         public Field2d scoreHubField2d = new Field2d();
+
+        public Dashboard() {
+                TCPSelector = new SendableChooser<>();
+                TCPSelector.setDefaultOption(TCPChooser.values()[0].toString(), TCPChooser.values()[0].toString());
+                for (int i = 1; i < TCPChooser.values().length; i++) {
+                        if (TCPChooser.values()[i].toString().charAt(0) != '~') {
+                                TCPSelector.addOption(TCPChooser.values()[i].toString(),
+                                                TCPChooser.values()[i].toString());
+                        }
+
+                }
+                SmartDashboard.putData("TCP Selector", TCPSelector);
+
+                updateTCPConnectionFromDashboard();
+        }
 
         public void updateDashboard() {
 
@@ -20,7 +42,6 @@ public class Dashboard {
                 SmartDashboard.putNumber("actualHeading", Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees());
                 SmartDashboard.putNumber("goalHeading", Robot.drivebase.goalHeading.getDegrees());
                 SmartDashboard.putNumber("pitch", Robot.drivebase.yagslDrive.getPitch().getDegrees());
-
 
                 // Auto selection
                 SmartDashboard.putString("Auto selected", Robot.auto.autoRoutine.name());
@@ -38,7 +59,7 @@ public class Dashboard {
                 SmartDashboard.putNumber("intakeDeployPosition",
                                 Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
                 SmartDashboard.putNumber("intakerightvelocity",
-                              Robot.intake.intakeMotorRightFollower.getVelocity().getValueAsDouble());
+                                Robot.intake.intakeMotorRightFollower.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("intakeleftvelocity",
                                 Robot.intake.intakeMotorLeftLeader.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("left intake motor power", Robot.intake.intakeMotorLeftLeader.get());
@@ -46,7 +67,7 @@ public class Dashboard {
                 SmartDashboard.putNumber("IntakeMotorCurrentLeft",
                                 Robot.intake.intakeMotorLeftLeader.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("IntakeMotorCurrentRight",
-                              Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
+                                Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",
@@ -67,7 +88,6 @@ public class Dashboard {
                 SmartDashboard.putNumber("manualTargetV", Robot.shooter.manualTargetV);
                 SmartDashboard.putNumber(" distance to hub", Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
                 SmartDashboard.putNumber("targetV", Robot.shooter.targetV);
-
 
                 // kicker
                 SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());
@@ -115,7 +135,8 @@ public class Dashboard {
                 // auto ready to shoot values
                 SmartDashboard.putBoolean("hoodPositionReady", Robot.shooter.hoodPositionReady);
                 SmartDashboard.putBoolean("velocityReady", Robot.shooter.velocityReady);
-                SmartDashboard.putBoolean("facingHub", Robot.shooter.facingHub(Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold));
+                SmartDashboard.putBoolean("facingHub",
+                                Robot.shooter.facingHub(Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold));
                 SmartDashboard.putBoolean("timeCheckReadyToShoot", Robot.shooter.timeCheckReadyToShoot());
 
                 // interpolated values
@@ -124,6 +145,8 @@ public class Dashboard {
                 SmartDashboard.putNumber("interpolatedTOF", Robot.drivebase.timeOfFlight);
                 SmartDashboard.putNumber("distanceToGoal", Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
 
+                // get TCP communication
+                isTCPConnectedColor();
         }
 
         public void getPIDValues() {
@@ -163,4 +186,25 @@ public class Dashboard {
                         SmartDashboard.putString("Color", red.toHexString());
                 }
         }
+
+        public void isTCPConnectedColor() {
+                ConnectionInfo[] TCPConnection = NetworkTableInstance.getDefault().getConnections();
+                Color red = new Color(255, 0, 0);
+                Color green = new Color(0, 255, 0);
+                if (TCPConnection.length == 0) {
+                        SmartDashboard.putString("TCP Connection", green.toHexString());
+                } else {
+                        SmartDashboard.putString("TCP Connection", red.toHexString());
+                }
+        }
+
+
+        public void updateTCPConnectionFromDashboard() {
+        try {
+            tCPSelected = TCPChooser.valueOf(TCPSelector.getSelected());
+        } catch (Exception e) {
+            tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
+        }
+    }
+
 }

@@ -24,4 +24,8 @@ public class Enums {
         DoNothing, TestAuto, Depot_OneCycle, Outpost_OneCycle, GoOverBump, Outpost, Depot, MoveForward1Meter, MoveForward1MeterComeBack, RotateWhileDriving, DriveAtAnAngle, OliviaAttemptGoOverBump
     }
 
+    public enum TCPChooser {
+        autoDetectWinnerOfAuto, blueWonAuto, redWonAuto
+    }
+
 }
