@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -67,7 +68,7 @@ public class Intake {
 
             if (intakeDeployMotor.getPosition().getValueAsDouble() < Settings.IntakeSettings.spinBackwardsThreshold) {
                 intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(-10).withFeedForward(RPStoVoltage(-10)));
+                        .setControl(new DutyCycleOut(0));
             } else {
                 // intake wheels on
                 intakeMotorLeftLeader
