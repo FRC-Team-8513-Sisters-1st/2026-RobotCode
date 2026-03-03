@@ -6,6 +6,8 @@ Autos:
         - check if when we drive over intake first if that is pitch + or -
             - then check if we pich in both diretions before landing flat and moving on in auto
     x if we have never seen vision, assume robot is at starting pose
+    - shoot preload 8 and do nothing
+    - shoot preload 8 and drive neutral
 
 Copilot:
     x when unjam kicker button go back to stationary
