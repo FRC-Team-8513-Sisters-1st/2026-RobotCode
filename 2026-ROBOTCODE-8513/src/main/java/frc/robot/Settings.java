@@ -8,6 +8,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 
 public class Settings {
@@ -104,6 +105,7 @@ public class Settings {
         public static double deployPosition = 0;
         public static double intakeFudgeFactor = 0.5;
         public static double shootingPosition = -8;
+        public static Constraints deployConstraints = new Constraints(10, 10);
     }
 
     public class ShooterSettings {

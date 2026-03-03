@@ -6,21 +6,18 @@ Autos:
         - check if when we drive over intake first if that is pitch + or -
             - then check if we pich in both diretions before landing flat and moving on in auto
     x if we have never seen vision, assume robot is at starting pose
-    - shoot preload 8 and do nothing
-    - shoot preload 8 and drive neutral
     - at end of testing autos lock the wheels
     - time step started going from bump back to autos needs to get reset
     - instead of shooting for rest of auto, check each loop if ready to shoot if we get bumped we want to stop shooting
-
+    - shoot preloaded 8 and do nothing
+    - shoot preload 8 and drive neutral
 Copilot:
-    x when unjam kicker button go back to stationary
-    x do NOT spin the indexer or kicker wheels if the shooter is not spinning
+    x when unjam kicker button released go back to stationary
 
 Driver:
     - set all current limits in hardwareClinet/phenixTuner - remove them from code
     - motion profile intake and spin intake out until its below some threshold
 
-    
 Manual control:
     x button to gradually spin up the shooter
     - update the windows and cancel auto updates

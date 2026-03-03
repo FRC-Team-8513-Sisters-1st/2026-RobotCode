@@ -7,6 +7,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -22,6 +23,7 @@ public class Intake {
     public TalonFX intakeDeployMotor = new TalonFX(33);
 
     public PIDController intakeMotorController = new PIDController(0.1, 0, 0);
+    public ProfiledPIDController intakeDeployController = new ProfiledPIDController(0.1, 0, 0, Settings.IntakeSettings.deployConstraints);
 
     public boolean useManualIntakeControl = false;
     public double intakeFudgeFactor = 0;
@@ -48,6 +50,8 @@ public class Intake {
         m_request.UpdateFreqHz = 1000;
         // disable FOC
         m_request.withEnableFOC(false);
+
+        intakeDeployController.reset(intakeDeployMotor.getPosition().getValueAsDouble());
 
     }
 
@@ -124,7 +128,7 @@ public class Intake {
 
     public double deployPower(double targetPosition) {
         double currentPosition = intakeDeployMotor.getPosition().getValueAsDouble();
-        double outputPower = intakeMotorController.calculate(currentPosition, targetPosition);
+        double outputPower = intakeDeployController.calculate(currentPosition, targetPosition);
         return outputPower;
     }
 
