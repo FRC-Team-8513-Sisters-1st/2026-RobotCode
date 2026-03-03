@@ -129,7 +129,7 @@ public class Intake {
 
     public double deployPower(double targetPosition) {
         double currentPosition = intakeDeployMotor.getPosition().getValueAsDouble();
-        double outputPower = intakeDeployController.calculate(currentPosition, targetPosition);
+        double outputPower = intakeMotorController.calculate(currentPosition, targetPosition);
         return outputPower;
     }
 
