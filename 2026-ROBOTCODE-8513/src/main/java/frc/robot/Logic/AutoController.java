@@ -219,7 +219,7 @@ public class AutoController {
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
-                        autoStep = 10;
+                        autoStep = 0;
                         break;
 
                     case 5:
@@ -228,11 +228,11 @@ public class AutoController {
                             autoStep = 15;
                         }
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 0.97) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 0.5) {
                             Robot.intake.intakeState = IntakeStates.intaking;
                         }
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 4.43) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 6.46) {
                             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                             Robot.shooter.shooterState = ShooterStates.shooting;
                         }
@@ -248,6 +248,7 @@ public class AutoController {
                         Robot.drivebase.faceHub();
                         Robot.hopper.hopperState = HopperStates.indexing;
                         Robot.kicker.kickerState = KickerStates.shooting;
+                        Robot.intake.intakeState = IntakeStates.shooting;
                         break;
                 }
                 break;

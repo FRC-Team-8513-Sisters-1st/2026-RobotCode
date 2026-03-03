@@ -94,6 +94,7 @@ public class Robot extends TimedRobot {
     if (Robot.teleop.manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.resetIntake)) {
       Robot.intake.intakeDeployMotor.setPosition(0);
       Robot.intake.intakeDeployController.reset(0);
+      Robot.intake.intakeFudgeFactor = 0;
     }
 
   }

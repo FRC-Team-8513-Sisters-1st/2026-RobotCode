@@ -17,6 +17,7 @@ Copilot:
 Driver:
     - set all current limits in hardwareClinet/phenixTuner - remove them from code
     - motion profile intake and spin intake out until its below some threshold
+    - when x is pressed robot should face lfet, when b, robot should face riht
 
 Manual control:
     x button to gradually spin up the shooter

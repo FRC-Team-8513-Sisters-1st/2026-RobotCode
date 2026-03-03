@@ -34,6 +34,7 @@ public class TeleopController {
     public boolean useSpecialNewRotation = true;
     public boolean autoShooting = true;
     public double timeGradualWasPressed;
+    public int timeIntakeShootingButtonPressed;
 
     public double shooterButtonTime;
 
@@ -375,14 +376,17 @@ public class TeleopController {
         boolean copilotshootIntakeButtonPressed = Robot.teleop.copilotJoystick1
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.jiggleIntake);
         if (Robot.intake.intakeState == IntakeStates.stowed && copilotshootIntakeButtonPressed) {
+            timeIntakeShootingButtonPressed = 0;
             // if the robot is stowed
         } else if ((Robot.intake.intakeState == IntakeStates.intaking
                 || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
                 && copilotshootIntakeButtonPressed) {
             // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.shooting;
+            timeIntakeShootingButtonPressed = (int) Timer.getFPGATimestamp();
         } else if (Robot.intake.intakeState == IntakeStates.shooting && copilotshootIntakeButtonPressed) {
             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+            timeIntakeShootingButtonPressed = 0;
         }
 
         // shooter controls

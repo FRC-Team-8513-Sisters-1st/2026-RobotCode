@@ -24,7 +24,8 @@ public class Intake {
     public TalonFX intakeDeployMotor = new TalonFX(33);
 
     public PIDController intakeMotorController = new PIDController(0.1, 0, 0);
-    public ProfiledPIDController intakeDeployController = new ProfiledPIDController(0.1, 0, 0, Settings.IntakeSettings.deployConstraints);
+    public ProfiledPIDController intakeDeployController = new ProfiledPIDController(0.1, 0, 0,
+            Settings.IntakeSettings.deployConstraints);
 
     public boolean useManualIntakeControl = false;
     public double intakeFudgeFactor = 0;
@@ -102,7 +103,11 @@ public class Intake {
 
         } else if (intakeState == IntakeStates.shooting) {
             // deploy intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
+            if (Timer.getFPGATimestamp() - Robot.teleop.timeIntakeShootingButtonPressed >= 0.5) {
+                intakeDeployMotor.set(deployPower(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
+            } else {
+                intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
+            }
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
@@ -134,9 +139,9 @@ public class Intake {
     }
 
     // public void spinIntakeBackward() {
-    //     if (intakeDeployMotor.getPosition().getValueAsDouble() < 0) {
-    //         intakeMotorLeftLeader.setControl(m_request.withOutput(-1.0));
-    //     }
+    // if (intakeDeployMotor.getPosition().getValueAsDouble() < 0) {
+    // intakeMotorLeftLeader.setControl(m_request.withOutput(-1.0));
+    // }
     // }
 
     // copied from shooter, check the values
