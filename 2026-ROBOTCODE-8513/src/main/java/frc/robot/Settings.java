@@ -177,8 +177,9 @@ public class Settings {
             public static double shuttleHoodPositionTHold = 0.1;
             public static double shooterVelocityTHold = 4;
             public static double shooterShuttleVelocityTHold = 6;
-            public static double autoDetectedBumpPitchTHold = 3;
-            public static double autoDetectedBumpPitchCount = 4;
+            public static double autoDetectedBumpPitchTHold = 6;
+            public static double autoDetectedBumpPitchCount = 6;
+            public static double detectedFlatTHold = 5;
         }
     }
 

@@ -171,20 +171,20 @@ public class AutoController {
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
-                        autoStep = 10;
+                        autoStep = 0;
                         break;
 
-                    case 10:
+                    case 5:
                         if (Robot.drivebase.followLoadedPath()) {
                             timeStepStarted = Timer.getFPGATimestamp();
                             autoStep = 15;
                         }
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 0.9) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 0.5) {
                             Robot.intake.intakeState = IntakeStates.intaking;
                         }
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 4.43) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 7) {
                             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                             Robot.shooter.shooterState = ShooterStates.shooting;
                         }
@@ -200,9 +200,10 @@ public class AutoController {
                         Robot.drivebase.faceHub();
                         Robot.hopper.hopperState = HopperStates.indexing;
                         Robot.kicker.kickerState = KickerStates.shooting;
+                        Robot.intake.intakeState = IntakeStates.shooting;
                         break;
                 }
-
+                break;
             case Outpost_OneCycle:
                 switch (autoStep) {
                     case 0:
@@ -221,7 +222,7 @@ public class AutoController {
                         autoStep = 10;
                         break;
 
-                    case 10:
+                    case 5:
                         if (Robot.drivebase.followLoadedPath()) {
                             timeStepStarted = Timer.getFPGATimestamp();
                             autoStep = 15;
@@ -249,7 +250,8 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.shooting;
                         break;
                 }
-                case Depot_FullAcross_OneCycle:
+                break;
+            case Depot_FullAcross_OneCycle:
                 switch (autoStep) {
                     case 0:
                         autoToReturnTo = AutoRoutines.Depot_FullAcross_OneCycle;
@@ -295,6 +297,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.shooting;
                         break;
                 }
+                break;
             case Depot:
                 switch (autoStep) {
                     case 0:
@@ -421,7 +424,7 @@ public class AutoController {
                         Robot.drivebase.yagslDrive.lockPose();
                         break;
                 }
-
+                break;
             case OliviaAttemptGoOverBump:
                 if (Robot.isReal()) {
                     switch (autoStep) {
@@ -437,10 +440,10 @@ public class AutoController {
                             break;
                         case 10:
                             if (Robot.onRed) {
-                                Robot.drivebase.driveFacingHeading(new Translation2d(-1, 0), new Rotation2d(Math.PI),
+                                Robot.drivebase.driveFacingHeading(new Translation2d(-1.5, 0), new Rotation2d(Math.PI),
                                         true);
                             } else {
-                                Robot.drivebase.driveFacingHeading(new Translation2d(1, 0), new Rotation2d(0), true);
+                                Robot.drivebase.driveFacingHeading(new Translation2d(1.5, 0), new Rotation2d(0), true);
                             }
                             if (Robot.drivebase.yagslDrive.getPitch()
                                     .getDegrees() > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchTHold
@@ -463,6 +466,27 @@ public class AutoController {
                                 bumpTholdCounter = 0;
                             }
                             if (Robot.onRed) {
+                                Robot.drivebase.driveFacingHeading(new Translation2d(-1.5, 0), new Rotation2d(Math.PI),
+                                        true);
+                            } else {
+                                Robot.drivebase.driveFacingHeading(new Translation2d(1.5, 0), new Rotation2d(0), true);
+                            }
+
+                            if (bumpTholdCounter > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchCount) {
+                                bumpTholdCounter = 0;
+                                autoStep = 20;
+                            }
+                            break;
+                        case 20:
+                            if (Math.abs(Robot.drivebase.yagslDrive.getPitch()
+                                    .getDegrees()) < Settings.AutoSettings.Thresholds.detectedFlatTHold
+                                    || Timer.getFPGATimestamp() - timeStepStarted >= 2) {
+                                bumpTholdCounter++;
+                            } else {
+                                bumpTholdCounter = 0;
+                            }
+
+                            if (Robot.onRed) {
                                 Robot.drivebase.driveFacingHeading(new Translation2d(-1, 0), new Rotation2d(Math.PI),
                                         true);
                             } else {
@@ -474,9 +498,7 @@ public class AutoController {
                                 autoStep = 5;
                                 autoRoutine = autoToReturnTo;
                             }
-                            break;
                     }
-
                 } else {
                     autoRoutine = autoToReturnTo;
                 }

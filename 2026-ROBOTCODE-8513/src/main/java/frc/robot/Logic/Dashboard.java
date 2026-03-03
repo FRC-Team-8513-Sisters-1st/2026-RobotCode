@@ -2,6 +2,7 @@ package frc.robot.Logic;
 
 import edu.wpi.first.networktables.ConnectionInfo;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -45,6 +46,11 @@ public class Dashboard {
 
                 // Auto selection
                 SmartDashboard.putString("Auto selected", Robot.auto.autoRoutine.name());
+                SmartDashboard.putNumber("autoStep", Robot.auto.autoStep);
+                SmartDashboard.putString("autoToReturnTO", Robot.auto.autoToReturnTo.name());
+                SmartDashboard.putNumber("timeInStep", Timer.getFPGATimestamp()-Robot.auto.timeStepStarted);
+
+
 
                 // Subsystem states
                 SmartDashboard.putString("intakeState", Robot.intake.intakeState.name());
