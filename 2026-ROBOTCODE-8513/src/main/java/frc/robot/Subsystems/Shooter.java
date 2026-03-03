@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.ShooterStates;
-import frc.robot.Logic.Enums.TCPChooser;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 public class Shooter {
