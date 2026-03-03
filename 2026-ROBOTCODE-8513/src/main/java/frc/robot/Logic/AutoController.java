@@ -69,6 +69,7 @@ public class AutoController {
                     case 10:
                         if (Robot.drivebase.followLoadedPath()) {
                             timeStepStarted = Timer.getFPGATimestamp();
+                            Robot.drivebase.yagslDrive.lockPose();
                         }
                         break;
                 }
@@ -100,6 +101,7 @@ public class AutoController {
                         if (Timer.getFPGATimestamp() - timeStepStarted >= 2.8) {
                             Robot.drivebase.initPath("Come Back");
                             autoStep = 20;
+                            Robot.drivebase.yagslDrive.lockPose();
                         }
                         break;
                 }
@@ -123,6 +125,8 @@ public class AutoController {
                     case 10:
                         if (Robot.drivebase.followLoadedPath()) {
                             timeStepStarted = Timer.getFPGATimestamp();
+                            Robot.drivebase.yagslDrive.lockPose();
+
                         }
                         break;
                 }
@@ -146,6 +150,7 @@ public class AutoController {
                     case 10:
                         if (Robot.drivebase.followLoadedPath()) {
                             timeStepStarted = Timer.getFPGATimestamp();
+                            Robot.drivebase.yagslDrive.lockPose();
                         }
                         break;
                 }
