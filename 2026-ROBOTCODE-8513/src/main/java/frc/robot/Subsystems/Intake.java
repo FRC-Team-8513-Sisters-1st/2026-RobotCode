@@ -65,9 +65,9 @@ public class Intake {
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
             // spinIntakeBackward();
 
-            if (Timer.getFPGATimestamp() - timeLeftStowedState < 0.5) {
+            if (intakeDeployMotor.getPosition().getValueAsDouble() < Settings.IntakeSettings.spinBackwardsThreshold) {
                 intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(-20).withFeedForward(RPStoVoltage(-20)));
+                        .setControl(m_request.withVelocity(-10).withFeedForward(RPStoVoltage(-10)));
             } else {
                 // intake wheels on
                 intakeMotorLeftLeader
