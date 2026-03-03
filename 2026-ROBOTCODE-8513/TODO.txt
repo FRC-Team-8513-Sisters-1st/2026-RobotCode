@@ -1,6 +1,5 @@
 Elastic:
     - field 2d with robot pose and all 4 vision poses
-    x put all the checks that are true or false for auto shoot
 
 Autos:
     - Bump
@@ -13,24 +12,12 @@ Copilot:
     x do NOT spin the indexer or kicker wheels if the shooter is not spinning
 
 Driver:
-    x make driving while shooting speed a variabel in settings
-    x put all interpolated values on dashboard
-    - test in simulation ready to shoot check
-        x to do this put each of the checks on the dashboard 
-        x where we do the checks, make each check a variable, then in the IF just check the value of the variables
-    x look at intake state when shooting
-    x Only spin intake backwards when going from Stowed to deployed. 
     - set all current limits in hardwareClinet/phenixTuner - remove them from code
-    x Update shooter PID to 1kHz
-        x https://v6.docs.ctr-electronics.com/en/latest/docs/migration/migration-guide/control-requests-guide.html#changing-update-frequency-control-frame-period 
-    x disable foc on the intake (ADDED PID TO INTAKE MOTORS)
-        x https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/controls/VoltageOut.html#EnableFOC 
+    - motion profile intake and spin intake out until its below some threshold
+
     
 Manual control:
-    x make diagream like those below
     x button to gradually spin up the shooter
-
-
     - update the windows and cancel auto updates
 
 Get Robot Schedule:
@@ -39,9 +26,8 @@ Get Robot Schedule:
         - have a go straight and come back auto
         - have a go straight and rotate auto
         - have a drive at angle auto
-    - set offsets for cameras, import the config, accurate vision pose?
-        - make sure each vision pose is on dashboard
-        - this will be related to putting vision status lights on elastic
+
+    - Put vision status lights on elastic
     - tune pid values for subsystems
     - test all the buttons and manual controls (update fudge factors)           
     - tune shot (set values for the interpolation)
@@ -50,15 +36,7 @@ Get Robot Schedule:
     - test + tune autos
     - clean tele drive if needed
 
-Week 0 Schedule
-    - 
-
-Shot tuning on 2/21:
-    shot tuning: dist: 2.05, v: 39 pos: .3
-    dist: 3.01, v: 44.8 pos: 0.2
-
 
 Driver Buttons: https://app.diagrams.net/#G1uRCCOzVmEvHkvo4EhlnghtRV6GGkDXbb#%7B%22pageId%22%3A%22d-_JnBqeQgVWwOmPlnWK%22%7D
 Co Pilot Buttons: https://app.diagrams.net/#G1qHkbT-RruBgJSgykm7fhuSLz0rcQ5_Ag#%7B%22pageId%22%3A%22cDo-9tD7ipAllacoT-Qq%22%7D
 Manual Buttons: https://drive.google.com/file/d/1ukn6wE2wagI7a8BWJb04coxWEV2F8x2a/view?usp=sharing 
-                (check if this works now)
