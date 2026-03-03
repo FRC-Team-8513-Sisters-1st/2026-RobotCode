@@ -8,6 +8,9 @@ Autos:
     x if we have never seen vision, assume robot is at starting pose
     - shoot preload 8 and do nothing
     - shoot preload 8 and drive neutral
+    - at end of testing autos lock the wheels
+    - time step started going from bump back to autos needs to get reset
+    - instead of shooting for rest of auto, check each loop if ready to shoot if we get bumped we want to stop shooting
 
 Copilot:
     x when unjam kicker button go back to stationary
