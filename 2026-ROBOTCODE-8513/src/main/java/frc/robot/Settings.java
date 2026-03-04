@@ -21,7 +21,7 @@ public class Settings {
         public static boolean getPIDValuesFromDashboard = false;
 
         public static class RotationPIDConstants {
-            public static final double kP = 0.1;
+            public static final double kP = 0.125;
             public static final double kI = 0.0015;
             public static final double kD = 0.008;
         }

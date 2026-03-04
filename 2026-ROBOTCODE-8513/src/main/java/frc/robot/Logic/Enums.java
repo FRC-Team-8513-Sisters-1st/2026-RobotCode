@@ -21,7 +21,7 @@ public class Enums {
     }
 
     public enum AutoRoutines {
-        DoNothing, Depot_OneCycle, Outpost_OneCycle, Outpost, Depot, MoveForward1Meter, MoveForward1MeterComeBack, RotateWhileDriving, DriveAtAnAngle, OliviaAttemptGoOverBump, Depot_FullAcross_OneCycle
+        DoNothing, Depot_OneCycle, Outpost_OneCycle, Outpost, Depot, MoveForward1Meter, MoveForward1MeterComeBack, RotateWhileDriving, DriveAtAnAngle, OliviaAttemptGoOverBump, Depot_FullAcross_OneCycle, Outpost_FullAcross_OneCycle, Depot_Depot_Outpost
     }
 
     public enum TCPChooser {
