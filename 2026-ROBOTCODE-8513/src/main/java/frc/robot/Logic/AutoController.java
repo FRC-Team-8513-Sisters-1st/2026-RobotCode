@@ -418,7 +418,7 @@ public class AutoController {
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
-                        autoStep = 0;
+                        autoStep = 5;
                         break;
 
                     case 5:
@@ -593,6 +593,7 @@ public class AutoController {
                     }
                 } else {
                     autoRoutine = autoToReturnTo;
+                    autoStep = 5;
                 }
                 break;
         }
