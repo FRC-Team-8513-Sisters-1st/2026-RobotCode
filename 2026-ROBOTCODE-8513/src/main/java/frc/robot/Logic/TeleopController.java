@@ -34,7 +34,7 @@ public class TeleopController {
     public boolean useSpecialNewRotation = true;
     public boolean autoShooting = true;
     public double timeGradualWasPressed;
-    public int timeIntakeShootingButtonPressed;
+    public double timeIntakeShootingButtonPressed;
 
     public double shooterButtonTime;
 
@@ -81,6 +81,7 @@ public class TeleopController {
         }
 
         Robot.drivebase.goalHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
+        Robot.drivebase.rotationPidController.reset(0);
 
     }
 
@@ -381,7 +382,7 @@ public class TeleopController {
                 && copilotshootIntakeButtonPressed) {
             // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.shooting;
-            timeIntakeShootingButtonPressed = (int) Timer.getFPGATimestamp();
+            timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
         }
 
         if (Robot.intake.intakeState == IntakeStates.shooting && Robot.teleop.copilotJoystick1
