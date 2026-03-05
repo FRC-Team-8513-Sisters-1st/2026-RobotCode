@@ -42,6 +42,7 @@ public class AutoController {
         updateAutoRoutineFromDashboard();
         autoStep = 0;
         timeStepStarted = Timer.getFPGATimestamp();
+        Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
     }
 
     public void autoPeriodic() {
