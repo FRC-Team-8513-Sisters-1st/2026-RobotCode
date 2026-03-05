@@ -106,7 +106,7 @@ public class Settings {
         public static double intakeFudgeFactor = 0.5;
         public static double shootingPosition = -8;
         public static Constraints deployConstraints = new Constraints(10, 10);
-        public static double spinBackwardsThreshold = -8;
+        public static double spinBackwardsThreshold = -6;
     }
 
     public class ShooterSettings {
