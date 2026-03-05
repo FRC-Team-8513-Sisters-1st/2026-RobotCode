@@ -51,6 +51,7 @@ public class TeleopController {
         Robot.dashboard.getPIDValues();
         Elastic.selectTab("Teleoperated");
         teleStartTime = Timer.getFPGATimestamp();
+        Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
 
         Robot.shooter.shooterState = ShooterStates.stationary;
         Robot.hopper.hopperState = HopperStates.stationary;
