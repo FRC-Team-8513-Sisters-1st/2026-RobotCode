@@ -69,7 +69,7 @@ public class Intake {
 
             if (intakeDeployMotor.getPosition().getValueAsDouble() < Settings.IntakeSettings.spinBackwardsThreshold) {
                 intakeMotorLeftLeader
-                        .setControl(new DutyCycleOut(0));
+                        .setControl(new DutyCycleOut(-0.2));
             } else {
                 // intake wheels on
                 intakeMotorLeftLeader

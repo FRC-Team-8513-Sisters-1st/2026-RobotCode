@@ -61,17 +61,17 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
-    var configs = new CurrentLimitsConfigs();
-    configs.StatorCurrentLimitEnable = true;
-    configs.StatorCurrentLimit = 60;
-    configs.SupplyCurrentLimitEnable = true;
-    configs.SupplyCurrentLimit = 40;
+    // var configs = new CurrentLimitsConfigs();
+    // configs.StatorCurrentLimitEnable = true;
+    // configs.StatorCurrentLimit = 60;
+    // configs.SupplyCurrentLimitEnable = true;
+    // configs.SupplyCurrentLimit = 40;
 
-    hopper.indexerMotorTop.getConfigurator().apply(configs);
-    hopper.indexerMotorBottom.getConfigurator().apply(configs);
-    intake.intakeDeployMotor.getConfigurator().apply(configs);
-    intake.intakeMotorLeftLeader.getConfigurator().apply(configs);
-    intake.intakeMotorRightFollower.getConfigurator().apply(configs);
+    // hopper.indexerMotorTop.getConfigurator().apply(configs);
+    // hopper.indexerMotorBottom.getConfigurator().apply(configs);
+    // intake.intakeDeployMotor.getConfigurator().apply(configs);
+    // intake.intakeMotorLeftLeader.getConfigurator().apply(configs);
+    // intake.intakeMotorRightFollower.getConfigurator().apply(configs);
 
     SparkMaxConfig config = new SparkMaxConfig();
     config.smartCurrentLimit(40);
