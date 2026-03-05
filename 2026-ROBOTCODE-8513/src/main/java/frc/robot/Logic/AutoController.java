@@ -352,11 +352,11 @@ public class AutoController {
             case Depot:
                 switch (autoStep) {
                     case 0:
-                        if (Robot.onRed) {
-                            ifNoCameraAssumeRobotPos(new Pose2d(12.824, 2.489, new Rotation2d(180)));
-                        } else {
-                            ifNoCameraAssumeRobotPos(new Pose2d(3.677, 5.58, new Rotation2d(0)));
-                        }
+                        // if (Robot.onRed) {
+                        //     ifNoCameraAssumeRobotPos(new Pose2d(12.824, 2.489, new Rotation2d(180)));
+                        // } else {
+                        //     ifNoCameraAssumeRobotPos(new Pose2d(3.677, 5.58, new Rotation2d(0)));
+                        // }
 
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
@@ -403,11 +403,11 @@ public class AutoController {
             case Depot_Depot_Outpost:
                 switch (autoStep) {
                     case 0:
-                        if (Robot.onRed) {
-                            ifNoCameraAssumeRobotPos(new Pose2d(12.824, 2.489, new Rotation2d(180)));
-                        } else {
-                            ifNoCameraAssumeRobotPos(new Pose2d(3.677, 5.58, new Rotation2d(0)));
-                        }
+                        // if (Robot.onRed) {
+                        //     ifNoCameraAssumeRobotPos(new Pose2d(12.824, 2.489, new Rotation2d(180)));
+                        // } else {
+                        //     ifNoCameraAssumeRobotPos(new Pose2d(3.677, 5.58, new Rotation2d(0)));
+                        // }
 
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
@@ -454,11 +454,11 @@ public class AutoController {
             case Outpost:
                 switch (autoStep) {
                     case 0:
-                        if (Robot.onRed) {
-                            ifNoCameraAssumeRobotPos(new Pose2d(12.837, 5.636, new Rotation2d(180)));
-                        } else {
-                            ifNoCameraAssumeRobotPos(new Pose2d(3.677, 2.644, new Rotation2d(0)));
-                        }
+                        // if (Robot.onRed) {
+                        //     ifNoCameraAssumeRobotPos(new Pose2d(12.837, 5.636, new Rotation2d(180)));
+                        // } else {
+                        //     ifNoCameraAssumeRobotPos(new Pose2d(3.677, 2.644, new Rotation2d(0)));
+                        // }
 
                         Robot.shooter.shooterState = ShooterStates.shooting;
                         Robot.hopper.hopperState = HopperStates.stationary;
