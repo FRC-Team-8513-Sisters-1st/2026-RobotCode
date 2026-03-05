@@ -102,12 +102,9 @@ public class Intake {
             intakeMotorLeftLeader.set(0);
 
         } else if (intakeState == IntakeStates.shooting) {
-            // deploy intake
-            if (Timer.getFPGATimestamp() - Robot.teleop.timeIntakeShootingButtonPressed >= 0.5) {
-                intakeDeployMotor.set(deployPower(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
-            } else {
-                intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
-            }
+           
+             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
+            
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
@@ -134,7 +131,7 @@ public class Intake {
 
     public double deployPower(double targetPosition) {
         double currentPosition = intakeDeployMotor.getPosition().getValueAsDouble();
-        double outputPower = intakeMotorController.calculate(currentPosition, targetPosition);
+        double outputPower = intakeDeployController.calculate(currentPosition, targetPosition);
         return outputPower;
     }
 

@@ -34,7 +34,7 @@ public class TeleopController {
     public boolean useSpecialNewRotation = true;
     public boolean autoShooting = true;
     public double timeGradualWasPressed;
-    public int timeIntakeShootingButtonPressed;
+    public double timeIntakeShootingButtonPressed;
 
     public double shooterButtonTime;
 
@@ -51,6 +51,7 @@ public class TeleopController {
         Robot.dashboard.getPIDValues();
         Elastic.selectTab("Teleoperated");
         teleStartTime = Timer.getFPGATimestamp();
+        Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
 
         Robot.shooter.shooterState = ShooterStates.stationary;
         Robot.hopper.hopperState = HopperStates.stationary;
@@ -80,6 +81,7 @@ public class TeleopController {
         }
 
         Robot.drivebase.goalHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
+        Robot.drivebase.rotationPidController.reset(0);
 
     }
 
@@ -375,16 +377,16 @@ public class TeleopController {
 
         boolean copilotshootIntakeButtonPressed = Robot.teleop.copilotJoystick1
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.jiggleIntake);
-        if (Robot.intake.intakeState == IntakeStates.stowed && copilotshootIntakeButtonPressed) {
-            timeIntakeShootingButtonPressed = 0;
-            // if the robot is stowed
-        } else if ((Robot.intake.intakeState == IntakeStates.intaking
+        if ((Robot.intake.intakeState == IntakeStates.intaking
                 || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
                 && copilotshootIntakeButtonPressed) {
             // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.shooting;
-            timeIntakeShootingButtonPressed = (int) Timer.getFPGATimestamp();
-        } else if (Robot.intake.intakeState == IntakeStates.shooting && copilotshootIntakeButtonPressed) {
+            timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
+        }
+
+        if (Robot.intake.intakeState == IntakeStates.shooting && Robot.teleop.copilotJoystick1
+                .getRawButtonReleased(Settings.TeleopSettings.ButtonIDs.jiggleIntake)) {
             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
             timeIntakeShootingButtonPressed = 0;
         }

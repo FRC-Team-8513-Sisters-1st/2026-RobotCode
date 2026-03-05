@@ -3,10 +3,12 @@ package frc.robot.Subsystems;
 import java.io.File;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -23,10 +25,11 @@ import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 public class Drivebase {
     public SwerveDrive yagslDrive;
     public Rotation2d goalHeading = new Rotation2d();
-    public PIDController rotationPidController = new PIDController(
+    public ProfiledPIDController rotationPidController = new ProfiledPIDController(
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kP,
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kI,
-            frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kD);
+            frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kD, new Constraints(360, 500));
+
 
     // path following variables
     PathPlannerTrajectory traj;

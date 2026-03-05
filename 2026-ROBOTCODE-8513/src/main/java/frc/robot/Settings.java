@@ -22,8 +22,8 @@ public class Settings {
 
         public static class RotationPIDConstants {
             public static final double kP = 0.1;
-            public static final double kI = 0.0015;
-            public static final double kD = 0.008;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
         }
     }
 
@@ -104,8 +104,8 @@ public class Settings {
         public static double stowPosition = -27;
         public static double deployPosition = 0;
         public static double intakeFudgeFactor = 0.5;
-        public static double shootingPosition = -8;
-        public static Constraints deployConstraints = new Constraints(10, 10);
+        public static double shootingPosition = -13;
+        public static Constraints deployConstraints = new Constraints(55, 120);
         public static double spinBackwardsThreshold = -6;
     }
 
