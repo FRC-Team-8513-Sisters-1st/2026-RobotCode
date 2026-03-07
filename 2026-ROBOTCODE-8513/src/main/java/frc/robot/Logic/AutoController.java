@@ -292,7 +292,7 @@ public class AutoController {
                             Robot.intake.intakeState = IntakeStates.intaking;
                         }
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 6.46) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= Robot.drivebase.traj.getTotalTimeSeconds()-1) {
                             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                             Robot.shooter.shooterState = ShooterStates.shooting;
                         }
@@ -358,7 +358,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
-                        Robot.drivebase.initPath("Depot_OneCycle");
+                        Robot.drivebase.initPath("Depot-OneCycle");
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
@@ -375,7 +375,7 @@ public class AutoController {
                             Robot.intake.intakeState = IntakeStates.intaking;
                         }
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 6.87) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= Robot.drivebase.traj.getTotalTimeSeconds()-1) {
                             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                             Robot.shooter.shooterState = ShooterStates.shooting;
                         }
@@ -422,7 +422,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
-                        Robot.drivebase.initPath("Depot_OneCycle");
+                        Robot.drivebase.initPath("Depot-OneCycle");
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
@@ -459,7 +459,7 @@ public class AutoController {
                             Robot.intake.intakeState = IntakeStates.intaking;
                         }
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 8.97) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= Robot.drivebase.traj.getTotalTimeSeconds()-1) {
                             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                             Robot.shooter.shooterState = ShooterStates.shooting;
                         }
@@ -467,6 +467,8 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        Robot.shooter.shooterState = ShooterStates.shooting;
                         if (Robot.shooter.readyToShootInHub()) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
@@ -509,7 +511,7 @@ public class AutoController {
                             Robot.intake.intakeState = IntakeStates.intaking;
                         }
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 9.41) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= Robot.drivebase.traj.getTotalTimeSeconds()-1) {
                             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                             Robot.shooter.shooterState = ShooterStates.shooting;
                         }
@@ -517,6 +519,8 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        Robot.shooter.shooterState = ShooterStates.shooting;
                         if (Robot.shooter.readyToShootInHub()) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();

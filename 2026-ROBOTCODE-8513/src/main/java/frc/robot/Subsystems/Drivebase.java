@@ -32,7 +32,7 @@ public class Drivebase {
 
 
     // path following variables
-    PathPlannerTrajectory traj;
+    public PathPlannerTrajectory traj;
     public boolean loadedPathHasStarted = false;
     PathPlannerPath path;
     public String pathName = "";
