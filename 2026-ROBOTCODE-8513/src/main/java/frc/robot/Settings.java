@@ -104,7 +104,7 @@ public class Settings {
         public static double stowPosition = -27;
         public static double deployPosition = 0;
         public static double intakeFudgeFactor = 0.5;
-        public static double shootingPosition = -13;
+        public static double shootingPosition = -15;
         public static Constraints deployConstraints = new Constraints(55, 120);
         public static double spinBackwardsThreshold = -6;
     }
