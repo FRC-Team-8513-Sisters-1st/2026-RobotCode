@@ -181,6 +181,8 @@ public class Settings {
             public static double autoDetectedBumpPitchCount = 6;
             public static double detectedFlatTHold = 5;
         }
+        
+        public static double autoIValue = 0.01;
     }
 
     public static void resetTalon(TalonFX m_talonFX) {

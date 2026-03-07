@@ -44,6 +44,7 @@ public class AutoController {
         timeStepStarted = Timer.getFPGATimestamp();
         Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
         Robot.drivebase.rotationPidController.reset(0);
+        Robot.drivebase.rotationPidController.setI(Settings.AutoSettings.autoIValue);
 
     }
 
@@ -357,7 +358,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
-                        Robot.drivebase.initPath("Depot_TwoCycle");
+                        Robot.drivebase.initPath("Depot_OneCycle");
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
@@ -374,7 +375,7 @@ public class AutoController {
                             Robot.intake.intakeState = IntakeStates.intaking;
                         }
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 7) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 6.87) {
                             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                             Robot.shooter.shooterState = ShooterStates.shooting;
                         }
@@ -421,7 +422,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
-                        Robot.drivebase.initPath("Depot_TwoCycle");
+                        Robot.drivebase.initPath("Depot_OneCycle");
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
