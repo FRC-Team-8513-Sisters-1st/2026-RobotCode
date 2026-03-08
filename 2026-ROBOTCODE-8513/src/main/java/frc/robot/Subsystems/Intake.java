@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Settings;
+import frc.robot.Logic.TeleopController;
 import frc.robot.Logic.Enums.IntakeStates;
 
 public class Intake {
@@ -67,13 +68,19 @@ public class Intake {
             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
             // spinIntakeBackward();
 
-            if (intakeDeployMotor.getPosition().getValueAsDouble() < Settings.IntakeSettings.spinBackwardsThreshold) {
+            if (Robot.teleop.copilotJoystick1.getRawButton(Settings.TeleopSettings.ButtonIDs.stopIntakeCopilot)) {
                 intakeMotorLeftLeader
-                        .setControl(new DutyCycleOut(-0.2));
+                        .setControl(new DutyCycleOut(0));
             } else {
-                // intake wheels on
-                intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
+                if (intakeDeployMotor.getPosition()
+                        .getValueAsDouble() < Settings.IntakeSettings.spinBackwardsThreshold) {
+                    intakeMotorLeftLeader
+                            .setControl(new DutyCycleOut(-0.2));
+                } else {
+                    // intake wheels on
+                    intakeMotorLeftLeader
+                            .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
+                }
             }
 
         } else if (intakeState == IntakeStates.stowed) {
@@ -102,9 +109,8 @@ public class Intake {
             intakeMotorLeftLeader.set(0);
 
         } else if (intakeState == IntakeStates.shooting) {
-           
-             intakeDeployMotor.set(deployPower(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
-            
+
+            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);

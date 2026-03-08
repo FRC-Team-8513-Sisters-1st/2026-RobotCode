@@ -83,6 +83,9 @@ public class TeleopController {
         Robot.drivebase.goalHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
         Robot.drivebase.rotationPidController.reset(0);
 
+        Robot.drivebase.rotationPidController.setI(Settings.DrivebaseSettings.RotationPIDConstants.kI);
+        ;
+
     }
 
     public double xSpeedJoystick;
@@ -143,11 +146,11 @@ public class TeleopController {
         } else {
             if (Robot.onRed) {
                 xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75);
-                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()*0.75);
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75);
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             } else {
-                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()*0.75;
-                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()*0.75;
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75;
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75;
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
         }
@@ -301,8 +304,8 @@ public class TeleopController {
                 copilotShuttlePosition.getRotation());
 
         // Subsystem set motor power
-        Robot.shooter.setMotorPower();
         Robot.intake.setMotorPower();
+        Robot.shooter.setMotorPower();
         Robot.kicker.setMotorPower();
         Robot.hopper.setMotorPower();
     }
@@ -405,25 +408,19 @@ public class TeleopController {
             Robot.hopper.hopperState = HopperStates.stationary;
         }
 
-        // kicker controls
-        boolean reverseKicker = copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseKicker);
-        boolean releasedKicker = copilotJoystick1.getRawButtonReleased(Settings.TeleopSettings.ButtonIDs.reverseKicker);
-        if (reverseKicker && (Robot.kicker.kickerState == KickerStates.stationary
-                || Robot.kicker.kickerState == KickerStates.shooting)) {
+        // reverse everything
+        boolean reverseKicker = copilotJoystick1
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseEverything);
+        boolean releasedKicker = copilotJoystick1
+                .getRawButtonReleased(Settings.TeleopSettings.ButtonIDs.reverseEverything);
+        if (reverseKicker) {
             Robot.kicker.kickerState = KickerStates.intaking;
-        } else if (releasedKicker && Robot.kicker.kickerState == KickerStates.intaking) {
-            Robot.kicker.kickerState = KickerStates.stationary;
-        }
-
-        // indexer
-        boolean reverseIndexer = copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseIndexer);
-        boolean releasedIndexer = copilotJoystick1
-                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseIndexer);
-        if (reverseIndexer && (Robot.hopper.hopperState == HopperStates.indexing
-                || Robot.hopper.hopperState == HopperStates.stationary)) {
             Robot.hopper.hopperState = HopperStates.unjam;
-        } else if (releasedIndexer && Robot.hopper.hopperState == HopperStates.unjam) {
+            Robot.intake.intakeState = IntakeStates.outtaking;
+        } else if (releasedKicker) {
+            Robot.kicker.kickerState = KickerStates.stationary;
             Robot.hopper.hopperState = HopperStates.stationary;
+            Robot.intake.intakeState = IntakeStates.intaking;
         }
 
         // shuttle position buttons

@@ -73,8 +73,11 @@ public class Settings {
             public static int jiggleIntake = 7;
             public static int forceShoot = 2; // force shoot
             public static int forceDontShoot = 1; // force not shoot?
-            public static int reverseIndexer = 11;
-            public static int reverseKicker = 12;
+            public static int stopIntakeCopilot = 11;
+            // public static int reverseKicker = 12;
+            public static int reverseEverything = 12;
+            
+
             // copilot controller 2
             public static int redDepotTrenchButton = 9;
             public static int blueDepotTrenchButton = 10;
@@ -182,7 +185,7 @@ public class Settings {
             public static double detectedFlatTHold = 5;
         }
         
-        public static double autoIValue = 0.01;
+        public static double autoIValue = 0.0125;
     }
 
     public static void resetTalon(TalonFX m_talonFX) {
