@@ -1,26 +1,17 @@
 Elastic:
-    - field 2d with robot pose and all 4 vision poses
 
 Autos:
-    - Bump
-        - check if when we drive over intake first if that is pitch + or -
-            - then check if we pich in both diretions before landing flat and moving on in auto
-    x if we have never seen vision, assume robot is at starting pose
-    x at end of testing autos lock the wheels
-    - time step started going from bump back to autos needs to get reset
     - instead of shooting for rest of auto, check each loop if ready to shoot if we get bumped we want to stop shooting
     - shoot preloaded 8 and do nothing
     - shoot preload 8 and drive neutral
+    - write more autos so we are less predictable
+
 Copilot:
-    x when unjam kicker button released go back to stationary
 
 Driver:
-    - set all current limits in hardwareClinet/phenixTuner - remove them from code
-    - motion profile intake and spin intake out until its below some threshold
-    - when x is pressed robot should face lfet, when b, robot should face riht
+    - when x is pressed robot should face left, when b, robot should face right
 
 Manual control:
-    x button to gradually spin up the shooter
     - update the windows and cancel auto updates
 
 Get Robot Schedule:
