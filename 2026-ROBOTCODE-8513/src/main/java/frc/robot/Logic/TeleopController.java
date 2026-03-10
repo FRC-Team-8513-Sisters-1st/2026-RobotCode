@@ -143,11 +143,11 @@ public class TeleopController {
         } else {
             if (Robot.onRed) {
                 xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75);
-                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()*0.75);
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75);
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             } else {
-                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()*0.75;
-                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()*0.75;
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75;
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75;
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
         }
@@ -331,6 +331,24 @@ public class TeleopController {
                 && stopIntakeButtonPressed) {
             // turn the wheels on while deployed
             Robot.intake.intakeState = IntakeStates.intaking;
+        }
+
+        // button when driver hits x face right and B face left
+        if (Robot.teleop.driverXboxController
+                .getRawButton(Settings.TeleopSettings.ButtonIDs.faceRight)) {
+            if (Robot.onRed) {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)), true);
+            } else {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(90)), true);
+            }
+        }
+        if (Robot.teleop.driverXboxController
+                .getRawButton(Settings.TeleopSettings.ButtonIDs.faceLeft)) {
+            if (Robot.onRed) {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(90)), true);
+            } else {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)), true);
+            }
         }
 
         // COPILOT CONTROLS

@@ -61,7 +61,9 @@ public class Settings {
             public static int straightenBump = 8;
             public static int snakeMode = 1;
             public static int resetHeading = 10;
-
+            public static int faceRight = 2; 
+            public static int faceLeft = 3; 
+            
             // copilot controller 1
             public static int increaseShotDistance = 4;
             public static int decreaseShotDistance = 6;
