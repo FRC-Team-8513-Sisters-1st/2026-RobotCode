@@ -89,7 +89,7 @@ public class AutoController {
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                         Robot.drivebase.yagslDrive.resetOdometry(new Pose2d(2, 6, new Rotation2d(0)));
 
-                        Robot.drivebase.initPath("Move Forward");
+                        Robot.drivebase.initPath("Come Back");
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
@@ -99,17 +99,10 @@ public class AutoController {
                     case 10:
                         if (Robot.drivebase.followLoadedPath()) {
                             timeStepStarted = Timer.getFPGATimestamp();
-                            autoStep = 15;
+                            autoStep = 0;
                         }
                         break;
 
-                    case 15:
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 2.8) {
-                            Robot.drivebase.initPath("Come Back");
-                            autoStep = 20;
-                            Robot.drivebase.yagslDrive.lockPose();
-                        }
-                        break;
                 }
                 break;
 

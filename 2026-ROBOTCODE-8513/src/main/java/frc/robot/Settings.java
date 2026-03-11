@@ -126,7 +126,7 @@ public class Settings {
 
     public class VisionSettings {
         public static double maxATDistDisabeled = 5;
-        public static boolean useVision = false;
+        public static boolean useVision = true;
     }
 
     public class FieldInfo {
@@ -187,7 +187,7 @@ public class Settings {
             public static double detectedFlatTHold = 5;
         }
         
-        public static double autoIValue = 0.0125;
+        public static double autoIValue = 0.0275;
     }
 
     public static void resetTalon(TalonFX m_talonFX) {

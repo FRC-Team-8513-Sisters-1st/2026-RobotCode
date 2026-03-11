@@ -68,6 +68,7 @@ public class Drivebase {
     public void driveFacingHeading(Translation2d translation2d, Rotation2d heading, boolean fR) {
         double angleError = Robot.drivebase.yagslDrive.getOdometryHeading().minus(heading).getDegrees();
         double rotationCorrection = rotationPidController.calculate(angleError, 0);
+        goalHeading = heading;
 
         Robot.drivebase.yagslDrive.drive(translation2d,
                 rotationCorrection,
