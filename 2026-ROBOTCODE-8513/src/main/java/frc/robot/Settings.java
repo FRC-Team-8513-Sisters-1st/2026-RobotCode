@@ -61,6 +61,8 @@ public class Settings {
             public static int straightenBump = 8;
             public static int snakeMode = 1;
             public static int resetHeading = 10;
+            public static int faceRight = 2; 
+            public static int faceLeft = 3; 
 
             // copilot controller 1
             public static int increaseShotDistance = 4;
@@ -124,7 +126,7 @@ public class Settings {
 
     public class VisionSettings {
         public static double maxATDistDisabeled = 5;
-        public static boolean useVision = true;
+        public static boolean useVision = false;
     }
 
     public class FieldInfo {

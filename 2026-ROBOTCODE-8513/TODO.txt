@@ -1,4 +1,6 @@
 Elastic:
+    - fix the override blue/red win 
+    - fix the errors in match time (delay)
 
 Autos:
     - instead of shooting for rest of auto, check each loop if ready to shoot if we get bumped we want to stop shooting
@@ -9,7 +11,7 @@ Autos:
 Copilot:
 
 Driver:
-    - when x is pressed robot should face left, when b, robot should face right
+    x when x is pressed robot should face left, when b, robot should face right
 
 Manual control:
     - update the windows and cancel auto updates

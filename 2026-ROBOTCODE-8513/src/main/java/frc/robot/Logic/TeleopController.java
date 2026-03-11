@@ -336,6 +336,24 @@ public class TeleopController {
             Robot.intake.intakeState = IntakeStates.intaking;
         }
 
+        // button when driver hits x face right and B face left
+        if (Robot.teleop.driverXboxController
+                .getRawButton(Settings.TeleopSettings.ButtonIDs.faceRight)) {
+            if (Robot.onRed) {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)), true);
+            } else {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(90)), true);
+            }
+        }
+        if (Robot.teleop.driverXboxController
+                .getRawButton(Settings.TeleopSettings.ButtonIDs.faceLeft)) {
+            if (Robot.onRed) {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(90)), true);
+            } else {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)), true);
+            }
+        }
+
         // COPILOT CONTROLS
         // adjustment for shooter hood angle
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseShotDistance)) {

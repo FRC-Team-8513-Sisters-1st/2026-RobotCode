@@ -61,7 +61,8 @@ public class AutoController {
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
-                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        Robot.intake.intakeState = IntakeStates.stowed;
+                        Robot.drivebase.yagslDrive.resetOdometry(new Pose2d(2, 6, new Rotation2d(0)));
 
                         Robot.drivebase.initPath("Move Forward");
 
@@ -86,6 +87,7 @@ public class AutoController {
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        Robot.drivebase.yagslDrive.resetOdometry(new Pose2d(2, 6, new Rotation2d(0)));
 
                         Robot.drivebase.initPath("Move Forward");
 
@@ -117,7 +119,8 @@ public class AutoController {
                         Robot.shooter.shooterState = ShooterStates.stationary;
                         Robot.hopper.hopperState = HopperStates.stationary;
                         Robot.kicker.kickerState = KickerStates.stationary;
-                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        Robot.intake.intakeState = IntakeStates.stowed;
+                        Robot.drivebase.yagslDrive.resetOdometry(new Pose2d(2, 6, new Rotation2d(0)));
 
                         Robot.drivebase.initPath("Drive While Rotating");
 
@@ -275,7 +278,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
-                        Robot.drivebase.initPath("Outpost-OneCycle");
+                        Robot.drivebase.initPath("Outpost_OneCycle");
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
@@ -313,7 +316,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.shooting;
                         Robot.intake.intakeState = IntakeStates.shooting;
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 5) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 3.5) {
                             Robot.drivebase.initPath("Outpost-OneCycle-Reset");
                             autoStep = 30;
                         }
@@ -339,7 +342,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
-                        Robot.drivebase.initPath("Outpost-OneCycle");
+                        Robot.drivebase.initPath("Outpost_OneCycle_Close");
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
