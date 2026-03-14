@@ -7,6 +7,8 @@ Autos:
     - shoot preloaded 8 and do nothing
     - shoot preload 8 and drive neutral
     - write more autos so we are less predictable
+    - have a way to select the first and second cycle of auto seperately
+    - auto make the depot opitnions (close, far, no return)
 
 Copilot:
 

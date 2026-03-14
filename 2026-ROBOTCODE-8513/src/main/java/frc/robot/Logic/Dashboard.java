@@ -13,7 +13,7 @@ import frc.robot.Settings;
 import frc.robot.Logic.Enums.TCPChooser;
 
 public class Dashboard {
-        public SendableChooser<String> TCPSelector;    
+        public SendableChooser<String> TCPSelector;
         public TCPChooser tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
 
         public Field2d trajField2d = new Field2d();
@@ -45,11 +45,12 @@ public class Dashboard {
 
                 // Auto selection
                 SmartDashboard.putString("Auto selected", Robot.auto.autoRoutine.name());
+                SmartDashboard.putString("Auto selected", Robot.auto.dashboardAutoRoutine1.name());
+                SmartDashboard.putString("Auto selected", Robot.auto.dashboardAutoRoutine2.name());
+
                 SmartDashboard.putNumber("autoStep", Robot.auto.autoStep);
                 SmartDashboard.putString("autoToReturnTO", Robot.auto.autoToReturnTo.name());
-                SmartDashboard.putNumber("timeInStep", Timer.getFPGATimestamp()-Robot.auto.timeStepStarted);
-
-
+                SmartDashboard.putNumber("timeInStep", Timer.getFPGATimestamp() - Robot.auto.timeStepStarted);
 
                 // Subsystem states
                 SmartDashboard.putString("intakeState", Robot.intake.intakeState.name());
@@ -74,7 +75,7 @@ public class Dashboard {
                 SmartDashboard.putNumber("IntakeMotorCurrentRight",
                                 Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("time shooter button pressed",
-                                Robot.teleop.timeIntakeShootingButtonPressed);    
+                                Robot.teleop.timeIntakeShootingButtonPressed);
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",
@@ -205,13 +206,12 @@ public class Dashboard {
                 }
         }
 
-
         public void updateTCPConnectionFromDashboard() {
-        try {
-            tCPSelected = TCPChooser.valueOf(TCPSelector.getSelected());
-        } catch (Exception e) {
-            tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
+                try {
+                        tCPSelected = TCPChooser.valueOf(TCPSelector.getSelected());
+                } catch (Exception e) {
+                        tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
+                }
         }
-    }
 
 }
