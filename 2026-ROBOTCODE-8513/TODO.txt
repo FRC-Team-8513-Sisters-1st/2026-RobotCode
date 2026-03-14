@@ -12,6 +12,8 @@ Copilot:
 
 Driver:
     x when x is pressed robot should face left, when b, robot should face right
+    - make shooting on the fly more consistent
+    - auto drive to the trenches
 
 Manual control:
     - update the windows and cancel auto updates

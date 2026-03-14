@@ -145,12 +145,12 @@ public class TeleopController {
             }
         } else {
             if (Robot.onRed) {
-                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75);
-                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75);
+                xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.85);
+                yV = -(yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.85);
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             } else {
-                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75;
-                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.75;
+                xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.85;
+                yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.85;
                 rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
             }
         }
