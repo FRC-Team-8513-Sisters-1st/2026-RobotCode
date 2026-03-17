@@ -1,6 +1,8 @@
 package frc.robot.Subsystems;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -8,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
@@ -87,7 +90,7 @@ public class Drivebase {
                 false);
     }
 
-    public void initPath(String pathNameIn) {
+    public void initPath(String pathNameIn, boolean mirrorPath) {
         pathName = pathNameIn;
 
         try {
@@ -102,8 +105,15 @@ public class Drivebase {
             path = path.flipPath();
         }
 
+        if (mirrorPath) {
+            path = path.mirrorPath();
+        }
+
         try {
             traj = path.getIdealTrajectory(RobotConfig.fromGUISettings()).get();
+            if (Robot.isSimulation()) {
+                Robot.dashboard.trajField2d.getObject("traj").setTrajectory(ppTrajToWPITraj(traj));
+            }
         } catch (Exception e) {
             System.out.println("Error in trajectory generation");
             e.printStackTrace();
@@ -115,6 +125,22 @@ public class Drivebase {
 
         loadedPathHasStarted = false;
 
+    }
+
+    //PP trajectories cant be put on dashboard so they need to get point by point converted to WPI trajectories
+    //so we can visualize them in AdvantageScope
+    public Trajectory ppTrajToWPITraj(PathPlannerTrajectory traj) {
+        List<PathPlannerTrajectoryState> stateList = traj.getStates();
+        List<Trajectory.State> wpiStateLists = new ArrayList<Trajectory.State>();
+        for (PathPlannerTrajectoryState state : stateList) {
+            Trajectory.State thisWPIState = new Trajectory.State(state.timeSeconds,
+                    state.linearVelocity,
+                    0,
+                    state.pose,
+                    0);
+            wpiStateLists.add(thisWPIState);
+        }
+        return new Trajectory(wpiStateLists);
     }
 
     public boolean followLoadedPath() {

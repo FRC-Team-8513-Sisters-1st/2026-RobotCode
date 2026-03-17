@@ -18,6 +18,7 @@ import frc.robot.Logic.Dashboard;
 import frc.robot.Logic.Enums;
 import frc.robot.Logic.TeleopController;
 import frc.robot.Logic.Vision;
+import frc.robot.Logic.Enums.AutoRoutines;
 import frc.robot.Subsystems.Drivebase;
 import frc.robot.Subsystems.Hopper;
 import frc.robot.Subsystems.Intake;
@@ -49,6 +50,7 @@ public class Robot extends TimedRobot {
   public static MatchTimeAnalysis matchTimeAnalysis = new MatchTimeAnalysis();
 
   public Field2d robotCurrentPose = new Field2d();
+  public AutoRoutines preLoadedAuto = AutoRoutines.DoNothing;
 
   public static boolean onRed = true;
 
@@ -118,7 +120,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     teleop.driveTele();
-    
+
   }
 
   @Override
@@ -127,6 +129,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    auto.updateAutoRoutineFromDashboard();
+
+    auto.autoRoutine = auto.dashboardAutoRoutine1;
+
+    if (auto.autoRoutine != preLoadedAuto) {
+      preLoadedAuto = auto.autoRoutine;
+      auto.autoPeriodic();
+    }
+
     auto.updateAutoRoutineFromDashboard();
   }
 

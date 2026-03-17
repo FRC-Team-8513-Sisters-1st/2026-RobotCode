@@ -9,6 +9,9 @@ Autos:
     - write more autos so we are less predictable
     - have a way to select the first and second cycle of auto seperately
     - auto make the depot opitnions (close, far, no return)
+    - in auto disabled, init paths
+    - update all paths to work with the 2 part
+    - flip the outpost paths to work for dept (mirror)
 
 Copilot:
 

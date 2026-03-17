@@ -1,5 +1,9 @@
 package frc.robot.Logic;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.ConnectionInfo;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -44,9 +48,10 @@ public class Dashboard {
                 SmartDashboard.putNumber("pitch", Robot.drivebase.yagslDrive.getPitch().getDegrees());
 
                 // Auto selection
-                SmartDashboard.putString("Auto selected", Robot.auto.autoRoutine.name());
-                SmartDashboard.putString("Auto selected", Robot.auto.dashboardAutoRoutine1.name());
-                SmartDashboard.putString("Auto selected", Robot.auto.dashboardAutoRoutine2.name());
+                SmartDashboard.putString("AutoRoutine", Robot.auto.autoRoutine.name());
+                SmartDashboard.putString("Auto 1 selected", Robot.auto.dashboardAutoRoutine1.name());
+                SmartDashboard.putString("Auto 2 selected", Robot.auto.dashboardAutoRoutine2.name());
+                SmartDashboard.putBoolean("Auto Initialized", Robot.auto.pathInitialized);
 
                 SmartDashboard.putNumber("autoStep", Robot.auto.autoStep);
                 SmartDashboard.putString("autoToReturnTO", Robot.auto.autoToReturnTo.name());
