@@ -6,7 +6,7 @@ Autos:
     - instead of shooting for rest of auto, check each loop if ready to shoot if we get bumped we want to stop shooting
     - shoot preloaded 8 and do nothing
     - shoot preload 8 and drive neutral
-    - update all paths to work with the 2 part
+    - TEST SWEEP HUB AUTO
 
 Copilot:
 
