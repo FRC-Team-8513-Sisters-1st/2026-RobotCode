@@ -6,17 +6,11 @@ Autos:
     - instead of shooting for rest of auto, check each loop if ready to shoot if we get bumped we want to stop shooting
     - shoot preloaded 8 and do nothing
     - shoot preload 8 and drive neutral
-    - write more autos so we are less predictable
-    - have a way to select the first and second cycle of auto seperately
-    - auto make the depot opitnions (close, far, no return)
-    - in auto disabled, init paths
     - update all paths to work with the 2 part
-    - flip the outpost paths to work for dept (mirror)
 
 Copilot:
 
 Driver:
-    x when x is pressed robot should face left, when b, robot should face right
     - make shooting on the fly more consistent
     - auto drive to the trenches
 

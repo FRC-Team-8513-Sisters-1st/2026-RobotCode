@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Settings;
-import frc.robot.Logic.TeleopController;
 import frc.robot.Logic.Enums.IntakeStates;
 
 public class Intake {

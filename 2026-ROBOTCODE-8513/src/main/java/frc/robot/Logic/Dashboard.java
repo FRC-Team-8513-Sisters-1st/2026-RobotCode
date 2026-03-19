@@ -1,9 +1,5 @@
 package frc.robot.Logic;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.ConnectionInfo;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
