@@ -168,9 +168,16 @@ public class TeleopController {
             Robot.drivebase.goalHeading = rotation;
         }
 
+        // resets the I value to normal tele value when the face hub button isn't being pressed
+        if (driverXboxController.getRawButtonReleased(Settings.TeleopSettings.ButtonIDs.faceGoal)) {
+            Robot.drivebase.rotationPidController.setI(Settings.DrivebaseSettings.RotationPIDConstants.kI);
+        }
+
         // if face hub button is pressed, rotate to hub then set the kicker and hopper
         // states
         if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceGoal)) {
+            // tune this I value w/ robot
+            Robot.drivebase.rotationPidController.setI(Settings.AutoSettings.autoIValue);
             if (Robot.onRed) {
                 if (Robot.drivebase.yagslDrive.getPose().getX() > 11.8) {
                     shootingFacingHub = true;

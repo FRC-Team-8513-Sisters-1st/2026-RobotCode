@@ -1,5 +1,7 @@
 package frc.robot.Logic;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.networktables.ConnectionInfo;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -156,6 +158,13 @@ public class Dashboard {
 
                 // get TCP communication
                 isTCPConnectedColor();
+
+                // camera color status
+                cameraStatusLight(Robot.vision.leftCam);
+                cameraStatusLight(Robot.vision.rightCam);
+                cameraStatusLight(Robot.vision.leftShooterCam);
+                cameraStatusLight(Robot.vision.rightShooterCam);
+
         }
 
         public void getPIDValues() {
@@ -212,6 +221,16 @@ public class Dashboard {
                         tCPSelected = TCPChooser.valueOf(TCPSelector.getSelected());
                 } catch (Exception e) {
                         tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
+                }
+        }
+
+        public void cameraStatusLight(PhotonCamera photonCamera) {
+                Color red = new Color(255, 0, 0);
+                Color green = new Color(0, 255, 0);
+                if (photonCamera.isConnected()) {
+                        SmartDashboard.putString(photonCamera.getName() + "Status", green.toHexString());
+                } else {
+                        SmartDashboard.putString(photonCamera.getName() + "Status", red.toHexString());
                 }
         }
 
