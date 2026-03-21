@@ -79,6 +79,8 @@ public class Dashboard {
                                 Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("time shooter button pressed",
                                 Robot.teleop.timeIntakeShootingButtonPressed);
+                SmartDashboard.putNumber("adjusted intake pos", Robot.intake.adjustedEncoderPosition());
+                SmartDashboard.putNumber("intake pos", Robot.kicker.kickerMotor.getAbsoluteEncoder().getPosition());
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",

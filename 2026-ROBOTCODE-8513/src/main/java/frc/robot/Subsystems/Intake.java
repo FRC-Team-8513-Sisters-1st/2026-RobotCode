@@ -26,7 +26,7 @@ public class Intake {
     public PIDController intakeMotorController = new PIDController(0.1, 0, 0);
     public ProfiledPIDController intakeDeployController = new ProfiledPIDController(0.1, 0, 0,
             Settings.IntakeSettings.deployConstraints);
-    public ProfiledPIDController beeftakeDeployController = new ProfiledPIDController(0.1, 0, 0,
+    public ProfiledPIDController beeftakeDeployController = new ProfiledPIDController(4.5, 0, 0,
             Settings.IntakeSettings.deployConstraints);
 
     public boolean useManualIntakeControl = false;
@@ -72,7 +72,7 @@ public class Intake {
                 intakeMotorLeftLeader
                         .setControl(new DutyCycleOut(0));
             } else {
-                if (adjustedEncoderPosition() < Settings.IntakeSettings.spinBackwardsThreshold) {
+                if (adjustedEncoderPosition() > Settings.IntakeSettings.spinBackwardsThreshold) {
                     intakeMotorLeftLeader
                             .setControl(new DutyCycleOut(0));
                 } else {
@@ -154,7 +154,7 @@ public class Intake {
     public double deployBeeftake(double targetPosition) {
         double currentPosition = adjustedEncoderPosition();
         double outputPower = beeftakeDeployController.calculate(currentPosition, targetPosition);
-        return outputPower;
+        return -outputPower;
     } 
 
     public double adjustedEncoderPosition() {
