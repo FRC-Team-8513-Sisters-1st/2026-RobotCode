@@ -84,7 +84,6 @@ public class TeleopController {
         Robot.drivebase.rotationPidController.reset(0);
 
         Robot.drivebase.rotationPidController.setI(Settings.DrivebaseSettings.RotationPIDConstants.kI);
-        ;
 
     }
 

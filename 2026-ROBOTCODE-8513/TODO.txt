@@ -12,6 +12,9 @@ Autos:
     - in auto disabled, init paths
     - update all paths to work with the 2 part
     - flip the outpost paths to work for dept (mirror)
+    - start going under the hub then loop counter clockwise and come back
+
+    - we have tested the outpost mid and close, and the no return mid and close
 
 Copilot:
 

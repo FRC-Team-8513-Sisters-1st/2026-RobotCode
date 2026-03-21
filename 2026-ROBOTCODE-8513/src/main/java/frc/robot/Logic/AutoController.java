@@ -510,7 +510,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -519,7 +519,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -575,7 +575,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -584,7 +584,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -641,7 +641,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -650,7 +650,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -708,7 +708,7 @@ public class AutoController {
                         Robot.drivebase.faceHub();
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                         Robot.shooter.shooterState = ShooterStates.shooting;
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
 
@@ -716,7 +716,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -1099,10 +1099,10 @@ public class AutoController {
                             }
 
                             if (Robot.onRed) {
-                                Robot.drivebase.driveFacingHeading(new Translation2d(-1, 0), new Rotation2d(Math.PI),
+                                Robot.drivebase.driveFacingHeading(new Translation2d(-1.5, 0), new Rotation2d(Math.PI),
                                         true);
                             } else {
-                                Robot.drivebase.driveFacingHeading(new Translation2d(1, 0), new Rotation2d(0), true);
+                                Robot.drivebase.driveFacingHeading(new Translation2d(1.5, 0), new Rotation2d(0), true);
                             }
 
                             if (bumpTholdCounter > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchCount) {
@@ -1281,12 +1281,12 @@ public class AutoController {
                 break;
         }
 
-        if (DriverStation.isAutonomousEnabled()) {
-            Robot.intake.setMotorPower();
-            Robot.hopper.setMotorPower();
-            Robot.kicker.setMotorPower();
-            Robot.shooter.setMotorPower();
-        }
+        // if (DriverStation.isAutonomousEnabled()) {
+        //     Robot.intake.setMotorPower();
+        //     Robot.hopper.setMotorPower();
+        //     Robot.kicker.setMotorPower();
+        //     Robot.shooter.setMotorPower();
+        // }
     }
 
     public void updateAutoRoutineFromDashboard() {
