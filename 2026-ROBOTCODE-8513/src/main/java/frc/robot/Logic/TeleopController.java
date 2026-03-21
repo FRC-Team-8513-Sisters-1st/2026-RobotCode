@@ -339,17 +339,17 @@ public class TeleopController {
         if (Robot.teleop.driverXboxController
                 .getRawButton(Settings.TeleopSettings.ButtonIDs.faceRight)) {
             if (Robot.onRed) {
-                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)), true);
-            } else {
                 Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(90)), true);
+            } else {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)), true);
             }
         }
         if (Robot.teleop.driverXboxController
                 .getRawButton(Settings.TeleopSettings.ButtonIDs.faceLeft)) {
             if (Robot.onRed) {
-                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(90)), true);
-            } else {
                 Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)), true);
+            } else {
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(90)), true);
             }
         }
 

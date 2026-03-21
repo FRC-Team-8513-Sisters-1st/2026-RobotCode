@@ -106,12 +106,12 @@ public class Settings {
     }
 
     public class IntakeSettings {
-        public static double stowPosition = -27;
+        public static double stowPosition = 0.58;
         public static double deployPosition = 0;
-        public static double intakeFudgeFactor = 0.5;
-        public static double shootingPosition = -15;
+        public static double intakeFudgeFactor = 0.02;
+        public static double shootingPosition = 0.3;
         public static Constraints deployConstraints = new Constraints(55, 120);
-        public static double spinBackwardsThreshold = -6;
+        public static double spinBackwardsThreshold = 0.05;
     }
 
     public class ShooterSettings {
