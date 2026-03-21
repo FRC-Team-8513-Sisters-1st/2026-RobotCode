@@ -31,7 +31,7 @@ public class Drivebase {
     public ProfiledPIDController rotationPidController = new ProfiledPIDController(
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kP,
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kI,
-            frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kD, new Constraints(360, 500));
+            frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kD, new Constraints(270, 500));
 
 
     // path following variables

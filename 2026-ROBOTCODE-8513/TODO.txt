@@ -3,7 +3,8 @@ Elastic:
     - fix the errors in match time by using get match time (delay)
 
 Autos:
-    - TEST SWEEP HUB AUTO
+    - test sweep hub
+    - we have tested the outpost mid and close, and the no return mid and close
 
 Copilot:
 
