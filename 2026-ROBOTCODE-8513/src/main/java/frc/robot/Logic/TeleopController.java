@@ -56,7 +56,7 @@ public class TeleopController {
         Robot.shooter.shooterState = ShooterStates.stationary;
         Robot.hopper.hopperState = HopperStates.stationary;
         Robot.kicker.kickerState = KickerStates.stationary;
-        if (Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble() > -5) {
+        if (Robot.intake.adjustedEncoderPosition() < 0.1) {
             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
         } else {
             Robot.intake.intakeState = IntakeStates.stowed;
