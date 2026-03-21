@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Settings;
-import frc.robot.Logic.TeleopController;
 import frc.robot.Logic.Enums.IntakeStates;
 
 public class Intake {
@@ -26,6 +25,8 @@ public class Intake {
 
     public PIDController intakeMotorController = new PIDController(0.1, 0, 0);
     public ProfiledPIDController intakeDeployController = new ProfiledPIDController(0.1, 0, 0,
+            Settings.IntakeSettings.deployConstraints);
+    public ProfiledPIDController beeftakeDeployController = new ProfiledPIDController(0.1, 0, 0,
             Settings.IntakeSettings.deployConstraints);
 
     public boolean useManualIntakeControl = false;
@@ -65,17 +66,15 @@ public class Intake {
 
         if (intakeState == IntakeStates.intaking) {
             // deploy intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
-            // spinIntakeBackward();
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
             if (Robot.teleop.copilotJoystick1.getRawButton(Settings.TeleopSettings.ButtonIDs.stopIntakeCopilot)) {
                 intakeMotorLeftLeader
                         .setControl(new DutyCycleOut(0));
             } else {
-                if (intakeDeployMotor.getPosition()
-                        .getValueAsDouble() < Settings.IntakeSettings.spinBackwardsThreshold) {
+                if (adjustedEncoderPosition() < Settings.IntakeSettings.spinBackwardsThreshold) {
                     intakeMotorLeftLeader
-                            .setControl(new DutyCycleOut(-0.2));
+                            .setControl(new DutyCycleOut(0));
                 } else {
                     // intake wheels on
                     intakeMotorLeftLeader
@@ -85,7 +84,7 @@ public class Intake {
 
         } else if (intakeState == IntakeStates.stowed) {
             // stow intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.stowPosition));
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.stowPosition + intakeFudgeFactor));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
@@ -94,7 +93,7 @@ public class Intake {
 
         } else if (intakeState == IntakeStates.outtaking) {
             // deploy intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
             // intake wheels on
             intakeMotorLeftLeader
@@ -102,15 +101,14 @@ public class Intake {
 
         } else if (intakeState == IntakeStates.stationaryDeployed) {
             // deploy intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
-            // spinIntakeBackward();
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
 
         } else if (intakeState == IntakeStates.shooting) {
 
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
@@ -152,5 +150,24 @@ public class Intake {
         double voltage = (RPS + 0.773138) / 8.70426;
         return voltage;
     }
+
+    public double deployBeeftake(double targetPosition) {
+        double currentPosition = adjustedEncoderPosition();
+        double outputPower = beeftakeDeployController.calculate(currentPosition, targetPosition);
+        return outputPower;
+    } 
+
+    public double adjustedEncoderPosition() {
+        double currentPosition = Robot.kicker.kickerMotor.getAbsoluteEncoder().getPosition();
+        double adjustedPosition; 
+
+        if (currentPosition < 0.3) {
+            adjustedPosition = currentPosition + 0.47;
+        } else {
+            adjustedPosition = currentPosition - 0.53;
+        }
+        return adjustedPosition;
+    }
+
 
 }

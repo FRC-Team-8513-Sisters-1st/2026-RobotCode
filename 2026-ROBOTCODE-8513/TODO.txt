@@ -1,45 +1,24 @@
 Elastic:
     - fix the override blue/red win 
-    - fix the errors in match time (delay)
+    - fix the errors in match time by using get match time (delay)
 
 Autos:
-    - instead of shooting for rest of auto, check each loop if ready to shoot if we get bumped we want to stop shooting
-    - shoot preloaded 8 and do nothing
-    - shoot preload 8 and drive neutral
-    - write more autos so we are less predictable
-    - have a way to select the first and second cycle of auto seperately
-    - auto make the depot opitnions (close, far, no return)
-    - in auto disabled, init paths
-    - update all paths to work with the 2 part
-    - flip the outpost paths to work for dept (mirror)
-    - start going under the hub then loop counter clockwise and come back
-
+    - test sweep hub
     - we have tested the outpost mid and close, and the no return mid and close
 
 Copilot:
 
 Driver:
-    x when x is pressed robot should face left, when b, robot should face right
-    - make shooting on the fly more consistent
-    - auto drive to the trenches
+    x make shooting on the fly more consistent (when the shooting buttons being help make hte pid more aggressive)
 
 Manual control:
     - update the windows and cancel auto updates
 
 Get Robot Schedule:
-    - test no vision odometry (tune path following pid)
-        - have a go straight auto 
-        - have a go straight and come back auto
-        - have a go straight and rotate auto
-        - have a drive at angle auto
-
-    - Put vision status lights on elastic
-    - tune pid values for subsystems
-    - test all the buttons and manual controls (update fudge factors)           
-    - tune shot (set values for the interpolation)
+    x Put vision status lights on elastic
+    - tune shot with new shooter (set values for the interpolation)
         - manually tune hood and velocity
     - then take interpolated shots and record to get TOF interpolation
-    - test + tune autos
     - clean tele drive if needed
 
 
