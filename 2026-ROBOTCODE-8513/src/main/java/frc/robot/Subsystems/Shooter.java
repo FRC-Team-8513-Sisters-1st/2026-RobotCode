@@ -68,7 +68,7 @@ public class Shooter {
         distToHoodEncoderValuesTable.put(2.54, 0.2);
         distToHoodEncoderValuesTable.put(10.0, 0.2);
 
-        distToshooterVelocityEncoderValuesTable.put(1.83, 37.0);
+        distToshooterVelocityEncoderValuesTable.put(1.83, 36.0);
         distToshooterVelocityEncoderValuesTable.put(2.54, 39.0);
         distToshooterVelocityEncoderValuesTable.put(3.52, 44.0);
         distToshooterVelocityEncoderValuesTable.put(4.07, 48.0);
