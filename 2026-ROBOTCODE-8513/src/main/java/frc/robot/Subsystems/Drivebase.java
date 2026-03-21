@@ -32,6 +32,10 @@ public class Drivebase {
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kP,
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kI,
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kD, new Constraints(270, 500));
+    public ProfiledPIDController faceGoalPidController = new ProfiledPIDController(
+            frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kP,
+            frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kI,
+            frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kD, new Constraints(270, 500));
 
 
     // path following variables
@@ -163,6 +167,7 @@ public class Drivebase {
             double trajGoalY = pathGoalState.pose.getY();
             Rotation2d trajGoalHeading = pathGoalState.pose.getRotation();
             Robot.dashboard.trajField2d.setRobotPose(trajGoalX, trajGoalY, trajGoalHeading);
+            goalHeading = trajGoalHeading;
 
             correctionInXV = followPathXController.calculate(Robot.drivebase.yagslDrive.getPose().getX(),
                     trajGoalX);
@@ -201,7 +206,7 @@ public class Drivebase {
         Robot.dashboard.scoreHubField2d.setRobotPose(goalAimPose.getX(), goalAimPose.getY(),
                 goalAimPose.getRotation());
 
-        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(goalHeading).getDegrees(), 0);
+        dvr = faceGoalPidController.calculate(yagslDrive.getOdometryHeading().minus(goalHeading).getDegrees(), 0);
 
         return dvr;
     }

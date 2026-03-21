@@ -68,7 +68,6 @@ public class AutoController {
         timeStepStarted = Timer.getFPGATimestamp();
         Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
         Robot.drivebase.rotationPidController.reset(0);
-        Robot.drivebase.rotationPidController.setI(Settings.AutoSettings.autoIValue);
 
     }
 
@@ -1386,12 +1385,12 @@ public class AutoController {
                 break;
         }
 
-        // if (DriverStation.isAutonomousEnabled()) {
-        //     Robot.intake.setMotorPower();
-        //     Robot.hopper.setMotorPower();
-        //     Robot.kicker.setMotorPower();
-        //     Robot.shooter.setMotorPower();
-        // }
+        if (DriverStation.isAutonomousEnabled()) {
+            Robot.intake.setMotorPower();
+            Robot.hopper.setMotorPower();
+            Robot.kicker.setMotorPower();
+            Robot.shooter.setMotorPower();
+        }
     }
 
     public void updateAutoRoutineFromDashboard() {

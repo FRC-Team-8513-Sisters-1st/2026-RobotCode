@@ -4,7 +4,7 @@ Elastic:
 
 Autos:
     - test sweep hub
-    - we have tested the outpost mid and close, and the no return mid and close
+    - full across mid close and far
 
 Copilot:
 
