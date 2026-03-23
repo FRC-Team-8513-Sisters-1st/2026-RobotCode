@@ -1296,7 +1296,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.shooting;
                         Robot.intake.intakeState = IntakeStates.shooting;
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 3.5) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 4) {
                             Robot.drivebase.initPath("Outpost_OneCycle_Reset", false);
                             autoStep = 30;
                         }
@@ -1352,7 +1352,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.shooting;
                         Robot.intake.intakeState = IntakeStates.shooting;
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= 3.5) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 4) {
                             Robot.drivebase.initPath("Depot_OneCycle_Reset", false);
                             autoStep = 30;
                         }
