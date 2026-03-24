@@ -25,8 +25,6 @@ public class AutoController {
     public AutoRoutines dashboardAutoRoutine2 = AutoRoutines.DoNothing;
 
     public AutoRoutines mainReturnAuto = AutoRoutines.Depot_AnyTwoParts;
-    public double deployIntakeTime;
-    public double shootingIntakeTime;
 
     public boolean pathInitialized = false;
     public double shotTimeOut = 1.5;
@@ -66,7 +64,7 @@ public class AutoController {
         updateAutoRoutineFromDashboard();
         autoStep = 0;
         timeStepStarted = Timer.getFPGATimestamp();
-        Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
+        Robot.intake.intakeDeployController.reset(Robot.intake.adjustedEncoderPosition());
         Robot.drivebase.rotationPidController.reset(0);
 
     }

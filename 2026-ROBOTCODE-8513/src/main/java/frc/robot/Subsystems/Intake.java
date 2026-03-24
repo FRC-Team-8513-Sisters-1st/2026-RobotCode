@@ -16,7 +16,7 @@ import frc.robot.Settings;
 import frc.robot.Logic.Enums.IntakeStates;
 
 public class Intake {
-    public IntakeStates intakeState = IntakeStates.stationaryDeployed;
+    public IntakeStates intakeState = IntakeStates.stowed;
 
     // class member variable
     public TalonFX intakeMotorLeftLeader = new TalonFX(32);
@@ -54,9 +54,6 @@ public class Intake {
         m_request.UpdateFreqHz = 1000;
         // disable FOC
         m_request.withEnableFOC(false);
-
-        intakeDeployController.reset(intakeDeployMotor.getPosition().getValueAsDouble());
-
     }
 
     public void setMotorPower() {

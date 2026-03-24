@@ -51,7 +51,6 @@ public class TeleopController {
         Robot.dashboard.getPIDValues();
         Elastic.selectTab("Teleoperated");
         teleStartTime = Timer.getFPGATimestamp();
-        Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
 
         Robot.shooter.shooterState = ShooterStates.stationary;
         Robot.hopper.hopperState = HopperStates.stationary;
@@ -61,6 +60,7 @@ public class TeleopController {
         } else {
             Robot.intake.intakeState = IntakeStates.stowed;
         }
+        Robot.intake.intakeDeployController.reset(Robot.intake.adjustedEncoderPosition());
 
         // consume all buttons pressed
         for (int i = 0; i < 14; i++) {
@@ -68,6 +68,12 @@ public class TeleopController {
             copilotJoystick1.getRawButtonPressed(i);
             copilotJoystick2.getRawButtonPressed(i);
             manualJoystick.getRawButtonPressed(i);
+
+            driverXboxController.getRawButtonReleased(i);
+            copilotJoystick1.getRawButtonReleased(i);
+            copilotJoystick2.getRawButtonReleased(i);
+            manualJoystick.getRawButtonReleased(i);
+
         }
 
         // sets the goal aim pose to the hub (when the aim pose is change bc of
