@@ -3,13 +3,10 @@ Elastic:
     - fix the errors in match time by using get match time (delay)
 
 Autos:
-    - test sweep hub
-    - full across mid close and far
 
 Copilot:
 
 Driver:
-    x make shooting on the fly more consistent (when the shooting buttons being help make hte pid more aggressive)
 
 Manual control:
     - update the windows and cancel auto updates
