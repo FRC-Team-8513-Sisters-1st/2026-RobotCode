@@ -8,6 +8,7 @@ Copilot:
 
 Driver:
     - increase the shooter current limits to 140 and 80
+    - retune the pid for the shooter
 
 Manual control:
     - update the windows and cancel auto updates
