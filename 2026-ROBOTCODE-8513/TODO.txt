@@ -7,6 +7,7 @@ Autos:
 Copilot:
 
 Driver:
+    - increase the shooter current limits to 140 and 80
 
 Manual control:
     - update the windows and cancel auto updates
