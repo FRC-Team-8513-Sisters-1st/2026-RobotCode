@@ -5,10 +5,9 @@ Elastic:
 Autos:
 
 Copilot:
+    - unjam higher priority than shooting and if shooting and unjam dont spin intake
 
 Driver:
-    - increase the shooter current limits to 140 and 80
-    - retune the pid for the shooter
 
 Manual control:
     - update the windows and cancel auto updates
