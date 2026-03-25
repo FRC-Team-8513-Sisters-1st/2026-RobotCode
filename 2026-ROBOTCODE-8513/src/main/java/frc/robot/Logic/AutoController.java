@@ -1293,7 +1293,7 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.shooting;
                         Robot.intake.intakeState = IntakeStates.shooting;
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2.5) {
                             Robot.intake.intakeState = IntakeStates.shooting;
                         } else {
                             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
@@ -1354,7 +1354,7 @@ public class AutoController {
                         Robot.hopper.hopperState = HopperStates.indexing;
                         Robot.kicker.kickerState = KickerStates.shooting;
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2) {
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2.5) {
                             Robot.intake.intakeState = IntakeStates.shooting;
                         } else {
                             Robot.intake.intakeState = IntakeStates.stationaryDeployed;

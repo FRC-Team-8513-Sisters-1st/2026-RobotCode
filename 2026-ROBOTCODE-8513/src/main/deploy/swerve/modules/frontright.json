@@ -1,6 +1,6 @@
 {
   "drive": {
-    "type": "krakenx60",
+    "type": "krakenx60foc",
     "id": 8,
     "canbus": null
   },

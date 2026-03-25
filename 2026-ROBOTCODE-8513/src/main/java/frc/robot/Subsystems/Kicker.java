@@ -33,7 +33,7 @@ public class Kicker {
 
     public double getMotorPower() {
         double currentVelocity = kickerMotor.getEncoder().getVelocity();
-        double targetVelocity = 4000;
+        double targetVelocity = 5800;
         double outputPower = kickerMotorController.calculate(currentVelocity, targetVelocity);
         return outputPower + targetVelocity/6000;
 
