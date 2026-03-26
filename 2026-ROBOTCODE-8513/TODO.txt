@@ -8,15 +8,14 @@ Copilot:
     - unjam higher priority than shooting and if shooting and unjam dont spin intake
 
 Driver:
-    - increase the shooter current limits to 140 and 80
-    - retune the pid for the shooter
 
 Manual control:
     - update the windows and cancel auto updates
 
 Get Robot Schedule:
+    x increase shooter current and tune pid
     x Put vision status lights on elastic
-    - tune shot with new shooter (set values for the interpolation)
+    x tune shot with new shooter (set values for the interpolation)
         - manually tune hood and velocity
     - then take interpolated shots and record to get TOF interpolation
     - clean tele drive if needed

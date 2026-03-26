@@ -35,6 +35,7 @@ public class TeleopController {
     public boolean autoShooting = true;
     public double timeGradualWasPressed;
     public double timeIntakeShootingButtonPressed;
+    public boolean unjam = false;
 
     public double shooterButtonTime;
 
@@ -215,7 +216,7 @@ public class TeleopController {
             }
             Robot.shooter.shooterState = ShooterStates.shooting;
             if ((Robot.shooter.readyToShuttle() || Robot.shooter.readyToShootInHub()) && autoShooting
-                    && Robot.shooter.shooterState == ShooterStates.shooting) {
+                    && Robot.shooter.shooterState == ShooterStates.shooting && !unjam) {
                 Robot.kicker.kickerState = KickerStates.shooting;
                 Robot.hopper.hopperState = HopperStates.indexing;
             } else {
@@ -434,11 +435,17 @@ public class TeleopController {
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.reverseEverything);
         boolean releasedKicker = copilotJoystick1
                 .getRawButtonReleased(Settings.TeleopSettings.ButtonIDs.reverseEverything);
-        if (reverseKicker) {
+        if (reverseKicker && Robot.kicker.kickerState == KickerStates.shooting) {
+            unjam = true;
+            Robot.kicker.kickerState = KickerStates.intaking;
+            Robot.hopper.hopperState = HopperStates.unjam;
+        } else if (reverseKicker) {
+            unjam = true;
             Robot.kicker.kickerState = KickerStates.intaking;
             Robot.hopper.hopperState = HopperStates.unjam;
             Robot.intake.intakeState = IntakeStates.outtaking;
         } else if (releasedKicker) {
+            unjam = false;
             Robot.kicker.kickerState = KickerStates.stationary;
             Robot.hopper.hopperState = HopperStates.stationary;
             Robot.intake.intakeState = IntakeStates.intaking;
