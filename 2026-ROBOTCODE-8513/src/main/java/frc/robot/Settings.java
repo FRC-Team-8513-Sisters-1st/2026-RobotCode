@@ -74,8 +74,8 @@ public class Settings {
             public static int decreaseShotDistance = 6;
             public static int moveScorePoseRight = 3;
             public static int moveScorePoseLeft = 5;
-            public static int heightenIntake = 8;
-            public static int lowerIntake = 9;
+            public static int heightenIntake = 9;
+            public static int lowerIntake = 8;
             public static int emergencyIntake = 10;
             public static int jiggleIntake = 7;
             public static int forceShoot = 2; // force shoot
@@ -115,7 +115,7 @@ public class Settings {
         public static double deployPosition = 0;
         public static double intakeFudgeFactor = 0.02;
         public static double shootingPosition = 0.35;
-        public static Constraints deployConstraints = new Constraints(0.6, 1.2);
+        public static Constraints deployConstraints = new Constraints(1.75, 3.5);
         public static double spinBackwardsThreshold = 0.05;
     }
 

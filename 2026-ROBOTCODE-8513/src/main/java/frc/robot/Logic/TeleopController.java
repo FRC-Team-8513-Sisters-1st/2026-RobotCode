@@ -56,12 +56,14 @@ public class TeleopController {
         Robot.shooter.shooterState = ShooterStates.stationary;
         Robot.hopper.hopperState = HopperStates.stationary;
         Robot.kicker.kickerState = KickerStates.stationary;
+
+        Robot.intake.intakeDeployController.reset(Robot.intake.adjustedEncoderPosition());
+
         if (Robot.intake.adjustedEncoderPosition() < 0.1) {
-            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+            Robot.intake.intakeState = IntakeStates.intaking;
         } else {
             Robot.intake.intakeState = IntakeStates.stowed;
         }
-        Robot.intake.intakeDeployController.reset(Robot.intake.adjustedEncoderPosition());
 
         // consume all buttons pressed
         for (int i = 0; i < 14; i++) {
@@ -301,6 +303,7 @@ public class TeleopController {
         if (driverXboxController.getRawButtonReleased(Settings.TeleopSettings.ButtonIDs.faceGoal)) {
             Robot.kicker.kickerState = KickerStates.stationary;
             Robot.hopper.hopperState = HopperStates.stationary;
+            Robot.intake.intakeState = IntakeStates.intaking;
         }
 
         buttonControls();

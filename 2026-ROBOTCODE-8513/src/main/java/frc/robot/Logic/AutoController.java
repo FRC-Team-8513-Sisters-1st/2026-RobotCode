@@ -271,11 +271,11 @@ public class AutoController {
                         break;
                 }
                 break;
-            case Depot_FullAcross_OneCycle:
+            case Depot_FullAcross_OneCycle_Far:
                 switch (autoStep) {
                     case 0:
 
-                        autoToReturnTo = AutoRoutines.Depot_FullAcross_OneCycle;
+                        autoToReturnTo = AutoRoutines.Depot_FullAcross_OneCycle_Far;
                         autoRoutine = AutoRoutines.OliviaAttemptGoOverBump;
 
                         Robot.shooter.shooterState = ShooterStates.stationary;
@@ -283,7 +283,115 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
-                        Robot.drivebase.initPath("Outpost_fullAcross_OneCycle", true);
+                        Robot.drivebase.initPath("Outpost_fullAcross_OneCycle_Far", true);
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 0;
+                        break;
+
+                    case 5:
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                            autoStep = 15;
+                        }
+
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 0.42) {
+                            Robot.intake.intakeState = IntakeStates.intaking;
+                        }
+
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= Robot.drivebase.traj.getTotalTimeSeconds()
+                                - 1) {
+                            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                            Robot.shooter.shooterState = ShooterStates.shooting;
+                        }
+
+                        break;
+                    case 15:
+                        Robot.drivebase.faceHub();
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        if (Robot.shooter.readyToShootInHub()) {
+                            autoStep = 20;
+                            Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
+
+                        }
+                        break;
+                    case 20:
+                        Robot.drivebase.faceHub();
+                        
+                        autoRoutine = AutoRoutines.Outpost_AnyTwoParts;
+                        autoStep = 5;
+                        break;
+                }
+                break;
+            case Depot_FullAcross_OneCycle_Close:
+                switch (autoStep) {
+                    case 0:
+
+                        autoToReturnTo = AutoRoutines.Depot_FullAcross_OneCycle_Close;
+                        autoRoutine = AutoRoutines.OliviaAttemptGoOverBump;
+
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+
+                        Robot.drivebase.initPath("Outpost_fullAcross_OneCycle_Close", true);
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 0;
+                        break;
+
+                    case 5:
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                            autoStep = 15;
+                        }
+
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 0.42) {
+                            Robot.intake.intakeState = IntakeStates.intaking;
+                        }
+
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= Robot.drivebase.traj.getTotalTimeSeconds()
+                                - 1) {
+                            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                            Robot.shooter.shooterState = ShooterStates.shooting;
+                        }
+
+                        break;
+                    case 15:
+                        Robot.drivebase.faceHub();
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        if (Robot.shooter.readyToShootInHub()) {
+                            autoStep = 20;
+                            Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
+
+                        }
+                        break;
+                    case 20:
+                        Robot.drivebase.faceHub();
+                        
+                        autoRoutine = AutoRoutines.Outpost_AnyTwoParts;
+                        autoStep = 5;
+                        break;
+                }
+                break;
+            case Depot_FullAcross_OneCycle_Mid:
+                switch (autoStep) {
+                    case 0:
+
+                        autoToReturnTo = AutoRoutines.Depot_FullAcross_OneCycle_Mid;
+                        autoRoutine = AutoRoutines.OliviaAttemptGoOverBump;
+
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+
+                        Robot.drivebase.initPath("Outpost_fullAcross_OneCycle_Mid", true);
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
@@ -763,10 +871,10 @@ public class AutoController {
                         break;
                 }
                 break;
-            case Outpost_FullAcross_OneCycle:
+            case Outpost_FullAcross_OneCycle_Close:
                 switch (autoStep) {
                     case 0:
-                        autoToReturnTo = AutoRoutines.Outpost_FullAcross_OneCycle;
+                        autoToReturnTo = AutoRoutines.Outpost_FullAcross_OneCycle_Close;
                         autoRoutine = AutoRoutines.OliviaAttemptGoOverBump;
 
                         Robot.shooter.shooterState = ShooterStates.stationary;
@@ -774,7 +882,137 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.stationary;
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
 
-                        Robot.drivebase.initPath("Outpost_fullAcross_OneCycle", false);
+                        Robot.drivebase.initPath("Outpost_fullAcross_OneCycle_Close", false);
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 0;
+                        break;
+
+                    case 5:
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                            autoStep = 15;
+                        }
+
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 0.42) {
+                            Robot.intake.intakeState = IntakeStates.intaking;
+                        }
+
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= Robot.drivebase.traj.getTotalTimeSeconds()
+                                - 1) {
+                            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                            Robot.shooter.shooterState = ShooterStates.shooting;
+                        }
+
+                        break;
+                    case 15:
+                        Robot.drivebase.faceHub();
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                            autoStep = 20;
+                            Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
+
+                        }
+                        break;
+                    case 20:
+                        Robot.drivebase.faceHub();
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                            Robot.hopper.hopperState = HopperStates.indexing;
+                            Robot.kicker.kickerState = KickerStates.shooting;
+                            Robot.intake.intakeState = IntakeStates.shooting;
+                        } else {
+                            Robot.hopper.hopperState = HopperStates.stationary;
+                            Robot.kicker.kickerState = KickerStates.stationary;
+                            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        }
+                        if (Timer.getFPGATimestamp() - timeStepStarted < 0.4) {
+                            Robot.intake.intakeState = IntakeStates.shooting;
+                            timeStepStarted = Timer.getFPGATimestamp();
+                        }
+                        autoRoutine = AutoRoutines.Depot_AnyTwoParts;
+                        autoStep = 5;
+                        break;
+                }
+                break;
+            case Outpost_FullAcross_OneCycle_Mid:
+                switch (autoStep) {
+                    case 0:
+                        autoToReturnTo = AutoRoutines.Outpost_FullAcross_OneCycle_Mid;
+                        autoRoutine = AutoRoutines.OliviaAttemptGoOverBump;
+
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+
+                        Robot.drivebase.initPath("Outpost_fullAcross_OneCycle_Mid", false);
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 0;
+                        break;
+
+                    case 5:
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                            autoStep = 15;
+                        }
+
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 0.42) {
+                            Robot.intake.intakeState = IntakeStates.intaking;
+                        }
+
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= Robot.drivebase.traj.getTotalTimeSeconds()
+                                - 1) {
+                            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                            Robot.shooter.shooterState = ShooterStates.shooting;
+                        }
+
+                        break;
+                    case 15:
+                        Robot.drivebase.faceHub();
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                            autoStep = 20;
+                            Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
+
+                        }
+                        break;
+                    case 20:
+                        Robot.drivebase.faceHub();
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                            Robot.hopper.hopperState = HopperStates.indexing;
+                            Robot.kicker.kickerState = KickerStates.shooting;
+                            Robot.intake.intakeState = IntakeStates.shooting;
+                        } else {
+                            Robot.hopper.hopperState = HopperStates.stationary;
+                            Robot.kicker.kickerState = KickerStates.stationary;
+                            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        }
+                        if (Timer.getFPGATimestamp() - timeStepStarted < 0.4) {
+                            Robot.intake.intakeState = IntakeStates.shooting;
+                            timeStepStarted = Timer.getFPGATimestamp();
+                        }
+                        autoRoutine = AutoRoutines.Depot_AnyTwoParts;
+                        autoStep = 5;
+                        break;
+                }
+                break;
+            case Outpost_FullAcross_OneCycle_Far:
+                switch (autoStep) {
+                    case 0:
+                        autoToReturnTo = AutoRoutines.Outpost_FullAcross_OneCycle_Far;
+                        autoRoutine = AutoRoutines.OliviaAttemptGoOverBump;
+
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+
+                        Robot.drivebase.initPath("Outpost_fullAcross_OneCycle_Far", false);
 
                         // path is over
                         timeStepStarted = Timer.getFPGATimestamp();
