@@ -12,11 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Robot;
 import frc.robot.Settings;
+import frc.robot.Logic.Enums.AllianceSelector;
 import frc.robot.Logic.Enums.TCPChooser;
 
 public class Dashboard {
         public SendableChooser<String> TCPSelector;
         public TCPChooser tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
+        public SendableChooser<String> AllianceSelector;
+        public AllianceSelector allianceSelected = AllianceSelector.redAlliance;
 
         public Field2d trajField2d = new Field2d();
         public Field2d copilotField2d = new Field2d();
@@ -35,6 +38,19 @@ public class Dashboard {
                 SmartDashboard.putData("TCP Selector", TCPSelector);
 
                 updateTCPConnectionFromDashboard();
+
+                AllianceSelector = new SendableChooser<>();
+                AllianceSelector.setDefaultOption(AllianceSelector.values()[0].toString(), AllianceSelector.values()[0].toString());
+                for (int i = 1; i < AllianceSelector.values().length; i++) {
+                        if (AllianceSelector.values()[i].toString().charAt(0) != '~') {
+                                AllianceSelector.addOption(AllianceSelector.values()[i].toString(),
+                                                AllianceSelector.values()[i].toString());
+                        }
+
+                }
+                SmartDashboard.putData("Manual Alliance Selector", AllianceSelector);
+
+                updateAllianceFromDashboard();
         }
 
         public void updateDashboard() {
@@ -44,6 +60,9 @@ public class Dashboard {
                 SmartDashboard.putNumber("actualHeading", Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees());
                 SmartDashboard.putNumber("goalHeading", Robot.drivebase.goalHeading.getDegrees());
                 SmartDashboard.putNumber("pitch", Robot.drivebase.yagslDrive.getPitch().getDegrees());
+
+                // manual alliance selector
+                SmartDashboard.putString("Selected Auto", allianceSelected.toString());
 
                 // Auto selection
                 SmartDashboard.putString("AutoRoutine", Robot.auto.autoRoutine.name());
@@ -234,6 +253,21 @@ public class Dashboard {
                 } else {
                         SmartDashboard.putString(photonCamera.getName() + "Status", red.toHexString());
                 }
+        }
+
+        public void updateAllianceFromDashboard() {
+                try {
+                        allianceSelected = AllianceSelector.valueOf(AllianceSelector.getSelected());
+                } catch (Exception e) {
+                        allianceSelected = AllianceSelector.redAlliance;
+                }
+
+                if (allianceSelected == AllianceSelector.redAlliance) {
+                        Robot.onRed = true;
+                } else if (allianceSelected == AllianceSelector.blueAlliance) {
+                        Robot.onRed = false;
+                }
+
         }
 
 }

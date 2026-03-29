@@ -37,4 +37,8 @@ public class Enums {
         autoDetectWinnerOfAuto, blueWonAuto, redWonAuto
     }
 
+    public enum AllianceSelector {
+        redAlliance, blueAlliance
+    }
+
 }

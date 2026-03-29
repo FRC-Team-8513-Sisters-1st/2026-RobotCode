@@ -161,7 +161,7 @@ public class Robot extends TimedRobot {
     try {
       onRed = DriverStation.getAlliance().get() == Alliance.Red;
     } catch (Exception e) {
-      onRed = true;
+      Robot.dashboard.updateAllianceFromDashboard();
     }
   }
 }
