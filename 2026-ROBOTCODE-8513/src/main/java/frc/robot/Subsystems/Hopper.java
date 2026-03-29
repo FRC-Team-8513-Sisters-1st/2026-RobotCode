@@ -4,6 +4,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Logic.Enums.HopperStates;
 
 public class Hopper {
@@ -27,6 +28,9 @@ public class Hopper {
     public void setMotorPower() {
         if (hopperState == HopperStates.indexing) {
 
+            SmartDashboard.putNumber("broken THold Counter", brokenTHoldCounter);
+            SmartDashboard.putBoolean("broken THold ", brokenIndexerTHold);
+
             // set motor to shoot
             if (indexerMotorTop.getVelocity().getValueAsDouble() > 30) {
                 brokenTHoldCounter++;
@@ -38,7 +42,7 @@ public class Hopper {
                 brokenIndexerTHold = true;
             }
 
-            if (Timer.getFPGATimestamp() - timeIndexerStarts > 0.5 && brokenIndexerTHold) {
+            if (Timer.getFPGATimestamp() - timeIndexerStarts > 0.5 && !brokenIndexerTHold) {
                 if (Timer.getFPGATimestamp() - timeIndexerStarts > 1) {
                     brokenIndexerTHold = false;
                     brokenTHoldCounter = 0;
