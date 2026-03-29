@@ -19,7 +19,7 @@ public class Dashboard {
         public SendableChooser<String> TCPSelector;
         public TCPChooser tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
         public SendableChooser<String> AllianceSelector;
-        public AllianceSelector allianceSelected = AllianceSelector.redAlliance;
+        public frc.robot.Logic.Enums.AllianceSelector allianceSelected = frc.robot.Logic.Enums.AllianceSelector.redAlliance;
 
         public Field2d trajField2d = new Field2d();
         public Field2d copilotField2d = new Field2d();
@@ -40,11 +40,11 @@ public class Dashboard {
                 updateTCPConnectionFromDashboard();
 
                 AllianceSelector = new SendableChooser<>();
-                AllianceSelector.setDefaultOption(AllianceSelector.values()[0].toString(), AllianceSelector.values()[0].toString());
-                for (int i = 1; i < AllianceSelector.values().length; i++) {
-                        if (AllianceSelector.values()[i].toString().charAt(0) != '~') {
-                                AllianceSelector.addOption(AllianceSelector.values()[i].toString(),
-                                                AllianceSelector.values()[i].toString());
+                AllianceSelector.setDefaultOption(frc.robot.Logic.Enums.AllianceSelector.values()[0].toString(), frc.robot.Logic.Enums.AllianceSelector.values()[0].toString());
+                for (int i = 1; i < frc.robot.Logic.Enums.AllianceSelector.values().length; i++) {
+                        if (frc.robot.Logic.Enums.AllianceSelector.values()[i].toString().charAt(0) != '~') {
+                                AllianceSelector.addOption(frc.robot.Logic.Enums.AllianceSelector.values()[i].toString(),
+                                                frc.robot.Logic.Enums.AllianceSelector.values()[i].toString());
                         }
 
                 }
@@ -257,14 +257,14 @@ public class Dashboard {
 
         public void updateAllianceFromDashboard() {
                 try {
-                        allianceSelected = AllianceSelector.valueOf(AllianceSelector.getSelected());
+                        allianceSelected = frc.robot.Logic.Enums.AllianceSelector.valueOf(AllianceSelector.getSelected());
                 } catch (Exception e) {
-                        allianceSelected = AllianceSelector.redAlliance;
+                        allianceSelected = frc.robot.Logic.Enums.AllianceSelector.redAlliance;
                 }
 
-                if (allianceSelected == AllianceSelector.redAlliance) {
+                if (allianceSelected == frc.robot.Logic.Enums.AllianceSelector.redAlliance) {
                         Robot.onRed = true;
-                } else if (allianceSelected == AllianceSelector.blueAlliance) {
+                } else if (allianceSelected == frc.robot.Logic.Enums.AllianceSelector.blueAlliance) {
                         Robot.onRed = false;
                 }
 
