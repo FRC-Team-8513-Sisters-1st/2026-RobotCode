@@ -59,10 +59,11 @@ public class Settings {
         public static boolean headingJoystickControls = true;
         public static double snakeModeVelocityFactor = 0.4;
 
-        public static class ButtonIDs {            // driver controller
-            public static int intake = 5;
+        public static class ButtonIDs {            
+            // driver controller
+            public static int deployIntake = 5;
             public static int faceGoal = 7;
-            public static int stopIntake = 6;
+            public static int stowIntake = 6;
             public static int straightenBump = 8;
             public static int snakeMode = 1;
             public static int resetHeading = 10;
@@ -74,14 +75,13 @@ public class Settings {
             public static int decreaseShotDistance = 6;
             public static int moveScorePoseRight = 3;
             public static int moveScorePoseLeft = 5;
-            public static int heightenIntake = 9;
-            public static int lowerIntake = 8;
-            public static int emergencyIntake = 10;
+            public static int copilotStowIntake = 10;
+            public static int copilotDeployIntake = 8;
+            public static int copilotStopIntakeWheels = 9;
             public static int jiggleIntake = 7;
             public static int forceShoot = 2; // force shoot
             public static int forceDontShoot = 1; // force not shoot?
             public static int stopIntakeCopilot = 11;
-            // public static int reverseKicker = 12;
             public static int reverseEverything = 12;
             
 
@@ -99,11 +99,13 @@ public class Settings {
             public static int kickerToggle = 1;
             public static int shooterToggle = 3;
             public static int resetIntake = 8;
-            public static int shooterManualIncreaseVelocity = 6;
-            public static int shooterManualDecreaseVelocity = 5;
-            public static int incHoodPos = 9;
-            public static int decHoodPos = 10;
-            public static int gradualShooterSpinUp = 11;
+            public static int shooterManualIncreaseVelocity = 0; // CHANGE THESE WHEN TUNING
+            public static int shooterManualDecreaseVelocity = 0;
+            public static int incHoodPos = 0;
+            public static int decHoodPos = 0;
+            public static int gradualShooterSpinUp = 0;
+            public static int heightenIntake = 6;
+            public static int lowerIntake = 5;
 
 
         }

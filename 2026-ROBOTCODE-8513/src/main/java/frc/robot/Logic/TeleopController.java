@@ -320,28 +320,16 @@ public class TeleopController {
     // button pressed --> state machine
     public void buttonControls() {
         // intake controls
-        boolean intakeButtonPressed = Robot.teleop.driverXboxController
-                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.intake);
-        boolean stopIntakeButtonPressed = Robot.teleop.driverXboxController
-                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stopIntake);
-        if ((Robot.intake.intakeState == IntakeStates.stowed || Robot.intake.intakeState == IntakeStates.shooting)
-                && intakeButtonPressed) {
-            // if the robot is stowed
+        boolean deployIntakeButtonPressed = Robot.teleop.driverXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.deployIntake);
+        boolean stowIntakeButtonPressed = Robot.teleop.driverXboxController
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stowIntake);
+        if (deployIntakeButtonPressed) {
             Robot.intake.intakeState = IntakeStates.intaking;
-        } else if ((Robot.intake.intakeState == IntakeStates.intaking
-                || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
-                && intakeButtonPressed) {
-            // if the robot is intaking or stationary
+        } 
+        if (stowIntakeButtonPressed) {
             Robot.intake.intakeState = IntakeStates.stowed;
-        } else if (Robot.intake.intakeState == IntakeStates.intaking
-                && stopIntakeButtonPressed) {
-            // turn the wheels off while deployed
-            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
-        } else if (Robot.intake.intakeState == IntakeStates.stationaryDeployed
-                && stopIntakeButtonPressed) {
-            // turn the wheels on while deployed
-            Robot.intake.intakeState = IntakeStates.intaking;
-        }
+        } 
 
         // button when driver hits x face right and B face left
         if (Robot.teleop.driverXboxController
@@ -371,12 +359,12 @@ public class TeleopController {
             Robot.shooter.shotDistanceFudgeFactor -= Settings.ShooterSettings.shotDistanceFudgeDelta;
         }
 
-        // intake Fudge Factor
-        if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.heightenIntake)) {
+        // MANUAL JOYSTICK intake Fudge Factor
+        if (manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.heightenIntake)) {
             Robot.intake.intakeFudgeFactor -= Settings.IntakeSettings.intakeFudgeFactor;
         }
 
-        if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.lowerIntake)) {
+        if (manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.lowerIntake)) {
             Robot.intake.intakeFudgeFactor += Settings.IntakeSettings.intakeFudgeFactor;
         }
 
@@ -389,18 +377,23 @@ public class TeleopController {
             Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.angleFudgeDelta;
         }
 
-        // Intake copilot emergency controls
-        boolean copilotEmergencyIntakeButtonPressed = Robot.teleop.copilotJoystick1
-                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.emergencyIntake);
-        if (Robot.intake.intakeState == IntakeStates.stowed && copilotEmergencyIntakeButtonPressed) {
-            // if the robot is stowed
-            Robot.intake.intakeState = IntakeStates.intaking;
-        } else if ((Robot.intake.intakeState == IntakeStates.intaking
-                || Robot.intake.intakeState == IntakeStates.stationaryDeployed
-                || Robot.intake.intakeState == IntakeStates.shooting)
-                && copilotEmergencyIntakeButtonPressed) {
-            // if the robot is intaking or stationary
+        // Intake copilot controls
+        boolean copilotStowIntakeButtonPressed = Robot.teleop.copilotJoystick1
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.copilotStowIntake);
+        boolean copilotDeplotIntakeButtonPressed = Robot.teleop.copilotJoystick1
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.copilotDeployIntake);
+        boolean copilotStationaryDeployIntakeButtonPressed = Robot.teleop.copilotJoystick1
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.copilotStopIntakeWheels);
+        if (copilotStowIntakeButtonPressed) {
             Robot.intake.intakeState = IntakeStates.stowed;
+        } 
+        if (copilotDeplotIntakeButtonPressed) {
+            // if the robot is intaking or stationary
+            Robot.intake.intakeState = IntakeStates.intaking;
+        }
+        if (copilotStationaryDeployIntakeButtonPressed) {
+            // if the robot is intaking or stationary
+            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
         }
 
         boolean copilotshootIntakeButtonPressed = Robot.teleop.copilotJoystick1

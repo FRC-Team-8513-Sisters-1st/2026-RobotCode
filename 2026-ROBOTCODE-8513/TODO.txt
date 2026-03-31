@@ -8,17 +8,17 @@ Autos:
     x time out for aligning to the hub
 
 Copilot:
-    - deplot the intak
-    - stow the intake
-    - go to stationary deployed
+    x deplot the intak
+    x stow the intake
+    x go to stationary deployed
 
 Driver:
-    - left bumper deploy, right brings it in
+    x left bumper deploy, right brings it in
 
 Manual control:
     - update the windows and cancel auto updates
-    - put the intake fudge factors
-    - label joystick 4
+    x put the intake fudge factors (SET THE IDS)
+    x label joystick 4
 
 Get Robot Schedule:
     x increase shooter current and tune pid
