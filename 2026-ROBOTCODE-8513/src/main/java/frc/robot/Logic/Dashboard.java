@@ -19,7 +19,7 @@ public class Dashboard {
         public SendableChooser<String> TCPSelector;
         public TCPChooser tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
         public SendableChooser<String> AllianceSelector;
-        public frc.robot.Logic.Enums.AllianceSelector allianceSelected = frc.robot.Logic.Enums.AllianceSelector.redAlliance;
+        public AllianceSelector allianceSelected = frc.robot.Logic.Enums.AllianceSelector.redAlliance;
 
         public Field2d trajField2d = new Field2d();
         public Field2d copilotField2d = new Field2d();

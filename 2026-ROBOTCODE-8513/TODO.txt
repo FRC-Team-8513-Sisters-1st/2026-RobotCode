@@ -21,9 +21,9 @@ Manual control:
     x label joystick 4
 
 Get Robot Schedule:
-    x increase shooter current and tune pid
+    x increase shooter current and tune pid 
     x Put vision status lights on elastic
-    x tune shot with new shooter (set values for the interpolation)
+    x tune shot with new shooter (set values for the interpolation) 
         - manually tune hood and velocity
     - then take interpolated shots and record to get TOF interpolation
     - clean tele drive if needed
