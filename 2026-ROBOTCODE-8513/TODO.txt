@@ -6,6 +6,7 @@ Autos:
     x move all autos toward bump
     ? make the shooter button always work
     x time out for aligning to the hub
+    - make autos that go to the center first then out and around
 
 Copilot:
     x deplot the intak
