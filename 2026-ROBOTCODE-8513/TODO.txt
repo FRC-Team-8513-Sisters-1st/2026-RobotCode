@@ -3,14 +3,22 @@ Elastic:
     - fix the errors in match time by using get match time (delay)
 
 Autos:
+    x move all autos toward bump
+    ? make the shooter button always work
+    x time out for aligning to the hub
 
 Copilot:
-    - unjam higher priority than shooting and if shooting and unjam dont spin intake
+    - deplot the intak
+    - stow the intake
+    - go to stationary deployed
 
 Driver:
+    - left bumper deploy, right brings it in
 
 Manual control:
     - update the windows and cancel auto updates
+    - put the intake fudge factors
+    - label joystick 4
 
 Get Robot Schedule:
     x increase shooter current and tune pid

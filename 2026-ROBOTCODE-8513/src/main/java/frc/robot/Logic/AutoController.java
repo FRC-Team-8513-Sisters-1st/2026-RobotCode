@@ -28,6 +28,7 @@ public class AutoController {
 
     public boolean pathInitialized = false;
     public double shotTimeOut = 1.5;
+    public double alignTimeOut = 0.25;
 
     public AutoRoutines autoToReturnTo = AutoRoutines.DoNothing;
 
@@ -112,7 +113,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -121,7 +122,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -177,7 +178,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -186,7 +187,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -243,7 +244,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -252,7 +253,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -311,7 +312,7 @@ public class AutoController {
                         Robot.drivebase.faceHub();
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                         Robot.shooter.shooterState = ShooterStates.shooting;
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
 
@@ -319,7 +320,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        
+
                         autoRoutine = AutoRoutines.Outpost_AnyTwoParts;
                         autoStep = 5;
                         break;
@@ -365,7 +366,7 @@ public class AutoController {
                         Robot.drivebase.faceHub();
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                         Robot.shooter.shooterState = ShooterStates.shooting;
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
 
@@ -373,7 +374,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        
+
                         autoRoutine = AutoRoutines.Outpost_AnyTwoParts;
                         autoStep = 5;
                         break;
@@ -419,7 +420,7 @@ public class AutoController {
                         Robot.drivebase.faceHub();
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                         Robot.shooter.shooterState = ShooterStates.shooting;
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
 
@@ -427,7 +428,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        
+
                         autoRoutine = AutoRoutines.Outpost_AnyTwoParts;
                         autoStep = 5;
                         break;
@@ -470,7 +471,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -479,7 +480,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -535,7 +536,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub()|| Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -594,7 +595,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub()|| Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -653,7 +654,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub()|| Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -712,7 +713,8 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -721,7 +723,8 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -777,7 +780,8 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -786,7 +790,8 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -843,7 +848,8 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -852,7 +858,8 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -910,7 +917,8 @@ public class AutoController {
                         Robot.drivebase.faceHub();
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                         Robot.shooter.shooterState = ShooterStates.shooting;
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
 
@@ -918,7 +926,8 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -975,7 +984,8 @@ public class AutoController {
                         Robot.drivebase.faceHub();
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                         Robot.shooter.shooterState = ShooterStates.shooting;
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
 
@@ -983,7 +993,8 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -1040,7 +1051,8 @@ public class AutoController {
                         Robot.drivebase.faceHub();
                         Robot.intake.intakeState = IntakeStates.stationaryDeployed;
                         Robot.shooter.shooterState = ShooterStates.shooting;
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
 
@@ -1048,7 +1060,8 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
+                        if (Robot.shooter.readyToShootInHub()
+                                || Timer.getFPGATimestamp() - timeStepStarted > shotTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -1103,7 +1116,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -1112,7 +1125,7 @@ public class AutoController {
                         break;
                     case 20:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub() || Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             Robot.hopper.hopperState = HopperStates.indexing;
                             Robot.kicker.kickerState = KickerStates.shooting;
                             Robot.intake.intakeState = IntakeStates.shooting;
@@ -1168,7 +1181,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub()|| Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -1227,7 +1240,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub()|| Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -1286,7 +1299,7 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        if (Robot.shooter.readyToShootInHub()|| Timer.getFPGATimestamp() - timeStepStarted > alignTimeOut) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
                             timeStepStarted = Timer.getFPGATimestamp();
@@ -1591,6 +1604,7 @@ public class AutoController {
 
                         Robot.hopper.hopperState = HopperStates.indexing;
                         Robot.kicker.kickerState = KickerStates.shooting;
+                        Robot.intake.intakeState = IntakeStates.shooting;
 
                         if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2.5) {
                             Robot.intake.intakeState = IntakeStates.shooting;
