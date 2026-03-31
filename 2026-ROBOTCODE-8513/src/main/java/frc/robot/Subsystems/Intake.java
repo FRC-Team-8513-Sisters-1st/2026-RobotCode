@@ -63,13 +63,14 @@ public class Intake {
 
         if (intakeState == IntakeStates.intaking) {
             // deploy intake
-            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
+            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
             if (Robot.teleop.copilotJoystick1.getRawButton(Settings.TeleopSettings.ButtonIDs.stopIntakeCopilot)) {
                 intakeMotorLeftLeader
                         .setControl(new DutyCycleOut(0));
             } else {
-                if (adjustedEncoderPosition() > Settings.IntakeSettings.spinBackwardsThreshold) {
+                if (intakeDeployMotor.getPosition()
+                        .getValueAsDouble() < Settings.IntakeSettings.spinBackwardsThreshold) {
                     intakeMotorLeftLeader
                             .setControl(new DutyCycleOut(0));
                 } else {
@@ -81,7 +82,7 @@ public class Intake {
 
         } else if (intakeState == IntakeStates.stowed) {
             // stow intake
-            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.stowPosition + intakeFudgeFactor));
+            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.stowPosition + intakeFudgeFactor));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
@@ -90,7 +91,7 @@ public class Intake {
 
         } else if (intakeState == IntakeStates.outtaking) {
             // deploy intake
-            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
+            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
             // intake wheels on
             intakeMotorLeftLeader
@@ -98,14 +99,14 @@ public class Intake {
 
         } else if (intakeState == IntakeStates.stationaryDeployed) {
             // deploy intake
-            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
+            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
 
         } else if (intakeState == IntakeStates.shooting) {
 
-            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
+            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
