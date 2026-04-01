@@ -1,15 +1,20 @@
+NEW Get Robot for LEHIGH Schedule:
+    - set the id for the third shooter motor
+    - set the id for the kracken kicker motor (keep the sparkmax stuff though for the absolute encoder)
+    - speed up the autos (less shoot time maybe?)
+
 Elastic:
     - fix the override blue/red win 
     - fix the errors in match time by using get match time (delay)
 
 Autos:
     x move all autos toward bump
-    ? make the shooter button always work
+    x make the shooter button always work
     x time out for aligning to the hub
-    - make autos that go to the center first then out and around
+    x make autos that go to the center first then out and around
 
 Copilot:
-    x deplot the intak
+    x deploy the intake
     x stow the intake
     x go to stationary deployed
 
@@ -21,13 +26,7 @@ Manual control:
     x put the intake fudge factors (SET THE IDS)
     x label joystick 4
 
-Get Robot Schedule:
-    x increase shooter current and tune pid 
-    x Put vision status lights on elastic
-    x tune shot with new shooter (set values for the interpolation) 
-        - manually tune hood and velocity
-    - then take interpolated shots and record to get TOF interpolation
-    - clean tele drive if needed
+    
 
 
 Driver Buttons: https://app.diagrams.net/#G1uRCCOzVmEvHkvo4EhlnghtRV6GGkDXbb#%7B%22pageId%22%3A%22d-_JnBqeQgVWwOmPlnWK%22%7D

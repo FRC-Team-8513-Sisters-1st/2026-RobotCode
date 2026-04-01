@@ -99,7 +99,7 @@ public class Dashboard {
                 SmartDashboard.putNumber("time shooter button pressed",
                                 Robot.teleop.timeIntakeShootingButtonPressed);
                 SmartDashboard.putNumber("adjusted intake pos", Robot.intake.adjustedEncoderPosition());
-                SmartDashboard.putNumber("intake pos", Robot.kicker.kickerMotor.getAbsoluteEncoder().getPosition());
+                SmartDashboard.putNumber("intake pos", Robot.kicker.kickerSparkMax.getAbsoluteEncoder().getPosition());
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",
@@ -122,8 +122,8 @@ public class Dashboard {
                 SmartDashboard.putNumber("targetV", Robot.shooter.targetV);
 
                 // kicker
-                SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());
-                SmartDashboard.putNumber("kickerMotorCurrent", Robot.kicker.kickerMotor.getOutputCurrent());
+                SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerSparkMax.getEncoder().getVelocity());
+                SmartDashboard.putNumber("kickerMotorCurrent", Robot.kicker.kickerSparkMax.getOutputCurrent());
 
                 // hopper
                 SmartDashboard.putNumber("hopperMotorVelocityTop",

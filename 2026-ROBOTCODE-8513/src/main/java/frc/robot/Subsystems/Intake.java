@@ -155,7 +155,7 @@ public class Intake {
     } 
 
     public double adjustedEncoderPosition() {
-        double currentPosition = Robot.kicker.kickerMotor.getAbsoluteEncoder().getPosition();
+        double currentPosition = Robot.kicker.kickerSparkMax.getAbsoluteEncoder().getPosition();
         double adjustedPosition; 
 
         if (currentPosition < 0.3) {

@@ -398,9 +398,7 @@ public class TeleopController {
 
         boolean copilotshootIntakeButtonPressed = Robot.teleop.copilotJoystick1
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.jiggleIntake);
-        if ((Robot.intake.intakeState == IntakeStates.intaking
-                || Robot.intake.intakeState == IntakeStates.stationaryDeployed)
-                && copilotshootIntakeButtonPressed) {
+        if (copilotshootIntakeButtonPressed) {
             // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.shooting;
             timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();

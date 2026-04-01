@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
     SparkMaxConfig config = new SparkMaxConfig();
     config.smartCurrentLimit(40);
 
-    kicker.kickerMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    kicker.kickerSparkMax.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     shooter.shooterHoodMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
   }

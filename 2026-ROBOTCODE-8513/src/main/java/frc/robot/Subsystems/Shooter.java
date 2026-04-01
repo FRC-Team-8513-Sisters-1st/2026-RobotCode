@@ -20,6 +20,7 @@ public class Shooter {
 
     public TalonFX shooterMotorLeftLeader = new TalonFX(13);
     public TalonFX shooterMotorRightFollower = new TalonFX(14);
+    public TalonFX shooterMotorThirdFollower = new TalonFX(15);
     public SparkMax shooterHoodMotor = new SparkMax(15, MotorType.kBrushless);
 
     public PIDController shooterMotorController = new PIDController(1.5, 0.1, 0);
@@ -84,6 +85,8 @@ public class Shooter {
 
         // follower leader set up
         shooterMotorRightFollower
+                .setControl(new Follower(shooterMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
+        shooterMotorThirdFollower
                 .setControl(new Follower(shooterMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
 
         m_request.UpdateFreqHz = 500;
