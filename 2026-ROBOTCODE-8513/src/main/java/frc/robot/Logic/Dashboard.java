@@ -162,6 +162,7 @@ public class Dashboard {
                 SmartDashboard.putString("Period", Robot.matchTimeAnalysis.getShift());
                 SmartDashboard.putString("Hub Status", Robot.matchTimeAnalysis.activeOrInactive());
                 activeOrInactiveColor();
+                allianceColor();
                 SmartDashboard.putString("Game data", DriverStation.getGameSpecificMessage());
 
                 // auto ready to shoot values
@@ -223,6 +224,16 @@ public class Dashboard {
                         SmartDashboard.putString("Color", green.toHexString());
                 } else if (Robot.matchTimeAnalysis.activeOrInactive() == "Inactive") {
                         SmartDashboard.putString("Color", red.toHexString());
+                }
+        }
+
+        public void allianceColor() {
+                Color red = new Color(255, 0, 0);
+                Color blue = new Color(0, 0, 255);
+                if (Robot.onRed) {
+                        SmartDashboard.putString("Alliance", red.toHexString());
+                } else {
+                        SmartDashboard.putString("Alliance", blue.toHexString());
                 }
         }
 

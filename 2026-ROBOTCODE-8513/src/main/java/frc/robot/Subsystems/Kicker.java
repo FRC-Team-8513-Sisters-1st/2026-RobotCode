@@ -36,7 +36,7 @@ public class Kicker {
     // set motor power based on state
     public void setMotorPower() {
 
-        targetV = Robot.shooter.getInterpolatedShooterVelocity();
+        targetV = 100;
         
         if (kickerState == KickerStates.shooting) {
             // set motor to shoot
