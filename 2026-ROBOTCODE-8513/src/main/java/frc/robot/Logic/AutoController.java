@@ -1936,11 +1936,12 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.shooting;
                         Robot.intake.intakeState = IntakeStates.shooting;
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2.5) {
-                            Robot.intake.intakeState = IntakeStates.shooting;
-                        } else {
-                            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
-                        }
+                        // old intake shooting timing
+                        // if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2.5) {
+                        //     Robot.intake.intakeState = IntakeStates.shooting;
+                        // } else {
+                        //     Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        // }
 
                         if ((Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime())) {
                             Robot.drivebase.initPath("Outpost_OneCycle_Reset", false);
@@ -1998,11 +1999,13 @@ public class AutoController {
                         Robot.kicker.kickerState = KickerStates.shooting;
                         Robot.intake.intakeState = IntakeStates.shooting;
 
-                        if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2.5) {
-                            Robot.intake.intakeState = IntakeStates.shooting;
-                        } else {
-                            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
-                        }
+                        // old intake shooting timing
+                        // if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2.5) {
+                        //     Robot.intake.intakeState = IntakeStates.shooting;
+                        // } else {
+                        //     Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        // }
+
 
                         if ((Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime())) {
                             Robot.drivebase.initPath("Outpost_OneCycle_Reset", true);

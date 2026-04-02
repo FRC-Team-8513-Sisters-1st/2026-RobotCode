@@ -100,6 +100,8 @@ public class Dashboard {
                                 Robot.teleop.timeIntakeShootingButtonPressed);
                 SmartDashboard.putNumber("adjusted intake pos", Robot.intake.adjustedEncoderPosition());
                 SmartDashboard.putNumber("intake pos", Robot.kicker.kickerSparkMax.getAbsoluteEncoder().getPosition());
+                SmartDashboard.putNumber("beeftakeDeployControllerConstraints", Robot.intake.beeftakeDeployController.getConstraints().maxVelocity);
+
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",
@@ -138,6 +140,7 @@ public class Dashboard {
                 // Fudge factors
                 SmartDashboard.putNumber("shotDistanceFudgeFactorValue", Robot.shooter.shotDistanceFudgeFactor);
                 SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);
+                SmartDashboard.putNumber("intakeFudgeFactor", Robot.intake.intakeFudgeFactor);
 
                 // Prompts user input for PID values
                 SmartDashboard.putNumber("output shooter kP", Robot.shooter.slot0Configs.kP);

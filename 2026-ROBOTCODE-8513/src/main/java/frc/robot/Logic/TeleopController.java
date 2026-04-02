@@ -221,6 +221,7 @@ public class TeleopController {
                     && Robot.shooter.shooterState == ShooterStates.shooting && !unjam) {
                 Robot.kicker.kickerState = KickerStates.shooting;
                 Robot.hopper.hopperState = HopperStates.indexing;
+                Robot.intake.intakeState = IntakeStates.shooting;
             } else {
                 Robot.kicker.kickerState = KickerStates.stationary;
                 Robot.hopper.hopperState = HopperStates.stationary;
@@ -396,18 +397,10 @@ public class TeleopController {
             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
         }
 
-        boolean copilotshootIntakeButtonPressed = Robot.teleop.copilotJoystick1
-                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.jiggleIntake);
-        if (copilotshootIntakeButtonPressed) {
-            // if the robot is intaking or stationary
+        if (Robot.teleop.copilotJoystick1
+                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.jiggleIntake)) {
             Robot.intake.intakeState = IntakeStates.shooting;
             timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
-        }
-
-        if (Robot.intake.intakeState == IntakeStates.shooting && Robot.teleop.copilotJoystick1
-                .getRawButtonReleased(Settings.TeleopSettings.ButtonIDs.jiggleIntake)) {
-            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
-            timeIntakeShootingButtonPressed = 0;
         }
 
         // shooter controls

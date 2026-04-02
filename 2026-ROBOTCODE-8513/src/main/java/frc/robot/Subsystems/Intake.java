@@ -62,12 +62,15 @@ public class Intake {
         SmartDashboard.putNumber("ShooterV", intakeMotorRightFollower.getVelocity().getValueAsDouble());
 
         if (intakeState == IntakeStates.intaking) {
+
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.deployConstraints);
+
             // deploy intake
             intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
-            if (Robot.teleop.copilotJoystick1.getRawButton(Settings.TeleopSettings.ButtonIDs.stopIntakeCopilot)) {
+            if (Robot.teleop.copilotJoystick1.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeBackward)) {
                 intakeMotorLeftLeader
-                        .setControl(new DutyCycleOut(0));
+                        .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
             } else {
                 if (adjustedEncoderPosition() > Settings.IntakeSettings.spinBackwardsThreshold) {
                     intakeMotorLeftLeader
@@ -80,6 +83,9 @@ public class Intake {
             }
 
         } else if (intakeState == IntakeStates.stowed) {
+
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.deployConstraints);
+
             // stow intake
             intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.stowPosition + intakeFudgeFactor));
 
@@ -89,6 +95,9 @@ public class Intake {
             timeLeftStowedState = Timer.getFPGATimestamp();
 
         } else if (intakeState == IntakeStates.outtaking) {
+
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.deployConstraints);
+
             // deploy intake
             intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
@@ -97,6 +106,8 @@ public class Intake {
                     .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
 
         } else if (intakeState == IntakeStates.stationaryDeployed) {
+
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.deployConstraints);
             // deploy intake
             intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
@@ -104,6 +115,8 @@ public class Intake {
             intakeMotorLeftLeader.set(0);
 
         } else if (intakeState == IntakeStates.shooting) {
+
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.shootingConstraints);
 
             intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
 
@@ -152,11 +165,11 @@ public class Intake {
         double currentPosition = adjustedEncoderPosition();
         double outputPower = beeftakeDeployController.calculate(currentPosition, targetPosition);
         return -outputPower;
-    } 
+    }
 
     public double adjustedEncoderPosition() {
         double currentPosition = Robot.kicker.kickerSparkMax.getAbsoluteEncoder().getPosition();
-        double adjustedPosition; 
+        double adjustedPosition;
 
         if (currentPosition < 0.3) {
             adjustedPosition = currentPosition + 0.47;
@@ -165,6 +178,5 @@ public class Intake {
         }
         return adjustedPosition;
     }
-
 
 }

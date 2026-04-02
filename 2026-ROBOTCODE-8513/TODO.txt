@@ -2,10 +2,14 @@ NEW Get Robot for LEHIGH Schedule:
     - set the id for the third shooter motor
     - set the id for the kracken kicker motor (keep the sparkmax stuff though for the absolute encoder)
     - speed up the autos (less shoot time maybe?)
+    - check out the new controls
+    - tune the new TOF
+    - check the new auto shooting/button stuff
+
 
 Elastic:
-    - fix the override blue/red win 
-    - fix the errors in match time by using get match time (delay)
+    x fix the override blue/red win 
+    ? fix the errors in match time by using get match time (delay)
 
 Autos:
     x move all autos toward bump
@@ -17,6 +21,7 @@ Copilot:
     x deploy the intake
     x stow the intake
     x go to stationary deployed
+    x intake backwards buttons
 
 Driver:
     x left bumper deploy, right brings it in
