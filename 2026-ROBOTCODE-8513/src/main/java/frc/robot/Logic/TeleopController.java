@@ -329,7 +329,11 @@ public class TeleopController {
             Robot.intake.intakeState = IntakeStates.intaking;
         } 
         if (stowIntakeButtonPressed) {
-            Robot.intake.intakeState = IntakeStates.stowed;
+            if (Robot.kicker.kickerState == KickerStates.shooting) {
+                Robot.intake.intakeState = IntakeStates.maxPositionWhenShooting;
+            } else {
+                Robot.intake.intakeState = IntakeStates.stowed;
+            }
         } 
 
         // button when driver hits x face right and B face left
@@ -386,7 +390,11 @@ public class TeleopController {
         boolean copilotStationaryDeployIntakeButtonPressed = Robot.teleop.copilotJoystick1
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.copilotStopIntakeWheels);
         if (copilotStowIntakeButtonPressed) {
-            Robot.intake.intakeState = IntakeStates.stowed;
+            if (Robot.kicker.kickerState == KickerStates.shooting) {
+                Robot.intake.intakeState = IntakeStates.maxPositionWhenShooting;
+            } else {
+                Robot.intake.intakeState = IntakeStates.stowed;
+            }
         } 
         if (copilotDeplotIntakeButtonPressed) {
             // if the robot is intaking or stationary

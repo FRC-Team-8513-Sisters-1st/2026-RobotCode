@@ -121,9 +121,15 @@ public class Shooter {
                 .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
 
         if (manualHoodTuning == false) {
-            shooterHoodMotor
-                    .set(-hoodAnglePower(
-                            getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
+            if (Robot.intake.intakeIsStowed()) {
+                shooterHoodMotor
+                        .set(-hoodAnglePower(Settings.ShooterSettings.lowestHoodPosition));
+            } else {
+                shooterHoodMotor
+                        .set(-hoodAnglePower(
+                                getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
+            }
+
         } else {
             shooterHoodMotor
                     .set(-hoodAnglePower(manualTuningHoodPosition));
@@ -210,13 +216,12 @@ public class Shooter {
 
     public boolean facingHub(double precision) {
         if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().minus(Robot.drivebase.goalHeading)
-                        .getDegrees()) < precision) {
+                .getDegrees()) < precision) {
             return true;
         } else {
             return false;
         }
     }
-    
 
     public boolean readyToShuttle() {
         if (facingHub(Settings.AutoSettings.Thresholds.drivebaseShuttleRotationTHold)
@@ -267,6 +272,6 @@ public class Shooter {
 
     public void gradualSpinUp() {
         if (Timer.getFPGATimestamp() - Robot.teleop.timeGradualWasPressed <= 0.5)
-        setCurrentLimits(20, 30);
+            setCurrentLimits(20, 30);
     }
 }
