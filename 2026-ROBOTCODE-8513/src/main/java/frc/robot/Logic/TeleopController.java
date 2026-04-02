@@ -221,7 +221,6 @@ public class TeleopController {
                     && Robot.shooter.shooterState == ShooterStates.shooting && !unjam) {
                 Robot.kicker.kickerState = KickerStates.shooting;
                 Robot.hopper.hopperState = HopperStates.indexing;
-                Robot.intake.intakeState = IntakeStates.shooting;
             } else {
                 Robot.kicker.kickerState = KickerStates.stationary;
                 Robot.hopper.hopperState = HopperStates.stationary;
