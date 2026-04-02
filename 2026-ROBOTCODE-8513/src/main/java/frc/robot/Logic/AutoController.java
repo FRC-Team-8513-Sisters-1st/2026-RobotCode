@@ -1848,10 +1848,10 @@ public class AutoController {
                             break;
                         case 10:
                             if (Robot.onRed) {
-                                Robot.drivebase.driveFacingHeading(new Translation2d(-1.5, 0), new Rotation2d(Math.PI),
+                                Robot.drivebase.driveFacingHeading(new Translation2d(-2, 0), new Rotation2d(Math.PI),
                                         true);
                             } else {
-                                Robot.drivebase.driveFacingHeading(new Translation2d(1.5, 0), new Rotation2d(0), true);
+                                Robot.drivebase.driveFacingHeading(new Translation2d(2, 0), new Rotation2d(0), true);
                             }
                             if (Robot.drivebase.yagslDrive.getPitch()
                                     .getDegrees() > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchTHold
@@ -1874,10 +1874,10 @@ public class AutoController {
                                 bumpTholdCounter = 0;
                             }
                             if (Robot.onRed) {
-                                Robot.drivebase.driveFacingHeading(new Translation2d(-1.5, 0), new Rotation2d(Math.PI),
+                                Robot.drivebase.driveFacingHeading(new Translation2d(-2, 0), new Rotation2d(Math.PI),
                                         true);
                             } else {
-                                Robot.drivebase.driveFacingHeading(new Translation2d(1.5, 0), new Rotation2d(0), true);
+                                Robot.drivebase.driveFacingHeading(new Translation2d(2, 0), new Rotation2d(0), true);
                             }
 
                             if (bumpTholdCounter > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchCount) {
@@ -1895,10 +1895,10 @@ public class AutoController {
                             }
 
                             if (Robot.onRed) {
-                                Robot.drivebase.driveFacingHeading(new Translation2d(-1.5, 0), new Rotation2d(Math.PI),
+                                Robot.drivebase.driveFacingHeading(new Translation2d(-2, 0), new Rotation2d(Math.PI),
                                         true);
                             } else {
-                                Robot.drivebase.driveFacingHeading(new Translation2d(1.5, 0), new Rotation2d(0), true);
+                                Robot.drivebase.driveFacingHeading(new Translation2d(2, 0), new Rotation2d(0), true);
                             }
 
                             if (bumpTholdCounter > Settings.AutoSettings.Thresholds.autoDetectedBumpPitchCount) {
