@@ -113,6 +113,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     updateAlliance();
+    Robot.dashboard.updateTCPConnectionFromDashboard();
     teleop.initTele();
 
   }
@@ -120,7 +121,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     teleop.driveTele();
-
+    Robot.dashboard.updateTCPConnectionFromDashboard();
   }
 
   @Override

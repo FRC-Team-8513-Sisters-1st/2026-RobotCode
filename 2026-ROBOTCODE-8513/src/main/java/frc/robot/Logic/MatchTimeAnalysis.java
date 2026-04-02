@@ -122,7 +122,7 @@ public class MatchTimeAnalysis {
         } else if (elapsedMatchTime >= 110 && elapsedMatchTime < 135) {
             return "End Game";
         } else {
-            return "hi";
+            return "you guys are awesome! -Liv";
         }
     }
 

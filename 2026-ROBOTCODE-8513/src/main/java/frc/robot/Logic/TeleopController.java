@@ -5,6 +5,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
@@ -23,6 +24,11 @@ public class TeleopController {
 
     public PIDController rJoystickController = new PIDController(0.1, 0, 0);
     public PIDController bumpPidController = new PIDController(10, 0, 0);
+
+    public double timeIncreaseShotPressed;
+    public double timeDecreaseShotPressed;
+    public double timeRightMoveScorePosePressed;
+    public double timeLeftMoveScorePosePressed;
 
     public Rotation2d goalHeading = new Rotation2d();
 
@@ -326,10 +332,10 @@ public class TeleopController {
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.stowIntake);
         if (deployIntakeButtonPressed) {
             Robot.intake.intakeState = IntakeStates.intaking;
-        } 
+        }
         if (stowIntakeButtonPressed) {
             Robot.intake.intakeState = IntakeStates.stowed;
-        } 
+        }
 
         // button when driver hits x face right and B face left
         if (Robot.teleop.driverXboxController
@@ -337,13 +343,15 @@ public class TeleopController {
             if (Robot.onRed) {
                 Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(90)), true);
             } else {
-                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)), true);
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)),
+                        true);
             }
         }
         if (Robot.teleop.driverXboxController
                 .getRawButton(Settings.TeleopSettings.ButtonIDs.faceLeft)) {
             if (Robot.onRed) {
-                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)), true);
+                Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(-90)),
+                        true);
             } else {
                 Robot.drivebase.driveFacingHeading(new Translation2d(xV, yV), new Rotation2d(Math.toRadians(90)), true);
             }
@@ -352,11 +360,17 @@ public class TeleopController {
         // COPILOT CONTROLS
         // adjustment for shooter hood angle
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.increaseShotDistance)) {
+            timeIncreaseShotPressed = Timer.getFPGATimestamp();
             Robot.shooter.shotDistanceFudgeFactor += Settings.ShooterSettings.shotDistanceFudgeDelta;
         }
 
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decreaseShotDistance)) {
+            timeDecreaseShotPressed = Timer.getFPGATimestamp();
             Robot.shooter.shotDistanceFudgeFactor -= Settings.ShooterSettings.shotDistanceFudgeDelta;
+        }
+
+        if (Math.abs(timeDecreaseShotPressed - timeIncreaseShotPressed) < 0.15) {
+            Robot.shooter.shotDistanceFudgeFactor = 0;
         }
 
         // MANUAL JOYSTICK intake Fudge Factor
@@ -370,11 +384,17 @@ public class TeleopController {
 
         // adjustment for drivebase goal aim fudge factor
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseRight)) {
+            timeRightMoveScorePosePressed = Timer.getFPGATimestamp();
             Robot.drivebase.aimFudgeFactor -= Settings.ShooterSettings.angleFudgeDelta;
         }
 
         if (copilotJoystick1.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.moveScorePoseLeft)) {
+            timeLeftMoveScorePosePressed = Timer.getFPGATimestamp();
             Robot.drivebase.aimFudgeFactor += Settings.ShooterSettings.angleFudgeDelta;
+        }
+
+        if (Math.abs(timeRightMoveScorePosePressed - timeLeftMoveScorePosePressed) < 0.15) {
+            Robot.drivebase.aimFudgeFactor = 0;
         }
 
         // Intake copilot controls
@@ -386,7 +406,7 @@ public class TeleopController {
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.copilotStopIntakeWheels);
         if (copilotStowIntakeButtonPressed) {
             Robot.intake.intakeState = IntakeStates.stowed;
-        } 
+        }
         if (copilotDeplotIntakeButtonPressed) {
             // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.intaking;
