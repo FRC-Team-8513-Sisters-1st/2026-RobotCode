@@ -38,3 +38,7 @@ Manual control:
 Driver Buttons: https://app.diagrams.net/#G1uRCCOzVmEvHkvo4EhlnghtRV6GGkDXbb#%7B%22pageId%22%3A%22d-_JnBqeQgVWwOmPlnWK%22%7D
 Co Pilot Buttons: https://app.diagrams.net/#G1qHkbT-RruBgJSgykm7fhuSLz0rcQ5_Ag#%7B%22pageId%22%3A%22cDo-9tD7ipAllacoT-Qq%22%7D
 Manual Buttons: https://drive.google.com/file/d/1ukn6wE2wagI7a8BWJb04coxWEV2F8x2a/view?usp=sharing 
+
+
+NOtes: left shoote rmotor inside 15 (set current limits)
+kraken kicker motor 50
