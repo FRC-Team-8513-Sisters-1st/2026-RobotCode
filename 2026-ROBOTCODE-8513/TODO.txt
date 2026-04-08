@@ -41,5 +41,6 @@ Co Pilot Buttons: https://app.diagrams.net/#G1qHkbT-RruBgJSgykm7fhuSLz0rcQ5_Ag#%
 Manual Buttons: https://drive.google.com/file/d/1ukn6wE2wagI7a8BWJb04coxWEV2F8x2a/view?usp=sharing 
 
 
-NOtes: left shoote rmotor inside 15 (set current limits)
+NOtes: 
+CHANGE SHOOTERMOTORLEFTINSIDE TO 16 AND SET CURRENT LIMITS
 kraken kicker motor 50

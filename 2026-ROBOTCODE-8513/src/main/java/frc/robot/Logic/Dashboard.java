@@ -99,7 +99,6 @@ public class Dashboard {
                 SmartDashboard.putNumber("time shooter button pressed",
                                 Robot.teleop.timeIntakeShootingButtonPressed);
                 SmartDashboard.putNumber("adjusted intake pos", Robot.intake.adjustedEncoderPosition());
-                SmartDashboard.putNumber("intake pos", Robot.kicker.kickerSparkMax.getAbsoluteEncoder().getPosition());
                 SmartDashboard.putNumber("beeftakeDeployControllerConstraints", Robot.intake.beeftakeDeployController.getConstraints().maxVelocity);
 
 

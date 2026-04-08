@@ -20,7 +20,7 @@ public class Shooter {
 
     public TalonFX shooterMotorLeftLeader = new TalonFX(13);
     public TalonFX shooterMotorRightFollower = new TalonFX(14);
-    public TalonFX shooterMotorThirdFollower = new TalonFX(15);
+    public TalonFX shooterMotorThirdFollower = new TalonFX(16);
     public SparkMax shooterHoodMotor = new SparkMax(15, MotorType.kBrushless);
 
     public PIDController shooterMotorController = new PIDController(1.5, 0.1, 0);

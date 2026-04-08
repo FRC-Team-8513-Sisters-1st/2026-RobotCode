@@ -9,6 +9,7 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -32,6 +33,8 @@ public class Intake {
     public boolean useManualIntakeControl = false;
     public double intakeFudgeFactor = 0;
     public double timeLeftStowedState;
+
+    public DutyCycleEncoder intakeAbosoluteEncoder = new DutyCycleEncoder(0);
 
     // in init function, set slot 0 gains
     public Slot0Configs slot0Configs = new Slot0Configs();
@@ -168,7 +171,8 @@ public class Intake {
     }
 
     public double adjustedEncoderPosition() {
-        double currentPosition = Robot.kicker.kickerSparkMax.getAbsoluteEncoder().getPosition();
+        //this needs to get tuned for new intake positions
+        double currentPosition = intakeAbosoluteEncoder.get();
         double adjustedPosition;
 
         if (currentPosition < 0.3) {
