@@ -75,9 +75,8 @@ public class Robot extends TimedRobot {
     // intake.intakeMotorRightFollower.getConfigurator().apply(configs);
 
     SparkMaxConfig config = new SparkMaxConfig();
-    config.smartCurrentLimit(40);
+    config.smartCurrentLimit(25);
 
-    kicker.kickerSparkMax.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     shooter.shooterHoodMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
   }

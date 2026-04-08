@@ -123,8 +123,8 @@ public class Dashboard {
                 SmartDashboard.putNumber("targetV", Robot.shooter.targetV);
 
                 // kicker
-                SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerSparkMax.getEncoder().getVelocity());
-                SmartDashboard.putNumber("kickerMotorCurrent", Robot.kicker.kickerSparkMax.getOutputCurrent());
+                SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getVelocity().getValueAsDouble());
+                SmartDashboard.putNumber("kickerMotorCurrent", Robot.kicker.kickerMotor.getSupplyCurrent().getValueAsDouble());
 
                 // hopper
                 SmartDashboard.putNumber("hopperMotorVelocityTop",

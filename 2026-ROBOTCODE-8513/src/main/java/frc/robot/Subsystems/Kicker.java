@@ -13,7 +13,6 @@ import frc.robot.Logic.Enums.KickerStates;
 public class Kicker {
 
     public KickerStates kickerState = KickerStates.stationary;
-    public SparkMax kickerSparkMax = new SparkMax(16, MotorType.kBrushless);
     public TalonFX kickerMotor = new TalonFX(17);
 
     public PIDController kickerMotorController = new PIDController(0.0001, 0, 0);
@@ -48,13 +47,5 @@ public class Kicker {
             // set motor to reverse
             kickerMotor.set(-1);
         }
-    }
-
-    public double getMotorPower() {
-        double currentVelocity = kickerSparkMax.getEncoder().getVelocity();
-        double targetVelocity = 5800;
-        double outputPower = kickerMotorController.calculate(currentVelocity, targetVelocity);
-        return outputPower + targetVelocity/6000;
-
     }
 }
