@@ -105,8 +105,8 @@ public class Settings {
             public static int lowerIntake = 5;
 
             //joystick 5 tuning joystick
-            public static int shooterManualIncreaseVelocity = 1; // CHANGE THESE WHEN TUNING
-            public static int shooterManualDecreaseVelocity = 2;
+            public static int shooterManualIncreaseVelocity = 2; // CHANGE THESE WHEN TUNING
+            public static int shooterManualDecreaseVelocity =1;
             public static int incHoodPos = 3;
             public static int decHoodPos = 4;
 
@@ -131,7 +131,7 @@ public class Settings {
         public static double shotDistanceFudgeDelta = 0.1; 
         public static double maxShooterVelocity = 47;
         public static double manualVelocityTuningFactor = 0.5;
-        public static double manualHoodPosTuningfactor = 0.05;
+        public static double manualHoodPosTuningfactor = 0.01;
         public static double lowestHoodPosition = 0.24;
         public static double lowestPositionIntakeCanComeBack = 0.89;
         public static double highestHoodPosition = 0.93;

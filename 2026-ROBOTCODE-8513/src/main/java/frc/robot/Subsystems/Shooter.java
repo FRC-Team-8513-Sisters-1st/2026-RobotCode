@@ -37,7 +37,7 @@ public class Shooter {
 
     public double distanceToScoreHub;
     public double goalShooterVelocity;
-    public boolean manualShooterTuning = false;
+    public boolean manualShooterTuning = true;
     public double manualTuningHoodPosition = Settings.ShooterSettings.highestHoodPosition;
     public boolean manualHoodTuning = manualShooterTuning;
     public double distanceBetweenCurrentAndGoalInMeters;
@@ -260,17 +260,17 @@ public class Shooter {
     public double manualTargetV = 25;
 
     public void manualShooterTuning() {
-        if (Robot.teleop.manualJoystick
+        if (Robot.teleop.tuningJoystick
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterManualIncreaseVelocity)) {
             manualTargetV = manualTargetV + Settings.ShooterSettings.manualVelocityTuningFactor;
-        } else if (Robot.teleop.manualJoystick
+        } else if (Robot.teleop.tuningJoystick
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterManualDecreaseVelocity)) {
             manualTargetV = manualTargetV - Settings.ShooterSettings.manualVelocityTuningFactor;
         }
 
-        if (Robot.teleop.manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.incHoodPos)) {
+        if (Robot.teleop.tuningJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.incHoodPos)) {
             Robot.shooter.manualTuningHoodPosition += Settings.ShooterSettings.manualHoodPosTuningfactor;
-        } else if (Robot.teleop.manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decHoodPos)) {
+        } else if (Robot.teleop.tuningJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decHoodPos)) {
             Robot.shooter.manualTuningHoodPosition -= Settings.ShooterSettings.manualHoodPosTuningfactor;
 
         }

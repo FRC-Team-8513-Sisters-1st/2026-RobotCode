@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -193,14 +194,19 @@ public class Drivebase {
         if (Robot.onRed) {
             // red hub location
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint);
-            angleToHub = yagslDrive.getPose().minus(goalAimPose)
+            Pose2d currPose2d = yagslDrive.getPose();
+            Transform2d robotToShooterTransform2d = new Transform2d(0, Units.inchesToMeters(2.25), new Rotation2d(0));
+            Pose2d shooterPose = currPose2d.plus(robotToShooterTransform2d);
+            angleToHub = shooterPose.minus(goalAimPose)
                     .getTranslation().rotateBy(new Rotation2d()).getAngle();
         } else {
             // blue hub location
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
-            angleToHub = yagslDrive.getPose().minus(goalAimPose)
-                    .getTranslation().getAngle()
-                    .plus(new Rotation2d());
+            Pose2d currPose2d = yagslDrive.getPose();
+            Transform2d robotToShooterTransform2d = new Transform2d(0, Units.inchesToMeters(2.25), new Rotation2d(0));
+            Pose2d shooterPose = currPose2d.plus(robotToShooterTransform2d);
+            angleToHub = shooterPose.minus(goalAimPose)
+                    .getTranslation().rotateBy(new Rotation2d()).getAngle();
         }
         goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
         Robot.dashboard.scoreHubField2d.setRobotPose(goalAimPose.getX(), goalAimPose.getY(),
@@ -211,28 +217,8 @@ public class Drivebase {
         return dvr;
     }
 
-    public double updateGoalHeadingToFaceHub() {
-        Rotation2d angleToHub;
-
-        if (Robot.onRed) {
-            // red hub location
-            goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint);
-            angleToHub = yagslDrive.getPose().minus(goalAimPose)
-                    .getTranslation().rotateBy(new Rotation2d()).getAngle();
-        } else {
-            // blue hub location
-            goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
-            angleToHub = yagslDrive.getPose().minus(goalAimPose)
-                    .getTranslation().getAngle()
-                    .plus(new Rotation2d());
-        }
-        goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
-        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
-
-        return dvr;
-    }
-
     public double getPowerToFacePose(Pose2d goalPose) {
+        //we use this to shuttle, we dont care (we think) about the offset when shuttleing
         Rotation2d angleToHub;
 
         if (Robot.onRed) {
