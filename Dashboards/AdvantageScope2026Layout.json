@@ -24,13 +24,11 @@
             "/SmartDashboard/Field",
             "/SmartDashboard/IMU",
             "/SmartDashboard/IMU/infos",
-            "/SmartDashboard/swerve",
-            "/SmartDashboard/trajGoalPose",
             "/SmartDashboard/trajGoalPose/traj"
           ]
         },
         "tabs": {
-          "selected": 3,
+          "selected": 6,
           "tabs": [
             {
               "type": 0,
@@ -229,6 +227,16 @@
                     "visible": true,
                     "options": {
                       "color": "#2b66a2",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/adjusted intake pos",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#80588e",
                       "size": "normal"
                     }
                   }
