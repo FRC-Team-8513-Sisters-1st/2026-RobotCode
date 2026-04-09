@@ -253,6 +253,7 @@ public class Shooter {
 
         shooterMotorLeftLeader.getConfigurator().apply(configs);
         shooterMotorRightFollower.getConfigurator().apply(configs);
+        shooterMotorThirdFollower.getConfigurator().apply(configs);
 
     }
 
