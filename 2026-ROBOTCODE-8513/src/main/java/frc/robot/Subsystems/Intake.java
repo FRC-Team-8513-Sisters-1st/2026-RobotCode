@@ -129,7 +129,7 @@ public class Intake {
 
             beeftakeDeployController.setConstraints(Settings.IntakeSettings.shootingConstraints);
 
-            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.shootingPosition + 0.1));
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.maxIntakePositionToNotHitHood));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
