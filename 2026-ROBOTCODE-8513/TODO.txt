@@ -1,51 +1,30 @@
 NEW Get Robot for LEHIGH Schedule:
-    - set the id for the third shooter motor
-    - set the id for the kracken kicker motor (keep the sparkmax stuff though for the absolute encoder)
+
+    - check hood offsets and make sure no wraparound
+    - set the max intake deploy position that wont hit the hood
+    - check intake absolute encoder offsets (make intake aboslute encover run off rio) (set max intake shooting positon)
+    - make sure the intake doesn't stow when hood in the way
     - speed up the autos (less shoot time maybe?)
     - check out the new controls
     - tune the new TOF
     - check the new auto shooting/button stuff
 
-    - check intake absolute encoder offsets (make intake aboslute encover run off rio)
-    - check hood offsets and make sure no wraparound
-
-    - set the max intake deploy position that wont hit the hood
-    - make sure the intake doesn't stow when shooting 
-
-
 Elastic:
-    x fix the override blue/red win 
-    ? fix the errors in match time by using get match time (delay)
-    x all states
 
 Autos:
-    x move all autos toward bump
-    x make the shooter button always work
-    x time out for aligning to the hub
-    x make autos that go to the center first then out and around
+    - test them all (push speeds)
+    - time shooting full hopper and when to bring intake in
 
 Copilot:
-    x deploy the intake
-    x stow the intake
-    x go to stationary deployed
-    x intake backwards buttons
+    - test unjam and new buttons
 
 Driver:
-    x left bumper deploy, right brings it in
+    - test intake and buttons
 
 Manual control:
     - update the windows and cancel auto updates
-    x put the intake fudge factors (SET THE IDS)
-    x label joystick 4
-
-    
-
+    - tune shot hood position
 
 Driver Buttons: https://app.diagrams.net/#G1uRCCOzVmEvHkvo4EhlnghtRV6GGkDXbb#%7B%22pageId%22%3A%22d-_JnBqeQgVWwOmPlnWK%22%7D
 Co Pilot Buttons: https://app.diagrams.net/#G1qHkbT-RruBgJSgykm7fhuSLz0rcQ5_Ag#%7B%22pageId%22%3A%22cDo-9tD7ipAllacoT-Qq%22%7D
 Manual Buttons: https://drive.google.com/file/d/1ukn6wE2wagI7a8BWJb04coxWEV2F8x2a/view?usp=sharing 
-
-
-NOtes: 
-CHANGE SHOOTERMOTORLEFTINSIDE TO 16 AND SET CURRENT LIMITS
-kraken kicker motor 50

@@ -409,7 +409,7 @@ public class TeleopController {
         boolean copilotStationaryDeployIntakeButtonPressed = Robot.teleop.copilotJoystick1
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.copilotStopIntakeWheels);
         if (copilotStowIntakeButtonPressed) {
-
+            //this should check if hood is below some safe threshold 
             if (Robot.kicker.kickerState == KickerStates.shooting) {
                 Robot.intake.intakeState = IntakeStates.maxPositionWhenShooting;
             } else {
