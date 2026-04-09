@@ -129,6 +129,8 @@ public class Settings {
         public static double maxShooterVelocity = 47;
         public static double manualVelocityTuningFactor = 1;
         public static double manualHoodPosTuningfactor = 0.05;
+        public static double lowestHoodPosition = 0.2;
+
 
     }
 

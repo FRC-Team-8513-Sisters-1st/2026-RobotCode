@@ -125,6 +125,14 @@ public class Intake {
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
+        } else if (intakeState == IntakeStates.maxPositionWhenShooting) {
+
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.shootingConstraints);
+
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.shootingPosition + 0.1));
+
+            // intake wheels off
+            intakeMotorLeftLeader.set(0);
         }
 
         // TEMPORARY: manual joystick control for intake
@@ -181,6 +189,14 @@ public class Intake {
             adjustedPosition = currentPosition - 0.53;
         }
         return adjustedPosition;
+    }
+
+    public boolean intakeIsStowed() {
+        if (intakeDeployMotor.getPosition().getValueAsDouble() > Settings.IntakeSettings.shootingPosition + 0.1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

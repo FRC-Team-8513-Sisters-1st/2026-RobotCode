@@ -5,8 +5,13 @@ NEW Get Robot for LEHIGH Schedule:
     - check out the new controls
     - tune the new TOF
     - check the new auto shooting/button stuff
+
     - check intake absolute encoder offsets (make intake aboslute encover run off rio)
     - check hood offsets and make sure no wraparound
+
+    - set the max intake deploy position that wont hit the hood
+    - make sure the intake doesn't stow when shooting 
+
 
 Elastic:
     x fix the override blue/red win 
