@@ -148,10 +148,10 @@ public class Shooter {
     // returns the power to maintain that position
     public double hoodAnglePower(double targetPosition) {
         double currentPosition = shooterHoodMotor.getAbsoluteEncoder().getPosition();
-        if (targetPosition < 0.2) {
-            targetPosition = 0.2;
-        } else if (targetPosition > 0.88) {
-            targetPosition = 0.88;
+        if (targetPosition < 0.25) {
+            targetPosition = 0.25;
+        } else if (targetPosition > 0.93) {
+            targetPosition = 0.93;
         }
         double outputPower = shooterMotorController.calculate(currentPosition, targetPosition);
         return outputPower;

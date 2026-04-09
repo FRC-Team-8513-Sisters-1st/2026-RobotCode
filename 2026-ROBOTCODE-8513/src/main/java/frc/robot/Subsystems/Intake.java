@@ -183,10 +183,10 @@ public class Intake {
         double currentPosition = intakeAbosoluteEncoder.get();
         double adjustedPosition;
 
-        if (currentPosition < 0.3) {
-            adjustedPosition = currentPosition + 0.47;
+        if (currentPosition  > 0.2) {
+            adjustedPosition = currentPosition - 0.35;
         } else {
-            adjustedPosition = currentPosition - 0.53;
+            adjustedPosition = currentPosition + 1 - 0.35;
         }
         return adjustedPosition;
     }
