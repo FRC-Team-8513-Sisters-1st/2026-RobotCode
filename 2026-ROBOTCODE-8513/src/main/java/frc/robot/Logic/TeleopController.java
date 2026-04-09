@@ -20,6 +20,7 @@ public class TeleopController {
     public Joystick copilotJoystick1 = new Joystick(Settings.TeleopSettings.copilotJoystick1Port);
     public Joystick copilotJoystick2 = new Joystick(Settings.TeleopSettings.copilotJoystick2Port);
     public Joystick manualJoystick = new Joystick(Settings.TeleopSettings.manualJoystickPort);
+    public Joystick tuningJoystick = new Joystick(Settings.TeleopSettings.tuningJoystickPort);
 
     public PIDController rJoystickController = new PIDController(0.1, 0, 0);
     public PIDController bumpPidController = new PIDController(10, 0, 0);
@@ -524,13 +525,6 @@ public class TeleopController {
         } else if (Robot.shooter.shooterState == ShooterStates.shooting
                 && manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterToggle)) {
             Robot.shooter.shooterState = ShooterStates.stationary;
-        }
-
-        if (manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.incHoodPos)) {
-            Robot.shooter.manualTuningHoodPosition += Settings.ShooterSettings.manualHoodPosTuningfactor;
-        } else if (manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decHoodPos)) {
-            Robot.shooter.manualTuningHoodPosition -= Settings.ShooterSettings.manualHoodPosTuningfactor;
-
         }
 
         boolean gradualSpinUpPressed = manualJoystick

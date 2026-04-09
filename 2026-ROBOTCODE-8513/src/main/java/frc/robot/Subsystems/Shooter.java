@@ -38,7 +38,7 @@ public class Shooter {
     public double distanceToScoreHub;
     public double goalShooterVelocity;
     public boolean manualShooterTuning = false;
-    public double manualTuningHoodPosition = 0.2;
+    public double manualTuningHoodPosition = 0.25;
     public boolean manualHoodTuning = manualShooterTuning;
     public double distanceBetweenCurrentAndGoalInMeters;
 
@@ -267,6 +267,14 @@ public class Shooter {
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterManualDecreaseVelocity)) {
             manualTargetV = manualTargetV - Settings.ShooterSettings.manualVelocityTuningFactor;
         }
+
+        if (Robot.teleop.manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.incHoodPos)) {
+            Robot.shooter.manualTuningHoodPosition += Settings.ShooterSettings.manualHoodPosTuningfactor;
+        } else if (Robot.teleop.manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decHoodPos)) {
+            Robot.shooter.manualTuningHoodPosition -= Settings.ShooterSettings.manualHoodPosTuningfactor;
+
+        }
+
         shooterMotorLeftLeader
                 .setControl(m_request.withVelocity(-manualTargetV).withFeedForward(-RPStoVoltage(manualTargetV)));
     }

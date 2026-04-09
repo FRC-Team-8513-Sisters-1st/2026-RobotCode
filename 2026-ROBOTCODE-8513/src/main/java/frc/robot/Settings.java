@@ -42,6 +42,7 @@ public class Settings {
         public static int copilotJoystick1Port = 2;
         public static int copilotJoystick2Port = 3;
         public static int manualJoystickPort = 4;
+        public static int tuningJoystickPort = 5;
         public static double joystickDeadband = 0.02;
         public static double snakeModeJoystickDeadband = 0.35;
         public static double specialRotationJoystickDeadband = 0.90;
@@ -99,13 +100,15 @@ public class Settings {
             public static int kickerToggle = 1;
             public static int shooterToggle = 3;
             public static int resetIntake = 8;
-            public static int shooterManualIncreaseVelocity = 0; // CHANGE THESE WHEN TUNING
-            public static int shooterManualDecreaseVelocity = 0;
-            public static int incHoodPos = 0;
-            public static int decHoodPos = 0;
             public static int gradualShooterSpinUp = 0;
             public static int heightenIntake = 6;
             public static int lowerIntake = 5;
+
+            //joystick 5 tuning joystick
+            public static int shooterManualIncreaseVelocity = 1; // CHANGE THESE WHEN TUNING
+            public static int shooterManualDecreaseVelocity = 2;
+            public static int incHoodPos = 3;
+            public static int decHoodPos = 4;
 
 
         }
