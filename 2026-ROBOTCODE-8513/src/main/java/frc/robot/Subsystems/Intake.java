@@ -192,7 +192,7 @@ public class Intake {
     }
 
     public boolean intakeIsStowed() {
-        if (intakeDeployMotor.getPosition().getValueAsDouble() > Settings.IntakeSettings.shootingPosition + 0.1) {
+        if (adjustedEncoderPosition() > Settings.IntakeSettings.maxIntakePositionToNotHitHood) {
             return true;
         } else {
             return false;

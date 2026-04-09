@@ -1,9 +1,6 @@
 NEW Get Robot for LEHIGH Schedule:
-    - calubrate cameras
     
-    - update shooter to hub offset
-    
-
+    - update shooter to hub offset    
     - make sure the intake doesn't stow when hood in the way
     - speed up the autos (less shoot time maybe?)
     - check out the new controls

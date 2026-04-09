@@ -121,7 +121,7 @@ public class Shooter {
                 .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
 
         if (manualHoodTuning == false) {
-            if (Robot.intake.intakeIsStowed()) {
+            if (Robot.intake.intakeIsStowed() || shooterState == ShooterStates.stationary) {
                 shooterHoodMotor
                         .set(-hoodAnglePower(Settings.ShooterSettings.lowestHoodPosition));
             } else {

@@ -133,8 +133,8 @@ public class Settings {
         public static double manualVelocityTuningFactor = 0.5;
         public static double manualHoodPosTuningfactor = 0.05;
         public static double lowestHoodPosition = 0.24;
-        public static double lowestPositionIntakeCanComeBack = 0.85;
-        public static double highestHoodPosition = 0.91;
+        public static double lowestPositionIntakeCanComeBack = 0.89;
+        public static double highestHoodPosition = 0.93;
 
 
 
