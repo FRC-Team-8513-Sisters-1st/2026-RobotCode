@@ -38,7 +38,7 @@ public class Shooter {
     public double distanceToScoreHub;
     public double goalShooterVelocity;
     public boolean manualShooterTuning = false;
-    public double manualTuningHoodPosition = 0.25;
+    public double manualTuningHoodPosition = Settings.ShooterSettings.highestHoodPosition;
     public boolean manualHoodTuning = manualShooterTuning;
     public double distanceBetweenCurrentAndGoalInMeters;
 
@@ -148,10 +148,10 @@ public class Shooter {
     // returns the power to maintain that position
     public double hoodAnglePower(double targetPosition) {
         double currentPosition = shooterHoodMotor.getAbsoluteEncoder().getPosition();
-        if (targetPosition < 0.25) {
-            targetPosition = 0.25;
-        } else if (targetPosition > 0.93) {
-            targetPosition = 0.93;
+        if (targetPosition < Settings.ShooterSettings.lowestHoodPosition) {
+            targetPosition = Settings.ShooterSettings.lowestHoodPosition;
+        } else if (targetPosition > Settings.ShooterSettings.highestHoodPosition) {
+            targetPosition = Settings.ShooterSettings.highestHoodPosition;
         }
         double outputPower = shooterMotorController.calculate(currentPosition, targetPosition);
         return outputPower;
