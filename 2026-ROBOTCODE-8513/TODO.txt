@@ -1,5 +1,6 @@
 NEW Get Robot for LEHIGH Schedule:
-
+    - update camera poses
+    - update shooter to hub offset
     - check hood offsets and make sure no wraparound
     - set the max intake deploy position that wont hit the hood
     - check intake absolute encoder offsets (make intake aboslute encover run off rio) (set max intake shooting positon)
