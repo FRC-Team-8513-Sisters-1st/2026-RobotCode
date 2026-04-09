@@ -1,4 +1,5 @@
 NEW Get Robot for LEHIGH Schedule:
+    - calubrate cameras
     - update camera poses
     - update shooter to hub offset
     - check hood offsets and make sure no wraparound
