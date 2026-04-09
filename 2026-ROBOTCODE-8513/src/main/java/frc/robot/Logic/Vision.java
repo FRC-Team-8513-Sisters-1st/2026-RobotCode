@@ -42,20 +42,20 @@ public class Vision {
         public double visionMaxATDist = Settings.VisionSettings.maxATDistDisabeled;
 
         Transform3d rightShooterCamTranslation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-10.015), Units.inchesToMeters(-10.687),
-                                        Units.inchesToMeters(24.591)),
+                        new Translation3d(Units.inchesToMeters(-11.027), Units.inchesToMeters(-12.791),
+                                        Units.inchesToMeters(11.324)),
                         new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180)));
         Transform3d leftShooterCamTranslation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-11.046), Units.inchesToMeters(11.318),
-                                        Units.inchesToMeters(21.247)),
+                        new Translation3d(Units.inchesToMeters(-11.292), Units.inchesToMeters(11.83),
+                                        Units.inchesToMeters(11.865)),
                         new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180)));
         Transform3d leftCamTranlation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-10.444), Units.inchesToMeters(11.318),
-                                        Units.inchesToMeters(21.247)),
+                        new Translation3d(Units.inchesToMeters(-11.119), Units.inchesToMeters(-11.656),
+                                        Units.inchesToMeters(15.714)),
                         new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(90)));
         Transform3d rightCamTranslation = new Transform3d(
-                        new Translation3d(Units.inchesToMeters(-11.046), Units.inchesToMeters(-11.447),
-                                        Units.inchesToMeters(15.878)),
+                        new Translation3d(Units.inchesToMeters(-10.396), Units.inchesToMeters(-14.082),
+                                        Units.inchesToMeters(8.324)),
                         new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(-90)));
 
         PhotonPoseEstimator rightShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
