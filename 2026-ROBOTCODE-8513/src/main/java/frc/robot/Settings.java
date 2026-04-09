@@ -119,8 +119,8 @@ public class Settings {
         public static double stowPosition = 0.58;
         public static double deployPosition = 0;
         public static double intakeFudgeFactor = 0.02;
-        public static double shootingPosition = 0.35;
-        public static double maxIntakePositionToNotHitHood = 0.4;
+        public static double shootingPosition = 0.33;
+        public static double maxIntakePositionToNotHitHood = 0.33;
         public static Constraints deployConstraints = new Constraints(1.75, 3.5);
         public static Constraints shootingConstraints = new Constraints(0.233, 3.5);
         public static double spinBackwardsThreshold = 0.05;
@@ -132,9 +132,9 @@ public class Settings {
         public static double maxShooterVelocity = 47;
         public static double manualVelocityTuningFactor = 0.5;
         public static double manualHoodPosTuningfactor = 0.05;
-        public static double lowestHoodPosition = 0.25;
+        public static double lowestHoodPosition = 0.24;
         public static double lowestPositionIntakeCanComeBack = 0.85;
-        public static double highestHoodPosition = 0.93;
+        public static double highestHoodPosition = 0.91;
 
 
 

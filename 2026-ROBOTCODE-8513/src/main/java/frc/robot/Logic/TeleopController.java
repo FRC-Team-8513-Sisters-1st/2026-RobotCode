@@ -335,7 +335,7 @@ public class TeleopController {
         }
         if (stowIntakeButtonPressed) {
             //this should check if hood is below some safe threshold 
-            if (Robot.kicker.kickerState == KickerStates.shooting) {
+            if (Robot.shooter.goalHoodPosition < Settings.ShooterSettings.lowestPositionIntakeCanComeBack) {
                 Robot.intake.intakeState = IntakeStates.maxPositionWhenShooting;
             } else {
                 Robot.intake.intakeState = IntakeStates.stowed;
