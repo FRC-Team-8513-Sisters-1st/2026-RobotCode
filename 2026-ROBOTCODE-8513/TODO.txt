@@ -9,6 +9,9 @@ NEW Get Robot for LEHIGH Schedule:
     - tune the new TOF
     - check the new auto shooting/button stuff
 
+Teleop: 
+    - code "intakeGoodToComeIn" method which checks hoos position to make sure its low enough
+
 Elastic:
 
 Autos:
