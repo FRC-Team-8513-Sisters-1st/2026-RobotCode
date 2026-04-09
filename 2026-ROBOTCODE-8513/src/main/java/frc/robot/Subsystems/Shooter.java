@@ -123,7 +123,7 @@ public class Shooter {
         if (manualHoodTuning == false) {
             if (Robot.intake.intakeIsStowed() || shooterState == ShooterStates.stationary) {
                 shooterHoodMotor
-                        .set(-hoodAnglePower(Settings.ShooterSettings.lowestHoodPosition));
+                        .set(-hoodAnglePower(Settings.ShooterSettings.highestHoodPosition));
             } else {
                 shooterHoodMotor
                         .set(-hoodAnglePower(
