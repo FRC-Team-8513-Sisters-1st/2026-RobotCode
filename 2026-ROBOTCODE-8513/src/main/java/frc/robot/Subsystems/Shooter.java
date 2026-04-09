@@ -66,8 +66,8 @@ public class Shooter {
 
         // interpolating
         distToHoodEncoderValuesTable.put(1.83, 0.35);
-        distToHoodEncoderValuesTable.put(2.54, 0.2);
-        distToHoodEncoderValuesTable.put(10.0, 0.2);
+        distToHoodEncoderValuesTable.put(2.54, 0.25);
+        distToHoodEncoderValuesTable.put(10.0, 0.25);
 
         distToshooterVelocityEncoderValuesTable.put(1.83, 36.0);
         distToshooterVelocityEncoderValuesTable.put(2.54, 39.0);
