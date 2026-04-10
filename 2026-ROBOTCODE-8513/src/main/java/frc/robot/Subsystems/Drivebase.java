@@ -195,7 +195,7 @@ public class Drivebase {
             // red hub location
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint);
             Pose2d currPose2d = yagslDrive.getPose();
-            Transform2d robotToShooterTransform2d = new Transform2d(0, Units.inchesToMeters(2.25), new Rotation2d(0));
+            Transform2d robotToShooterTransform2d = new Transform2d(0, Units.inchesToMeters(-2.25), new Rotation2d(0));
             Pose2d shooterPose = currPose2d.plus(robotToShooterTransform2d);
             angleToHub = shooterPose.minus(goalAimPose)
                     .getTranslation().rotateBy(new Rotation2d()).getAngle();
@@ -203,7 +203,7 @@ public class Drivebase {
             // blue hub location
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
             Pose2d currPose2d = yagslDrive.getPose();
-            Transform2d robotToShooterTransform2d = new Transform2d(0, Units.inchesToMeters(2.25), new Rotation2d(0));
+            Transform2d robotToShooterTransform2d = new Transform2d(0, Units.inchesToMeters(-2.25), new Rotation2d(0));
             Pose2d shooterPose = currPose2d.plus(robotToShooterTransform2d);
             angleToHub = shooterPose.minus(goalAimPose)
                     .getTranslation().rotateBy(new Rotation2d()).getAngle();

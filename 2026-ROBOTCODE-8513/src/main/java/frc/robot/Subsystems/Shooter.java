@@ -37,7 +37,7 @@ public class Shooter {
 
     public double distanceToScoreHub;
     public double goalShooterVelocity;
-    public boolean manualShooterTuning = true;
+    public boolean manualShooterTuning = false;
     public double manualTuningHoodPosition = Settings.ShooterSettings.highestHoodPosition;
     public boolean manualHoodTuning = manualShooterTuning;
     public double distanceBetweenCurrentAndGoalInMeters;
@@ -65,15 +65,17 @@ public class Shooter {
         slot0Configs.kD = 0; // no output for error derivative
 
         // interpolating
-        distToHoodEncoderValuesTable.put(1.83, 0.35);
-        distToHoodEncoderValuesTable.put(2.54, 0.25);
-        distToHoodEncoderValuesTable.put(10.0, 0.25);
+        distToHoodEncoderValuesTable.put(1.51, 0.93);
+        distToHoodEncoderValuesTable.put(1.76, 0.93);
+        distToHoodEncoderValuesTable.put(2.17, 0.78);
+        distToHoodEncoderValuesTable.put(2.87, 0.68);
+        distToHoodEncoderValuesTable.put(3.56, 0.61);
 
-        distToshooterVelocityEncoderValuesTable.put(1.83, 36.0);
-        distToshooterVelocityEncoderValuesTable.put(2.54, 39.0);
-        distToshooterVelocityEncoderValuesTable.put(3.52, 44.0);
-        distToshooterVelocityEncoderValuesTable.put(4.07, 47.0);
-        distToshooterVelocityEncoderValuesTable.put(10.0, 58.0);
+        distToshooterVelocityEncoderValuesTable.put(1.51, 36.0);
+        distToshooterVelocityEncoderValuesTable.put(1.76, 37.5);
+        distToshooterVelocityEncoderValuesTable.put(2.17, 37.5);
+        distToshooterVelocityEncoderValuesTable.put(2.87, 40.0);
+        distToshooterVelocityEncoderValuesTable.put(3.56, 42.5);
 
         distToTimeOfFlightValuesTable.put(2.15, 0.78);
         distToTimeOfFlightValuesTable.put(2.49, 0.9);
