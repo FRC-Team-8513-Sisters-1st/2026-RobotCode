@@ -101,7 +101,7 @@ public class Shooter {
         targetV = -getInterpolatedShooterVelocity();
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
-            setCurrentLimits(120, distanceBetweenCurrentAndGoalInMeters);
+            setCurrentLimits(120, 80);
             if (manualShooterTuning == false) {
                 shooterMotorLeftLeader
                         .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
@@ -111,7 +111,7 @@ public class Shooter {
             }
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true) {
-            if (Robot.teleop.copilotJoystick2.getRawButton(10) & Robot.teleop.copilotJoystick2.getRawButton(11)) {
+            if (Robot.teleop.copilotJoystick2.getRawButton(Settings.TeleopSettings.ButtonIDs.nuetralZoneButton1) && Robot.teleop.copilotJoystick2.getRawButton(Settings.TeleopSettings.ButtonIDs.nuetralZoneButton1)) {
                 setCurrentLimits(100, 20);
                 shooterMotorLeftLeader.setControl(m_request.withVelocity(-35).withFeedForward(RPStoVoltage(-35)));
             } else {
