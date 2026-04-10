@@ -527,11 +527,6 @@ public class TeleopController {
             Robot.shooter.shooterState = ShooterStates.stationary;
         }
 
-        boolean gradualSpinUpPressed = manualJoystick
-                .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.gradualShooterSpinUp);
-        if (gradualSpinUpPressed) {
-            Robot.shooter.gradualSpinUp();
-            timeGradualWasPressed = Timer.getFPGATimestamp();
-        }
+       
     }
 }

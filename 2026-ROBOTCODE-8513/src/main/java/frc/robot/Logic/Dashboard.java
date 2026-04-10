@@ -140,6 +140,9 @@ public class Dashboard {
                                 Robot.hopper.indexerMotorBottom.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("hopperMotorCurrentBottom",
 
+                                Robot.hopper.indexerMotorBottom.getSupplyCurrent().getValueAsDouble());
+                        SmartDashboard.putNumber("hopperMotorCurrentTop",
+
                                 Robot.hopper.indexerMotorTop.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("Goal hood position", Robot.shooter.goalHoodPosition);
 
