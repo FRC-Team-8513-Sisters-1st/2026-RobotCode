@@ -26,8 +26,8 @@ public class Settings {
             public static final double kD = 0.0;
         }
         public static class FaceGoalPIDConstants {
-            public static final double kP = 0.15;
-            public static final double kI = 0.01;
+            public static final double kP = 0.175;
+            public static final double kI = 0.0125;
             public static final double kD = 0.0;
         }
     }

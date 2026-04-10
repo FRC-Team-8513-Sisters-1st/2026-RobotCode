@@ -1,10 +1,8 @@
 NEW Get Robot for LEHIGH Schedule:
-    
     - make sure the intake doesn't stow when hood in the way - actually try to force this when shooting
     - speed up the autos (less shoot time maybe?)
-    - check out the new controls (they work, just get comfortable)
-    - tune the new TOF
-    - get riley a spinup button
+   
+    - Investigate spinup button 
 
 Teleop: 
 
@@ -15,7 +13,6 @@ Autos:
     - time shooting full hopper and when to bring intake in
 
 Copilot:
-    - test unjam and new buttons
     - remove ability to shuttle into neutral zone
 
 Driver:
@@ -23,7 +20,8 @@ Driver:
 
 Manual control:
     - update the windows and cancel auto updates
-    - tune shot hood position
+    - tune shot hood positions for real
+        - tune the new TOF
 
 Driver Buttons: https://app.diagrams.net/#G1uRCCOzVmEvHkvo4EhlnghtRV6GGkDXbb#%7B%22pageId%22%3A%22d-_JnBqeQgVWwOmPlnWK%22%7D
 Co Pilot Buttons: https://app.diagrams.net/#G1qHkbT-RruBgJSgykm7fhuSLz0rcQ5_Ag#%7B%22pageId%22%3A%22cDo-9tD7ipAllacoT-Qq%22%7D
