@@ -101,8 +101,8 @@ public class Settings {
             public static int shooterToggle = 3;
             public static int resetIntake = 8;
             public static int gradualShooterSpinUp = 0;
-            public static int heightenIntake = 6;
-            public static int lowerIntake = 5;
+            public static int heightenIntake = 5;
+            public static int lowerIntake = 6;
 
             //joystick 5 tuning joystick
             public static int shooterManualIncreaseVelocity = 2; // CHANGE THESE WHEN TUNING

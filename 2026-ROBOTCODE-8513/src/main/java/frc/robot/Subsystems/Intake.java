@@ -109,13 +109,18 @@ public class Intake {
                     .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
 
         } else if (intakeState == IntakeStates.stationaryDeployed) {
+            if (Robot.teleop.copilotJoystick1.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeBackward)) {
+                intakeMotorLeftLeader
+                        .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
+            } else {
+                intakeMotorLeftLeader.set(0);
 
+            }// intake wheels off
             beeftakeDeployController.setConstraints(Settings.IntakeSettings.deployConstraints);
             // deploy intake
             intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
-            // intake wheels off
-            intakeMotorLeftLeader.set(0);
+            
 
         } else if (intakeState == IntakeStates.shooting) {
 

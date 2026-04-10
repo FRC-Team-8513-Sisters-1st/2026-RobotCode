@@ -16,6 +16,7 @@ Autos:
 
 Copilot:
     - test unjam and new buttons
+    - remove ability to shuttle into neutral zone
 
 Driver:
     - test intake and buttons
