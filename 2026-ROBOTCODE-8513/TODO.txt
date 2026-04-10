@@ -1,14 +1,12 @@
 NEW Get Robot for LEHIGH Schedule:
     
-    - update shooter to hub offset    
-    - make sure the intake doesn't stow when hood in the way
+    - make sure the intake doesn't stow when hood in the way - actually try to force this when shooting
     - speed up the autos (less shoot time maybe?)
-    - check out the new controls
+    - check out the new controls (they work, just get comfortable)
     - tune the new TOF
-    - check the new auto shooting/button stuff
+    - get riley a spinup button
 
 Teleop: 
-    - code "intakeGoodToComeIn" method which checks hoos position to make sure its low enough
 
 Elastic:
 
