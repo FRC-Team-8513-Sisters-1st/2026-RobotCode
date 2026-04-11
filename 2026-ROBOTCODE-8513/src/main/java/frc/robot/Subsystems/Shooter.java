@@ -114,7 +114,7 @@ public class Shooter {
         targetV = -getInterpolatedShooterVelocity();
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
-            setCurrentLimits(120, 66);
+            setCurrentLimits(100, 60);
             if (manualShooterTuning == false) {
                 shooterMotorLeftLeader
                         .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
