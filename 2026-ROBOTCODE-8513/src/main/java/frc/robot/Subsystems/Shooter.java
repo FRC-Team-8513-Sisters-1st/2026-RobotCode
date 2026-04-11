@@ -83,14 +83,14 @@ public class Shooter {
         distToshooterVelocityEncoderValuesTable.put(2.57, 39.0);
         distToshooterVelocityEncoderValuesTable.put(2.90, 41.0);
         distToshooterVelocityEncoderValuesTable.put(3.48, 43.50);
-        distToshooterVelocityEncoderValuesTable.put(3.95, 46.00);
-        distToshooterVelocityEncoderValuesTable.put(4.74, 48.0);
+        distToshooterVelocityEncoderValuesTable.put(3.95, 44.75);
+        distToshooterVelocityEncoderValuesTable.put(4.74, 46.75);
         
         distToshooterVelocityEncoderValuesTable.put(5.0, 51.0);
         distToshooterVelocityEncoderValuesTable.put(9.0, 56.0);
         
 
-        distToTimeOfFlightValuesTable.put(2.15, 0.78);
+        distToTimeOfFlightValuesTable.put(2.05, 0.78);
         distToTimeOfFlightValuesTable.put(2.49, 0.9);
         distToTimeOfFlightValuesTable.put(3.52, 1.13);
         distToTimeOfFlightValuesTable.put(3.94, 1.21);
@@ -114,7 +114,7 @@ public class Shooter {
         targetV = -getInterpolatedShooterVelocity();
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
-            setCurrentLimits(100, 60);
+            setCurrentLimits(110, 65);
             if (manualShooterTuning == false) {
                 shooterMotorLeftLeader
                         .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));

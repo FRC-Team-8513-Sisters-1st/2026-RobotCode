@@ -489,9 +489,9 @@ public class TeleopController {
         } else if (blueOutpostTrenchButtonPressed) {
             copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.blueOutpostTrench;
         } else if (nuetralZoneButtonPressed1) {
-            copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone1;
+            //copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone1;
         } else if (nuetralZoneButtonPressed2) {
-            copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone2;
+            //copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone2;
         }
 
         // MANUAL Controller
