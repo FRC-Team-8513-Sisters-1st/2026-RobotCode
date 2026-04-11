@@ -1934,14 +1934,13 @@ public class AutoController {
 
                         Robot.hopper.hopperState = HopperStates.indexing;
                         Robot.kicker.kickerState = KickerStates.shooting;
-                        Robot.intake.intakeState = IntakeStates.shooting;
 
                         // old intake shooting timing
-                        // if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2.5) {
-                        //     Robot.intake.intakeState = IntakeStates.shooting;
-                        // } else {
-                        //     Robot.intake.intakeState = IntakeStates.stationaryDeployed;
-                        // }
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime()- Settings.AutoSettings.autoIntakeBringInDelay) {
+                            Robot.intake.intakeState = IntakeStates.shooting;
+                     } else {
+                            Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                         }
 
                         if ((Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime())) {
                             Robot.drivebase.initPath("Outpost_OneCycle_Reset", false);
@@ -1997,14 +1996,13 @@ public class AutoController {
 
                         Robot.hopper.hopperState = HopperStates.indexing;
                         Robot.kicker.kickerState = KickerStates.shooting;
-                        Robot.intake.intakeState = IntakeStates.shooting;
 
                         // old intake shooting timing
-                        // if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - 2.5) {
-                        //     Robot.intake.intakeState = IntakeStates.shooting;
-                        // } else {
-                        //     Robot.intake.intakeState = IntakeStates.stationaryDeployed;
-                        // }
+                         if (Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime() - Settings.AutoSettings.autoIntakeBringInDelay) {
+                            Robot.intake.intakeState = IntakeStates.shooting;
+                         } else {
+                             Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                         }
 
 
                         if ((Timer.getFPGATimestamp() - timeStepStarted >= getShootingTime())) {
@@ -2074,9 +2072,9 @@ public class AutoController {
 
     public double getShootingTime() {
         if (dashboardAutoRoutine1.name().toString().contains("Full")) {
-            return 5;
-        } else {
             return 4.5;
+        } else {
+            return 4;
         }
     }
 

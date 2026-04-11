@@ -121,8 +121,8 @@ public class Settings {
         public static double intakeFudgeFactor = 0.02;
         public static double shootingPosition = 0.33;
         public static double maxIntakePositionToNotHitHood = 0.33;
-        public static Constraints deployConstraints = new Constraints(1.75, 3.5);
-        public static Constraints shootingConstraints = new Constraints(0.233, 3.5);
+        public static Constraints deployConstraints = new Constraints(1.75, 3.0);
+        public static Constraints shootingConstraints = new Constraints(1.75, 3.0);
         public static double spinBackwardsThreshold = 0.05;
     }
 
@@ -202,7 +202,7 @@ public class Settings {
             public static double autoDetectedBumpPitchCount = 6;
             public static double detectedFlatTHold = 5;
         }
-        
+        public static double autoIntakeBringInDelay = 3.25;
         public static double autoIValue = 0.0275;
     }
 

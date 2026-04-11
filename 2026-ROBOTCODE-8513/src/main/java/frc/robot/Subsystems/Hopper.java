@@ -32,7 +32,7 @@ public class Hopper {
             SmartDashboard.putBoolean("broken THold ", brokenIndexerTHold);
 
             // set motor to shoot
-            if (indexerMotorTop.getVelocity().getValueAsDouble() > 30) {
+            if (indexerMotorTop.getVelocity().getValueAsDouble() > 10) {
                 brokenTHoldCounter++;
             } else {
                 brokenTHoldCounter = 0;
