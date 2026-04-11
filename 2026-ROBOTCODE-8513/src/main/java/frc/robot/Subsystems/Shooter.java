@@ -65,17 +65,26 @@ public class Shooter {
         slot0Configs.kD = 0; // no output for error derivative
 
         // interpolating
-        distToHoodEncoderValuesTable.put(1.51, 0.93);
-        distToHoodEncoderValuesTable.put(1.76, 0.93);
-        distToHoodEncoderValuesTable.put(2.17, 0.78);
-        distToHoodEncoderValuesTable.put(2.87, 0.68);
-        distToHoodEncoderValuesTable.put(3.56, 0.61);
+        //dist,hood
+        distToHoodEncoderValuesTable.put(1.55, 0.90);
+        distToHoodEncoderValuesTable.put(2.06, 0.85);
+        distToHoodEncoderValuesTable.put(2.57, 0.79);
+        distToHoodEncoderValuesTable.put(2.90, 0.71);
+        distToHoodEncoderValuesTable.put(3.48, 0.69);
+        distToHoodEncoderValuesTable.put(3.95, 0.60);
+        distToHoodEncoderValuesTable.put(4.74, 0.56);
+        distToHoodEncoderValuesTable.put(9.00, 0.25);
 
-        distToshooterVelocityEncoderValuesTable.put(1.51, 36.0);
-        distToshooterVelocityEncoderValuesTable.put(1.76, 37.5);
-        distToshooterVelocityEncoderValuesTable.put(2.17, 37.5);
-        distToshooterVelocityEncoderValuesTable.put(2.87, 40.0);
-        distToshooterVelocityEncoderValuesTable.put(3.56, 42.5);
+        //dist.veloc
+        distToshooterVelocityEncoderValuesTable.put(1.55, 36.00);
+        distToshooterVelocityEncoderValuesTable.put(2.06, 38.00);
+        distToshooterVelocityEncoderValuesTable.put(2.57, 39.50);
+        distToshooterVelocityEncoderValuesTable.put(2.90, 41.5);
+        distToshooterVelocityEncoderValuesTable.put(3.48, 43.50);
+        distToshooterVelocityEncoderValuesTable.put(3.95, 46.00);
+        distToshooterVelocityEncoderValuesTable.put(4.74, 48.0);
+        distToshooterVelocityEncoderValuesTable.put(9.0, 54.0);
+        
 
         distToTimeOfFlightValuesTable.put(2.15, 0.78);
         distToTimeOfFlightValuesTable.put(2.49, 0.9);
