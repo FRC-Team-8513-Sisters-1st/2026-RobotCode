@@ -1845,7 +1845,6 @@ public class AutoController {
                             // path is over
                             timeStepStarted = Timer.getFPGATimestamp();
                             autoStep = 10;
-                            break;
                         case 10:
                             if (Robot.onRed) {
                                 Robot.drivebase.driveFacingHeading(new Translation2d(-2, 0), new Rotation2d(Math.PI),

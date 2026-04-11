@@ -40,10 +40,12 @@ public class Dashboard {
                 updateTCPConnectionFromDashboard();
 
                 AllianceSelector = new SendableChooser<>();
-                AllianceSelector.setDefaultOption(frc.robot.Logic.Enums.AllianceSelector.values()[0].toString(), frc.robot.Logic.Enums.AllianceSelector.values()[0].toString());
+                AllianceSelector.setDefaultOption(frc.robot.Logic.Enums.AllianceSelector.values()[0].toString(),
+                                frc.robot.Logic.Enums.AllianceSelector.values()[0].toString());
                 for (int i = 1; i < frc.robot.Logic.Enums.AllianceSelector.values().length; i++) {
                         if (frc.robot.Logic.Enums.AllianceSelector.values()[i].toString().charAt(0) != '~') {
-                                AllianceSelector.addOption(frc.robot.Logic.Enums.AllianceSelector.values()[i].toString(),
+                                AllianceSelector.addOption(
+                                                frc.robot.Logic.Enums.AllianceSelector.values()[i].toString(),
                                                 frc.robot.Logic.Enums.AllianceSelector.values()[i].toString());
                         }
 
@@ -102,18 +104,17 @@ public class Dashboard {
 
                 SmartDashboard.putBoolean("Intake is Stowed", Robot.intake.intakeIsStowed());
 
-                SmartDashboard.putNumber("beeftakeDeployControllerConstraints", Robot.intake.beeftakeDeployController.getConstraints().maxVelocity);
-
+                SmartDashboard.putNumber("beeftakeDeployControllerConstraints",
+                                Robot.intake.beeftakeDeployController.getConstraints().maxVelocity);
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",
                                 Robot.shooter.shooterMotorLeftLeader.getVelocity().getValueAsDouble());
-                SmartDashboard.putNumber("shooterMotorLeftCurrent",
-                                Robot.shooter.shooterMotorLeftLeader.getStatorCurrent().getValueAsDouble());
-                                SmartDashboard.putNumber("shooterMotorOutsideLeftVelocity",
+                
+                SmartDashboard.putNumber("shooterMotorOutsideLeftVelocity",
                                 Robot.shooter.shooterMotorThirdFollower.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("shooterMotorOutsideLeftCurrent",
-                                Robot.shooter.shooterMotorThirdFollower.getStatorCurrent().getValueAsDouble());
+                                Robot.shooter.shooterMotorThirdFollower.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("shooterMotorRightVelocity",
                                 Robot.shooter.shooterMotorRightFollower.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("shooterHoodMotorPosition",
@@ -130,8 +131,10 @@ public class Dashboard {
                 SmartDashboard.putNumber("targetV", Robot.shooter.targetV);
 
                 // kicker
-                SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getVelocity().getValueAsDouble());
-                SmartDashboard.putNumber("kickerMotorCurrent", Robot.kicker.kickerMotor.getSupplyCurrent().getValueAsDouble());
+                SmartDashboard.putNumber("kickerMotorVelocity",
+                                Robot.kicker.kickerMotor.getVelocity().getValueAsDouble());
+                SmartDashboard.putNumber("kickerMotorCurrent",
+                                Robot.kicker.kickerMotor.getSupplyCurrent().getValueAsDouble());
 
                 // hopper
                 SmartDashboard.putNumber("hopperMotorVelocityTop",
@@ -141,7 +144,7 @@ public class Dashboard {
                 SmartDashboard.putNumber("hopperMotorCurrentBottom",
 
                                 Robot.hopper.indexerMotorBottom.getSupplyCurrent().getValueAsDouble());
-                        SmartDashboard.putNumber("hopperMotorCurrentTop",
+                SmartDashboard.putNumber("hopperMotorCurrentTop",
 
                                 Robot.hopper.indexerMotorTop.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("Goal hood position", Robot.shooter.goalHoodPosition);
@@ -280,7 +283,8 @@ public class Dashboard {
 
         public void updateAllianceFromDashboard() {
                 try {
-                        allianceSelected = frc.robot.Logic.Enums.AllianceSelector.valueOf(AllianceSelector.getSelected());
+                        allianceSelected = frc.robot.Logic.Enums.AllianceSelector
+                                        .valueOf(AllianceSelector.getSelected());
                 } catch (Exception e) {
                         allianceSelected = frc.robot.Logic.Enums.AllianceSelector.redAlliance;
                 }

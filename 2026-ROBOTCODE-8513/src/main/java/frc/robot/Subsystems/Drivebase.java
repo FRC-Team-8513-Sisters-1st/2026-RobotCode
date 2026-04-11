@@ -116,7 +116,7 @@ public class Drivebase {
 
         try {
             traj = path.getIdealTrajectory(RobotConfig.fromGUISettings()).get();
-            if (Robot.isSimulation()) {
+            if (Robot.isSimulation() || true) {
                 Robot.dashboard.trajField2d.getObject("traj").setTrajectory(ppTrajToWPITraj(traj));
             }
         } catch (Exception e) {
