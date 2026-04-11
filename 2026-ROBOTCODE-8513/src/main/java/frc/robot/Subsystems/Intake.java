@@ -61,7 +61,7 @@ public class Intake {
 
     public void setMotorPower() {
 
-        double targetV = 90;
+        double targetV = 100;
         SmartDashboard.putNumber("ShooterV", intakeMotorRightFollower.getVelocity().getValueAsDouble());
 
         if (intakeState == IntakeStates.intaking) {
