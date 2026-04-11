@@ -37,7 +37,7 @@ public class Shooter {
 
     public double distanceToScoreHub;
     public double goalShooterVelocity;
-    public boolean manualShooterTuning = true;
+    public boolean manualShooterTuning = false;
     public double manualTuningHoodPosition = Settings.ShooterSettings.highestHoodPosition;
     public boolean manualHoodTuning = manualShooterTuning;
     public double distanceBetweenCurrentAndGoalInMeters;
@@ -73,6 +73,8 @@ public class Shooter {
         distToHoodEncoderValuesTable.put(3.48, 0.69);
         distToHoodEncoderValuesTable.put(3.95, 0.60);
         distToHoodEncoderValuesTable.put(4.74, 0.56);
+        
+        distToHoodEncoderValuesTable.put(5.00, 0.5);
         distToHoodEncoderValuesTable.put(9.00, 0.25);
 
         //dist.veloc
@@ -83,6 +85,8 @@ public class Shooter {
         distToshooterVelocityEncoderValuesTable.put(3.48, 43.50);
         distToshooterVelocityEncoderValuesTable.put(3.95, 46.00);
         distToshooterVelocityEncoderValuesTable.put(4.74, 48.0);
+        
+        distToshooterVelocityEncoderValuesTable.put(5.0, 50.0);
         distToshooterVelocityEncoderValuesTable.put(9.0, 54.0);
         
 
