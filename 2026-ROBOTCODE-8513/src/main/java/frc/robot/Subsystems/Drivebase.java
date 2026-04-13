@@ -1,12 +1,18 @@
 package frc.robot.Subsystems;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -23,13 +29,18 @@ import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 public class Drivebase {
     public SwerveDrive yagslDrive;
     public Rotation2d goalHeading = new Rotation2d();
-    public PIDController rotationPidController = new PIDController(
+    public ProfiledPIDController rotationPidController = new ProfiledPIDController(
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kP,
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kI,
-            frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kD);
+            frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kD, new Constraints(270, 500));
+    public ProfiledPIDController faceGoalPidController = new ProfiledPIDController(
+            frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kP,
+            frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kI,
+            frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kD, new Constraints(270, 500));
+
 
     // path following variables
-    PathPlannerTrajectory traj;
+    public PathPlannerTrajectory traj;
     public boolean loadedPathHasStarted = false;
     PathPlannerPath path;
     public String pathName = "";
@@ -66,6 +77,7 @@ public class Drivebase {
         double angleError = Robot.drivebase.yagslDrive.getOdometryHeading().minus(heading).getDegrees();
         double rotationCorrection = rotationPidController.calculate(angleError, 0);
         goalHeading = heading;
+
         Robot.drivebase.yagslDrive.drive(translation2d,
                 rotationCorrection,
                 fR,
@@ -83,7 +95,7 @@ public class Drivebase {
                 false);
     }
 
-    public void initPath(String pathNameIn) {
+    public void initPath(String pathNameIn, boolean mirrorPath) {
         pathName = pathNameIn;
 
         try {
@@ -98,8 +110,15 @@ public class Drivebase {
             path = path.flipPath();
         }
 
+        if (mirrorPath) {
+            path = path.mirrorPath();
+        }
+
         try {
             traj = path.getIdealTrajectory(RobotConfig.fromGUISettings()).get();
+            if (Robot.isSimulation() || true) {
+                Robot.dashboard.trajField2d.getObject("traj").setTrajectory(ppTrajToWPITraj(traj));
+            }
         } catch (Exception e) {
             System.out.println("Error in trajectory generation");
             e.printStackTrace();
@@ -111,6 +130,22 @@ public class Drivebase {
 
         loadedPathHasStarted = false;
 
+    }
+
+    //PP trajectories cant be put on dashboard so they need to get point by point converted to WPI trajectories
+    //so we can visualize them in AdvantageScope
+    public Trajectory ppTrajToWPITraj(PathPlannerTrajectory traj) {
+        List<PathPlannerTrajectoryState> stateList = traj.getStates();
+        List<Trajectory.State> wpiStateLists = new ArrayList<Trajectory.State>();
+        for (PathPlannerTrajectoryState state : stateList) {
+            Trajectory.State thisWPIState = new Trajectory.State(state.timeSeconds,
+                    state.linearVelocity,
+                    0,
+                    state.pose,
+                    0);
+            wpiStateLists.add(thisWPIState);
+        }
+        return new Trajectory(wpiStateLists);
     }
 
     public boolean followLoadedPath() {
@@ -133,6 +168,7 @@ public class Drivebase {
             double trajGoalY = pathGoalState.pose.getY();
             Rotation2d trajGoalHeading = pathGoalState.pose.getRotation();
             Robot.dashboard.trajField2d.setRobotPose(trajGoalX, trajGoalY, trajGoalHeading);
+            goalHeading = trajGoalHeading;
 
             correctionInXV = followPathXController.calculate(Robot.drivebase.yagslDrive.getPose().getX(),
                     trajGoalX);
@@ -158,33 +194,45 @@ public class Drivebase {
         if (Robot.onRed) {
             // red hub location
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.redHubCenterPoint);
-            angleToHub = yagslDrive.getPose().minus(goalAimPose)
+            Pose2d currPose2d = yagslDrive.getPose();
+            Transform2d robotToShooterTransform2d = new Transform2d(0, Units.inchesToMeters(-2.25), new Rotation2d(0));
+            Pose2d shooterPose = currPose2d.plus(robotToShooterTransform2d);
+            angleToHub = shooterPose.minus(goalAimPose)
                     .getTranslation().rotateBy(new Rotation2d()).getAngle();
         } else {
             // blue hub location
             goalAimPose = offsetPose2dByVelocity(Settings.FieldInfo.blueHubCenterPoint);
-            angleToHub = yagslDrive.getPose().minus(goalAimPose)
-                    .getTranslation().getAngle()
-                    .plus(new Rotation2d());
+            Pose2d currPose2d = yagslDrive.getPose();
+            Transform2d robotToShooterTransform2d = new Transform2d(0, Units.inchesToMeters(-2.25), new Rotation2d(0));
+            Pose2d shooterPose = currPose2d.plus(robotToShooterTransform2d);
+            angleToHub = shooterPose.minus(goalAimPose)
+                    .getTranslation().rotateBy(new Rotation2d()).getAngle();
         }
         goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
         Robot.dashboard.scoreHubField2d.setRobotPose(goalAimPose.getX(), goalAimPose.getY(),
                 goalAimPose.getRotation());
 
-        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(goalHeading).getDegrees(), 0);
+        dvr = faceGoalPidController.calculate(yagslDrive.getOdometryHeading().minus(goalHeading).getDegrees(), 0);
 
         return dvr;
     }
 
-
     public double getPowerToFacePose(Pose2d goalPose) {
-        Rotation2d angleToPose;
+        //we use this to shuttle, we dont care (we think) about the offset when shuttleing
+        Rotation2d angleToHub;
 
-            angleToPose = yagslDrive.getPose().minus(goalPose)
-                    .getTranslation().getAngle();
-        
-        goalHeading = angleToPose.plus(new Rotation2d(aimFudgeFactor));
-        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToPose).getDegrees(), 0);
+        if (Robot.onRed) {
+            // red hub location
+            angleToHub = yagslDrive.getPose().minus(goalPose)
+                    .getTranslation().rotateBy(new Rotation2d()).getAngle();
+        } else {
+            // blue hub location
+            angleToHub = yagslDrive.getPose().minus(goalPose)
+                    .getTranslation().getAngle()
+                    .plus(new Rotation2d());
+        }
+        goalHeading = angleToHub.plus(new Rotation2d(aimFudgeFactor));
+        dvr = rotationPidController.calculate(yagslDrive.getOdometryHeading().minus(angleToHub).getDegrees(), 0);
 
         return dvr;
     }

@@ -22,8 +22,13 @@ public class Settings {
 
         public static class RotationPIDConstants {
             public static final double kP = 0.1;
-            public static final double kI = 0;
-            public static final double kD = 0;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
+        }
+        public static class FaceGoalPIDConstants {
+            public static final double kP = 0.175;
+            public static final double kI = 0.0125;
+            public static final double kD = 0.0;
         }
     }
 
@@ -37,9 +42,10 @@ public class Settings {
         public static int copilotJoystick1Port = 2;
         public static int copilotJoystick2Port = 3;
         public static int manualJoystickPort = 4;
+        public static int tuningJoystickPort = 5;
         public static double joystickDeadband = 0.02;
         public static double snakeModeJoystickDeadband = 0.35;
-        public static double specialRotationJoystickDeadband = 0.85;
+        public static double specialRotationJoystickDeadband = 0.90;
         public static double drivingWhileShootingSpeed = 0.3;
 
         // joystick axis
@@ -54,27 +60,32 @@ public class Settings {
         public static boolean headingJoystickControls = true;
         public static double snakeModeVelocityFactor = 0.4;
 
-        public static class ButtonIDs {            // driver controller
-            public static int intake = 5;
+        public static class ButtonIDs {            
+            // driver controller
+            public static int deployIntake = 6;
             public static int faceGoal = 7;
-            public static int stopIntake = 6;
+            public static int stowIntake = 5;
             public static int straightenBump = 8;
             public static int snakeMode = 1;
             public static int resetHeading = 10;
+            public static int faceRight = 2; 
+            public static int faceLeft = 3; 
 
             // copilot controller 1
             public static int increaseShotDistance = 4;
             public static int decreaseShotDistance = 6;
             public static int moveScorePoseRight = 3;
             public static int moveScorePoseLeft = 5;
-            public static int heightenIntake = 8;
-            public static int lowerIntake = 9;
-            public static int emergencyIntake = 10;
+            public static int copilotStowIntake = 10;
+            public static int copilotDeployIntake = 8;
+            public static int copilotStopIntakeWheels = 9;
             public static int jiggleIntake = 7;
             public static int forceShoot = 2; // force shoot
             public static int forceDontShoot = 1; // force not shoot?
-            public static int reverseIndexer = 11;
-            public static int reverseKicker = 12;
+            public static int intakeBackward = 11;
+            public static int reverseEverything = 12;
+            
+
             // copilot controller 2
             public static int redDepotTrenchButton = 9;
             public static int blueDepotTrenchButton = 10;
@@ -89,11 +100,15 @@ public class Settings {
             public static int kickerToggle = 1;
             public static int shooterToggle = 3;
             public static int resetIntake = 8;
-            public static int shooterManualIncreaseVelocity = 6;
-            public static int shooterManualDecreaseVelocity = 5;
-            public static int incHoodPos = 9;
-            public static int decHoodPos = 10;
-            public static int gradualShooterSpinUp = 11;
+            public static int gradualShooterSpinUp = 0;
+            public static int heightenIntake = 5;
+            public static int lowerIntake = 6;
+
+            //joystick 5 tuning joystick
+            public static int shooterManualIncreaseVelocity = 2; // CHANGE THESE WHEN TUNING
+            public static int shooterManualDecreaseVelocity =1;
+            public static int incHoodPos = 3;
+            public static int decHoodPos = 4;
 
 
         }
@@ -101,20 +116,27 @@ public class Settings {
     }
 
     public class IntakeSettings {
-        public static double stowPosition = -27;
+        public static double stowPosition = 0.58;
         public static double deployPosition = 0;
-        public static double intakeFudgeFactor = 0.5;
-        public static double shootingPosition = -10;
-        public static Constraints deployConstraints = new Constraints(10, 10);
+        public static double intakeFudgeFactor = 0.02;
+        public static double shootingPosition = 0.33;
+        public static double maxIntakePositionToNotHitHood = 0.33;
+        public static Constraints deployConstraints = new Constraints(1.75, 3.0);
+        public static Constraints shootingConstraints = new Constraints(1.75, 3.0);
+        public static double spinBackwardsThreshold = 0.05;
     }
 
     public class ShooterSettings {
-        public static double hoodPosition = 0.22;
         public static double angleFudgeDelta = 0.1; 
         public static double shotDistanceFudgeDelta = 0.1; 
         public static double maxShooterVelocity = 47;
-        public static double manualVelocityTuningFactor = 1;
-        public static double manualHoodPosTuningfactor = 0.05;
+        public static double manualVelocityTuningFactor = 0.5;
+        public static double manualHoodPosTuningfactor = 0.01;
+        public static double lowestHoodPosition = 0.24;
+        public static double lowestPositionIntakeCanComeBack = 0.89;
+        public static double highestHoodPosition = 0.93;
+
+
 
     }
 
@@ -169,15 +191,19 @@ public class Settings {
 
     public class AutoSettings {
         public class Thresholds {
-            public static double drivebaseShootRotationTHold = 2;
-            public static double drivebaseShuttleRotationTHold = 5;
+            public static double drivebaseShootRotationTHold = 3.5;
+            public static double drivebaseLockPoseWhenShootingThold = 3;
+            public static double drivebaseShuttleRotationTHold = 10;
             public static double shootHoodPositionTHold = 0.05;
             public static double shuttleHoodPositionTHold = 0.1;
-            public static double shooterVelocityTHold = 1.5;
-            public static double shooterShuttleVelocityTHold = 2.5;
-            public static double autoDetectedBumpPitchTHold = 3;
-            public static double autoDetectedBumpPitchCount = 4;
+            public static double shooterVelocityTHold = 4;
+            public static double shooterShuttleVelocityTHold = 6;
+            public static double autoDetectedBumpPitchTHold = 6;
+            public static double autoDetectedBumpPitchCount = 6;
+            public static double detectedFlatTHold = 5;
         }
+        public static double autoIntakeBringInDelay = 3.25;
+        public static double autoIValue = 0.0275;
     }
 
     public static void resetTalon(TalonFX m_talonFX) {

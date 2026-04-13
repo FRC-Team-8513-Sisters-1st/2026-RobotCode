@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -19,6 +18,7 @@ import frc.robot.Logic.Dashboard;
 import frc.robot.Logic.Enums;
 import frc.robot.Logic.TeleopController;
 import frc.robot.Logic.Vision;
+import frc.robot.Logic.Enums.AutoRoutines;
 import frc.robot.Subsystems.Drivebase;
 import frc.robot.Subsystems.Hopper;
 import frc.robot.Subsystems.Intake;
@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
   public static MatchTimeAnalysis matchTimeAnalysis = new MatchTimeAnalysis();
 
   public Field2d robotCurrentPose = new Field2d();
+  public AutoRoutines preLoadedAuto = AutoRoutines.DoNothing;
 
   public static boolean onRed = true;
 
@@ -61,22 +62,21 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
-    var configs = new CurrentLimitsConfigs();
-    configs.StatorCurrentLimitEnable = true;
-    configs.StatorCurrentLimit = 60;
-    configs.SupplyCurrentLimitEnable = true;
-    configs.SupplyCurrentLimit = 40;
+    // var configs = new CurrentLimitsConfigs();
+    // configs.StatorCurrentLimitEnable = true;
+    // configs.StatorCurrentLimit = 60;
+    // configs.SupplyCurrentLimitEnable = true;
+    // configs.SupplyCurrentLimit = 40;
 
-    hopper.indexerMotorTop.getConfigurator().apply(configs);
-    hopper.indexerMotorBottom.getConfigurator().apply(configs);
-    intake.intakeDeployMotor.getConfigurator().apply(configs);
-    intake.intakeMotorLeftLeader.getConfigurator().apply(configs);
-    intake.intakeMotorRightFollower.getConfigurator().apply(configs);
+    // hopper.indexerMotorTop.getConfigurator().apply(configs);
+    // hopper.indexerMotorBottom.getConfigurator().apply(configs);
+    // intake.intakeDeployMotor.getConfigurator().apply(configs);
+    // intake.intakeMotorLeftLeader.getConfigurator().apply(configs);
+    // intake.intakeMotorRightFollower.getConfigurator().apply(configs);
 
     SparkMaxConfig config = new SparkMaxConfig();
-    config.smartCurrentLimit(40);
+    config.smartCurrentLimit(25);
 
-    kicker.kickerMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     shooter.shooterHoodMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
   }
@@ -92,6 +92,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Current Drivebase Position", robotCurrentPose);
 
     if (Robot.teleop.manualJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.resetIntake)) {
+      Robot.intake.intakeFudgeFactor = 0;
       Robot.intake.intakeDeployMotor.setPosition(0);
       Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
     }
@@ -112,6 +113,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     updateAlliance();
+    Robot.dashboard.updateTCPConnectionFromDashboard();
     teleop.initTele();
 
   }
@@ -119,7 +121,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     teleop.driveTele();
-    
+    Robot.dashboard.updateTCPConnectionFromDashboard();
   }
 
   @Override
@@ -128,6 +130,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    auto.updateAutoRoutineFromDashboard();
+
+    auto.autoRoutine = auto.dashboardAutoRoutine1;
+
+    if (auto.autoRoutine != preLoadedAuto) {
+      preLoadedAuto = auto.autoRoutine;
+      auto.autoPeriodic();
+    }
+
     auto.updateAutoRoutineFromDashboard();
   }
 
@@ -151,7 +162,7 @@ public class Robot extends TimedRobot {
     try {
       onRed = DriverStation.getAlliance().get() == Alliance.Red;
     } catch (Exception e) {
-      onRed = true;
+      Robot.dashboard.updateAllianceFromDashboard();
     }
   }
 }

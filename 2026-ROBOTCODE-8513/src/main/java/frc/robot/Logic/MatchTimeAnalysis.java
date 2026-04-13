@@ -5,6 +5,7 @@ import java.util.Optional;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
+import frc.robot.Logic.Enums.TCPChooser;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class MatchTimeAnalysis {
@@ -40,6 +41,13 @@ public class MatchTimeAnalysis {
                 // If we have invalid game data, assume hub is active.
                 return true;
             }
+        }
+
+        // if the auto TCP thing is off
+        if (Robot.dashboard.tCPSelected == TCPChooser.blueWonAuto) {
+            redInactiveFirst = false;
+        } else  if (Robot.dashboard.tCPSelected == TCPChooser.redWonAuto) {
+            redInactiveFirst = true;
         }
 
         // Shift was is active for blue if red won auto, or red if blue won auto.
@@ -114,7 +122,7 @@ public class MatchTimeAnalysis {
         } else if (elapsedMatchTime >= 110 && elapsedMatchTime < 135) {
             return "End Game";
         } else {
-            return "hi";
+            return "you guys are awesome! -Liv";
         }
     }
 

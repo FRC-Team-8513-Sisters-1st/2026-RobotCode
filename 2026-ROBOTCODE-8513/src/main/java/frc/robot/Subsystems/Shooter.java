@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.ShooterStates;
-
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 public class Shooter {
 
     public TalonFX shooterMotorLeftLeader = new TalonFX(13);
     public TalonFX shooterMotorRightFollower = new TalonFX(14);
+    public TalonFX shooterMotorThirdFollower = new TalonFX(16);
     public SparkMax shooterHoodMotor = new SparkMax(15, MotorType.kBrushless);
 
     public PIDController shooterMotorController = new PIDController(1.5, 0.1, 0);
@@ -38,7 +38,7 @@ public class Shooter {
     public double distanceToScoreHub;
     public double goalShooterVelocity;
     public boolean manualShooterTuning = false;
-    public double manualTuningHoodPosition = 0.2;
+    public double manualTuningHoodPosition = Settings.ShooterSettings.highestHoodPosition;
     public boolean manualHoodTuning = manualShooterTuning;
     public double distanceBetweenCurrentAndGoalInMeters;
 
@@ -60,22 +60,37 @@ public class Shooter {
     public Shooter() {
         // internal pid controller shooter motors
         slot0Configs.kV = 0; // A velocity target of 1 rps results in 0.12 V output
-        slot0Configs.kP = 0.4; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kP = 0.55; // An error of 1 rps results in 0.11 V output
         slot0Configs.kI = 0.05; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
 
         // interpolating
-        distToHoodEncoderValuesTable.put(1.83, 0.35);
-        distToHoodEncoderValuesTable.put(2.54, 0.2);
-        distToHoodEncoderValuesTable.put(10.0, 0.2);
+        //dist,hood
+        distToHoodEncoderValuesTable.put(1.55, 0.90);
+        distToHoodEncoderValuesTable.put(2.06, 0.85);
+        distToHoodEncoderValuesTable.put(2.57, 0.79);
+        distToHoodEncoderValuesTable.put(2.90, 0.71);
+        distToHoodEncoderValuesTable.put(3.48, 0.69);
+        distToHoodEncoderValuesTable.put(3.95, 0.60);
+        distToHoodEncoderValuesTable.put(4.74, 0.56);
+        
+        distToHoodEncoderValuesTable.put(5.00, 0.4);
+        distToHoodEncoderValuesTable.put(9.00, 0.25);
 
-        distToshooterVelocityEncoderValuesTable.put(1.83, 37.0);
-        distToshooterVelocityEncoderValuesTable.put(2.54, 39.0);
-        distToshooterVelocityEncoderValuesTable.put(3.52, 44.0);
-        distToshooterVelocityEncoderValuesTable.put(4.07, 48.0);
+        //dist.veloc
+        distToshooterVelocityEncoderValuesTable.put(1.55, 36.00);
+        distToshooterVelocityEncoderValuesTable.put(2.06, 37.50);
+        distToshooterVelocityEncoderValuesTable.put(2.57, 39.0);
+        distToshooterVelocityEncoderValuesTable.put(2.90, 41.0);
+        distToshooterVelocityEncoderValuesTable.put(3.48, 43.50);
+        distToshooterVelocityEncoderValuesTable.put(3.95, 44.75);
+        distToshooterVelocityEncoderValuesTable.put(4.74, 46.75);
+        
+        distToshooterVelocityEncoderValuesTable.put(5.0, 51.0);
+        distToshooterVelocityEncoderValuesTable.put(9.0, 56.0);
+        
 
-        // ADD Values
-        distToTimeOfFlightValuesTable.put(2.15, 0.78);
+        distToTimeOfFlightValuesTable.put(2.05, 0.78);
         distToTimeOfFlightValuesTable.put(2.49, 0.9);
         distToTimeOfFlightValuesTable.put(3.52, 1.13);
         distToTimeOfFlightValuesTable.put(3.94, 1.21);
@@ -86,8 +101,10 @@ public class Shooter {
         // follower leader set up
         shooterMotorRightFollower
                 .setControl(new Follower(shooterMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
+        shooterMotorThirdFollower
+                .setControl(new Follower(shooterMotorLeftLeader.getDeviceID(), MotorAlignmentValue.Opposed));
 
-        m_request.UpdateFreqHz = 250;
+        m_request.UpdateFreqHz = 500;
 
     }
 
@@ -97,7 +114,7 @@ public class Shooter {
         targetV = -getInterpolatedShooterVelocity();
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
-
+            setCurrentLimits(110, 65);
             if (manualShooterTuning == false) {
                 shooterMotorLeftLeader
                         .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
@@ -107,8 +124,13 @@ public class Shooter {
             }
 
         } else if (shooterState == ShooterStates.stationary && useInternalController == true) {
-            shooterMotorLeftLeader.set(0);
+            if (Robot.teleop.copilotJoystick2.getRawButton(Settings.TeleopSettings.ButtonIDs.nuetralZoneButton1) && Robot.teleop.copilotJoystick2.getRawButton(Settings.TeleopSettings.ButtonIDs.nuetralZoneButton2)) {
+                setCurrentLimits(40, 10);
+                shooterMotorLeftLeader.setControl(m_request.withVelocity(-35).withFeedForward(RPStoVoltage(-35)));
+            } else {
+                shooterMotorLeftLeader.set(0);
 
+            }
         }
 
         setHoodAngle();
@@ -119,9 +141,15 @@ public class Shooter {
                 .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
 
         if (manualHoodTuning == false) {
-            shooterHoodMotor
-                    .set(-hoodAnglePower(
-                            getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
+            if (Robot.intake.intakeIsStowed() || shooterState == ShooterStates.stationary) {
+                shooterHoodMotor
+                        .set(-hoodAnglePower(Settings.ShooterSettings.highestHoodPosition));
+            } else {
+                shooterHoodMotor
+                        .set(-hoodAnglePower(
+                                getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
+            }
+
         } else {
             shooterHoodMotor
                     .set(-hoodAnglePower(manualTuningHoodPosition));
@@ -140,10 +168,10 @@ public class Shooter {
     // returns the power to maintain that position
     public double hoodAnglePower(double targetPosition) {
         double currentPosition = shooterHoodMotor.getAbsoluteEncoder().getPosition();
-        if (targetPosition < 0.2) {
-            targetPosition = 0.2;
-        } else if (targetPosition > 0.88) {
-            targetPosition = 0.88;
+        if (targetPosition < Settings.ShooterSettings.lowestHoodPosition) {
+            targetPosition = Settings.ShooterSettings.lowestHoodPosition;
+        } else if (targetPosition > Settings.ShooterSettings.highestHoodPosition) {
+            targetPosition = Settings.ShooterSettings.highestHoodPosition;
         }
         double outputPower = shooterMotorController.calculate(currentPosition, targetPosition);
         return outputPower;
@@ -152,8 +180,7 @@ public class Shooter {
     // input distance, returns encoder position
     public double getInterpolatedEncoderValueDistanceToHood(double distanceFromGoal) {
         distanceToScoreHub = distToHoodEncoderValuesTable.get(distanceFromGoal + shotDistanceFudgeFactor);
-        // return distanceToScoreHub;
-        return 0.4;
+        return distanceToScoreHub;
     }
 
     // input distance, return shooterVelocity
@@ -191,7 +218,7 @@ public class Shooter {
             velocityReady = false;
         }
 
-        if (facingHub()
+        if (facingHub(Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold)
                 && hoodPositionReady
                 && velocityReady
                 && timeCheckReadyToShoot()) {
@@ -201,16 +228,15 @@ public class Shooter {
         }
 
         if (readyToShootInHubCounter >= 4) {
-            readyToShootInHubCounter = 0;
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean facingHub() {
+    public boolean facingHub(double precision) {
         if (Math.abs(Robot.drivebase.yagslDrive.getOdometryHeading().minus(Robot.drivebase.goalHeading)
-                        .getDegrees()) < Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold) {
+                .getDegrees()) < precision) {
             return true;
         } else {
             return false;
@@ -218,7 +244,7 @@ public class Shooter {
     }
 
     public boolean readyToShuttle() {
-        if (facingHub()
+        if (facingHub(Settings.AutoSettings.Thresholds.drivebaseShuttleRotationTHold)
                 && (Math.abs(goalHoodPosition - shooterHoodMotor.getEncoder()
                         .getPosition()) < Settings.AutoSettings.Thresholds.shuttleHoodPositionTHold)
                 && (Math.abs(shooterMotorRightFollower.getVelocity().getValueAsDouble()
@@ -229,8 +255,8 @@ public class Shooter {
     }
 
     public boolean timeCheckReadyToShoot() {
-        if (Robot.matchTimeAnalysis.activeOrInactive() == "Active"
-                || (Robot.matchTimeAnalysis.activeOrInactive() == "Inactive"
+        if (Robot.matchTimeAnalysis.activeOrInactive().equals("Active")
+                || (Robot.matchTimeAnalysis.activeOrInactive().equals("Inactive")
                         && Robot.matchTimeAnalysis.getTimeLeftInPeriod() <= 1.5)) {
             return true;
         } else {
@@ -244,22 +270,33 @@ public class Shooter {
         configs.StatorCurrentLimit = statorLimit;
         configs.SupplyCurrentLimitEnable = true;
         configs.SupplyCurrentLimit = supplyLimit;
+        configs.SupplyCurrentLowerLimit = supplyLimit;
+        configs.SupplyCurrentLowerTime = 3;
 
         shooterMotorLeftLeader.getConfigurator().apply(configs);
         shooterMotorRightFollower.getConfigurator().apply(configs);
+        shooterMotorThirdFollower.getConfigurator().apply(configs);
 
     }
 
     public double manualTargetV = 25;
 
     public void manualShooterTuning() {
-        if (Robot.teleop.manualJoystick
+        if (Robot.teleop.tuningJoystick
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterManualIncreaseVelocity)) {
             manualTargetV = manualTargetV + Settings.ShooterSettings.manualVelocityTuningFactor;
-        } else if (Robot.teleop.manualJoystick
+        } else if (Robot.teleop.tuningJoystick
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.shooterManualDecreaseVelocity)) {
             manualTargetV = manualTargetV - Settings.ShooterSettings.manualVelocityTuningFactor;
         }
+
+        if (Robot.teleop.tuningJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.incHoodPos)) {
+            Robot.shooter.manualTuningHoodPosition += Settings.ShooterSettings.manualHoodPosTuningfactor;
+        } else if (Robot.teleop.tuningJoystick.getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.decHoodPos)) {
+            Robot.shooter.manualTuningHoodPosition -= Settings.ShooterSettings.manualHoodPosTuningfactor;
+
+        }
+
         shooterMotorLeftLeader
                 .setControl(m_request.withVelocity(-manualTargetV).withFeedForward(-RPStoVoltage(manualTargetV)));
     }

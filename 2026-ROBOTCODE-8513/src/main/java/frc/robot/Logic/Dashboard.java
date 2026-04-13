@@ -1,17 +1,59 @@
 package frc.robot.Logic;
 
+import org.photonvision.PhotonCamera;
+
+import edu.wpi.first.networktables.ConnectionInfo;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Robot;
 import frc.robot.Settings;
+import frc.robot.Logic.Enums.AllianceSelector;
+import frc.robot.Logic.Enums.TCPChooser;
 
 public class Dashboard {
+        public SendableChooser<String> TCPSelector;
+        public TCPChooser tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
+        public SendableChooser<String> AllianceSelector;
+        public AllianceSelector allianceSelected = frc.robot.Logic.Enums.AllianceSelector.redAlliance;
+
         public Field2d trajField2d = new Field2d();
         public Field2d copilotField2d = new Field2d();
         public Field2d scoreHubField2d = new Field2d();
+
+        public Dashboard() {
+                TCPSelector = new SendableChooser<>();
+                TCPSelector.setDefaultOption(TCPChooser.values()[0].toString(), TCPChooser.values()[0].toString());
+                for (int i = 1; i < TCPChooser.values().length; i++) {
+                        if (TCPChooser.values()[i].toString().charAt(0) != '~') {
+                                TCPSelector.addOption(TCPChooser.values()[i].toString(),
+                                                TCPChooser.values()[i].toString());
+                        }
+
+                }
+                SmartDashboard.putData("TCP Selector", TCPSelector);
+
+                updateTCPConnectionFromDashboard();
+
+                AllianceSelector = new SendableChooser<>();
+                AllianceSelector.setDefaultOption(frc.robot.Logic.Enums.AllianceSelector.values()[0].toString(),
+                                frc.robot.Logic.Enums.AllianceSelector.values()[0].toString());
+                for (int i = 1; i < frc.robot.Logic.Enums.AllianceSelector.values().length; i++) {
+                        if (frc.robot.Logic.Enums.AllianceSelector.values()[i].toString().charAt(0) != '~') {
+                                AllianceSelector.addOption(
+                                                frc.robot.Logic.Enums.AllianceSelector.values()[i].toString(),
+                                                frc.robot.Logic.Enums.AllianceSelector.values()[i].toString());
+                        }
+
+                }
+                SmartDashboard.putData("Manual Alliance Selector", AllianceSelector);
+
+                updateAllianceFromDashboard();
+        }
 
         public void updateDashboard() {
 
@@ -19,9 +61,20 @@ public class Dashboard {
                 SmartDashboard.putData("trajGoalPose", trajField2d);
                 SmartDashboard.putNumber("actualHeading", Robot.drivebase.yagslDrive.getOdometryHeading().getDegrees());
                 SmartDashboard.putNumber("goalHeading", Robot.drivebase.goalHeading.getDegrees());
+                SmartDashboard.putNumber("pitch", Robot.drivebase.yagslDrive.getPitch().getDegrees());
+
+                // manual alliance selector
+                SmartDashboard.putString("Selected Auto", allianceSelected.toString());
 
                 // Auto selection
-                SmartDashboard.putString("Auto selected", Robot.auto.autoRoutine.name());
+                SmartDashboard.putString("AutoRoutine", Robot.auto.autoRoutine.name());
+                SmartDashboard.putString("Auto 1 selected", Robot.auto.dashboardAutoRoutine1.name());
+                SmartDashboard.putString("Auto 2 selected", Robot.auto.dashboardAutoRoutine2.name());
+                SmartDashboard.putBoolean("Auto Initialized", Robot.auto.pathInitialized);
+
+                SmartDashboard.putNumber("autoStep", Robot.auto.autoStep);
+                SmartDashboard.putString("autoToReturnTO", Robot.auto.autoToReturnTo.name());
+                SmartDashboard.putNumber("timeInStep", Timer.getFPGATimestamp() - Robot.auto.timeStepStarted);
 
                 // Subsystem states
                 SmartDashboard.putString("intakeState", Robot.intake.intakeState.name());
@@ -45,12 +98,23 @@ public class Dashboard {
                                 Robot.intake.intakeMotorLeftLeader.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("IntakeMotorCurrentRight",
                                 Robot.intake.intakeMotorRightFollower.getSupplyCurrent().getValueAsDouble());
+                SmartDashboard.putNumber("time shooter button pressed",
+                                Robot.teleop.timeIntakeShootingButtonPressed);
+                SmartDashboard.putNumber("adjusted intake pos", Robot.intake.adjustedEncoderPosition());
+
+                SmartDashboard.putBoolean("Intake is Stowed", Robot.intake.intakeIsStowed());
+
+                SmartDashboard.putNumber("beeftakeDeployControllerConstraints",
+                                Robot.intake.beeftakeDeployController.getConstraints().maxVelocity);
 
                 // shooter
                 SmartDashboard.putNumber("shooterMotorLeftVelocity",
                                 Robot.shooter.shooterMotorLeftLeader.getVelocity().getValueAsDouble());
-                SmartDashboard.putNumber("shooterMotorLeftCurrent",
-                                Robot.shooter.shooterMotorLeftLeader.getStatorCurrent().getValueAsDouble());
+                
+                SmartDashboard.putNumber("shooterMotorOutsideLeftVelocity",
+                                Robot.shooter.shooterMotorThirdFollower.getVelocity().getValueAsDouble());
+                SmartDashboard.putNumber("shooterMotorOutsideLeftCurrent",
+                                Robot.shooter.shooterMotorThirdFollower.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("shooterMotorRightVelocity",
                                 Robot.shooter.shooterMotorRightFollower.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("shooterHoodMotorPosition",
@@ -67,8 +131,10 @@ public class Dashboard {
                 SmartDashboard.putNumber("targetV", Robot.shooter.targetV);
 
                 // kicker
-                SmartDashboard.putNumber("kickerMotorVelocity", Robot.kicker.kickerMotor.getEncoder().getVelocity());
-                SmartDashboard.putNumber("kickerMotorCurrent", Robot.kicker.kickerMotor.getOutputCurrent());
+                SmartDashboard.putNumber("kickerMotorVelocity",
+                                Robot.kicker.kickerMotor.getVelocity().getValueAsDouble());
+                SmartDashboard.putNumber("kickerMotorCurrent",
+                                Robot.kicker.kickerMotor.getSupplyCurrent().getValueAsDouble());
 
                 // hopper
                 SmartDashboard.putNumber("hopperMotorVelocityTop",
@@ -77,16 +143,16 @@ public class Dashboard {
                                 Robot.hopper.indexerMotorBottom.getVelocity().getValueAsDouble());
                 SmartDashboard.putNumber("hopperMotorCurrentBottom",
 
+                                Robot.hopper.indexerMotorBottom.getSupplyCurrent().getValueAsDouble());
+                SmartDashboard.putNumber("hopperMotorCurrentTop",
+
                                 Robot.hopper.indexerMotorTop.getSupplyCurrent().getValueAsDouble());
                 SmartDashboard.putNumber("Goal hood position", Robot.shooter.goalHoodPosition);
-
-                // robot pitch
-                SmartDashboard.putNumber("Robot Pitch", Robot.drivebase.yagslDrive.getPitch()
-                                .getDegrees());
 
                 // Fudge factors
                 SmartDashboard.putNumber("shotDistanceFudgeFactorValue", Robot.shooter.shotDistanceFudgeFactor);
                 SmartDashboard.putNumber("drivebaseAimFudgeFactorValue", Robot.drivebase.aimFudgeFactor);
+                SmartDashboard.putNumber("intakeFudgeFactor", Robot.intake.intakeFudgeFactor);
 
                 // Prompts user input for PID values
                 SmartDashboard.putNumber("output shooter kP", Robot.shooter.slot0Configs.kP);
@@ -111,12 +177,14 @@ public class Dashboard {
                 SmartDashboard.putString("Period", Robot.matchTimeAnalysis.getShift());
                 SmartDashboard.putString("Hub Status", Robot.matchTimeAnalysis.activeOrInactive());
                 activeOrInactiveColor();
+                allianceColor();
                 SmartDashboard.putString("Game data", DriverStation.getGameSpecificMessage());
 
                 // auto ready to shoot values
                 SmartDashboard.putBoolean("hoodPositionReady", Robot.shooter.hoodPositionReady);
                 SmartDashboard.putBoolean("velocityReady", Robot.shooter.velocityReady);
-                SmartDashboard.putBoolean("facingHub", Robot.shooter.facingHub());
+                SmartDashboard.putBoolean("facingHub",
+                                Robot.shooter.facingHub(Settings.AutoSettings.Thresholds.drivebaseShootRotationTHold));
                 SmartDashboard.putBoolean("timeCheckReadyToShoot", Robot.shooter.timeCheckReadyToShoot());
 
                 // interpolated values
@@ -124,6 +192,15 @@ public class Dashboard {
                 SmartDashboard.putNumber("interpolatedShooterVelocity", Robot.shooter.goalShooterVelocity);
                 SmartDashboard.putNumber("interpolatedTOF", Robot.drivebase.timeOfFlight);
                 SmartDashboard.putNumber("distanceToGoal", Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
+
+                // get TCP communication
+                isTCPConnectedColor();
+
+                // camera color status
+                cameraStatusLight(Robot.vision.leftCam);
+                cameraStatusLight(Robot.vision.rightCam);
+                cameraStatusLight(Robot.vision.leftShooterCam);
+                cameraStatusLight(Robot.vision.rightShooterCam);
 
         }
 
@@ -164,4 +241,60 @@ public class Dashboard {
                         SmartDashboard.putString("Color", red.toHexString());
                 }
         }
+
+        public void allianceColor() {
+                Color red = new Color(255, 0, 0);
+                Color blue = new Color(0, 0, 255);
+                if (Robot.onRed) {
+                        SmartDashboard.putString("Alliance", red.toHexString());
+                } else {
+                        SmartDashboard.putString("Alliance", blue.toHexString());
+                }
+        }
+
+        public void isTCPConnectedColor() {
+                ConnectionInfo[] TCPConnection = NetworkTableInstance.getDefault().getConnections();
+                Color red = new Color(255, 0, 0);
+                Color green = new Color(0, 255, 0);
+                if (TCPConnection.length == 0) {
+                        SmartDashboard.putString("TCP Connection", green.toHexString());
+                } else {
+                        SmartDashboard.putString("TCP Connection", red.toHexString());
+                }
+        }
+
+        public void updateTCPConnectionFromDashboard() {
+                try {
+                        tCPSelected = TCPChooser.valueOf(TCPSelector.getSelected());
+                } catch (Exception e) {
+                        tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
+                }
+        }
+
+        public void cameraStatusLight(PhotonCamera photonCamera) {
+                Color red = new Color(255, 0, 0);
+                Color green = new Color(0, 255, 0);
+                if (photonCamera.isConnected()) {
+                        SmartDashboard.putString(photonCamera.getName() + "Status", green.toHexString());
+                } else {
+                        SmartDashboard.putString(photonCamera.getName() + "Status", red.toHexString());
+                }
+        }
+
+        public void updateAllianceFromDashboard() {
+                try {
+                        allianceSelected = frc.robot.Logic.Enums.AllianceSelector
+                                        .valueOf(AllianceSelector.getSelected());
+                } catch (Exception e) {
+                        allianceSelected = frc.robot.Logic.Enums.AllianceSelector.redAlliance;
+                }
+
+                if (allianceSelected == frc.robot.Logic.Enums.AllianceSelector.redAlliance) {
+                        Robot.onRed = true;
+                } else if (allianceSelected == frc.robot.Logic.Enums.AllianceSelector.blueAlliance) {
+                        Robot.onRed = false;
+                }
+
+        }
+
 }

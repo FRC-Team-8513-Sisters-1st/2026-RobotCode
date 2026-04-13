@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -8,6 +9,7 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -15,7 +17,7 @@ import frc.robot.Settings;
 import frc.robot.Logic.Enums.IntakeStates;
 
 public class Intake {
-    public IntakeStates intakeState = IntakeStates.stationaryDeployed;
+    public IntakeStates intakeState = IntakeStates.stowed;
 
     // class member variable
     public TalonFX intakeMotorLeftLeader = new TalonFX(32);
@@ -25,10 +27,14 @@ public class Intake {
     public PIDController intakeMotorController = new PIDController(0.1, 0, 0);
     public ProfiledPIDController intakeDeployController = new ProfiledPIDController(0.1, 0, 0,
             Settings.IntakeSettings.deployConstraints);
+    public ProfiledPIDController beeftakeDeployController = new ProfiledPIDController(4.5, 0, 0,
+            Settings.IntakeSettings.deployConstraints);
 
     public boolean useManualIntakeControl = false;
     public double intakeFudgeFactor = 0;
     public double timeLeftStowedState;
+
+    public DutyCycleEncoder intakeAbosoluteEncoder = new DutyCycleEncoder(0);
 
     // in init function, set slot 0 gains
     public Slot0Configs slot0Configs = new Slot0Configs();
@@ -50,34 +56,41 @@ public class Intake {
 
         m_request.UpdateFreqHz = 1000;
         // disable FOC
-        m_request.withEnableFOC(false);
-
-        intakeDeployController.reset(intakeDeployMotor.getPosition().getValueAsDouble());
-
+        m_request.withEnableFOC(true);
     }
 
     public void setMotorPower() {
 
-        double targetV = 90;
+        double targetV = 100;
         SmartDashboard.putNumber("ShooterV", intakeMotorRightFollower.getVelocity().getValueAsDouble());
 
         if (intakeState == IntakeStates.intaking) {
-            // deploy intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
-            // spinIntakeBackward();
 
-            if (Timer.getFPGATimestamp() - timeLeftStowedState < 0.5) {
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.deployConstraints);
+
+            // deploy intake
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
+
+            if (Robot.teleop.copilotJoystick1.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeBackward)) {
                 intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(-20).withFeedForward(RPStoVoltage(-20)));
+                        .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
             } else {
-                // intake wheels on
-                intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
+                if (adjustedEncoderPosition() > Settings.IntakeSettings.spinBackwardsThreshold) {
+                    intakeMotorLeftLeader
+                            .setControl(new DutyCycleOut(0));
+                } else {
+                    // intake wheels on
+                    intakeMotorLeftLeader
+                            .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
+                }
             }
 
         } else if (intakeState == IntakeStates.stowed) {
+
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.deployConstraints);
+
             // stow intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.stowPosition));
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.stowPosition + intakeFudgeFactor));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
@@ -85,24 +98,43 @@ public class Intake {
             timeLeftStowedState = Timer.getFPGATimestamp();
 
         } else if (intakeState == IntakeStates.outtaking) {
+
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.deployConstraints);
+
             // deploy intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition));
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
 
             // intake wheels on
             intakeMotorLeftLeader
                     .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
 
         } else if (intakeState == IntakeStates.stationaryDeployed) {
+            if (Robot.teleop.copilotJoystick1.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeBackward)) {
+                intakeMotorLeftLeader
+                        .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
+            } else {
+                intakeMotorLeftLeader.set(0);
+
+            }// intake wheels off
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.deployConstraints);
             // deploy intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
-            // spinIntakeBackward();
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
+
+            
+
+        } else if (intakeState == IntakeStates.shooting) {
+
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.shootingConstraints);
+
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
+        } else if (intakeState == IntakeStates.maxPositionWhenShooting) {
 
-        } else if (intakeState == IntakeStates.shooting) {
-            // deploy intake
-            intakeDeployMotor.set(deployPower(Settings.IntakeSettings.shootingPosition + intakeFudgeFactor));
+            beeftakeDeployController.setConstraints(Settings.IntakeSettings.shootingConstraints);
+
+            intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.maxIntakePositionToNotHitHood));
 
             // intake wheels off
             intakeMotorLeftLeader.set(0);
@@ -143,6 +175,33 @@ public class Intake {
     public double RPStoVoltage(double RPS) {
         double voltage = (RPS + 0.773138) / 8.70426;
         return voltage;
+    }
+
+    public double deployBeeftake(double targetPosition) {
+        double currentPosition = adjustedEncoderPosition();
+        double outputPower = beeftakeDeployController.calculate(currentPosition, targetPosition);
+        return -outputPower;
+    }
+
+    public double adjustedEncoderPosition() {
+        //this needs to get tuned for new intake positions
+        double currentPosition = intakeAbosoluteEncoder.get();
+        double adjustedPosition;
+
+        if (currentPosition  > 0.2) {
+            adjustedPosition = currentPosition - 0.35;
+        } else {
+            adjustedPosition = currentPosition + 1 - 0.35;
+        }
+        return adjustedPosition;
+    }
+
+    public boolean intakeIsStowed() {
+        if (adjustedEncoderPosition() > Settings.IntakeSettings.maxIntakePositionToNotHitHood) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

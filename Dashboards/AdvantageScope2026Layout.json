@@ -7,7 +7,7 @@
       "height": 832,
       "state": {
         "sidebar": {
-          "width": 496,
+          "width": 442,
           "expanded": [
             "/SmartDashboard/swerve/modules/backleft",
             "/SmartDashboard/swerve/imu",
@@ -21,11 +21,19 @@
             "/SmartDashboard",
             "/PathPlanner",
             "/SmartDashboard/trajGoalPose/Robot",
-            "/SmartDashboard/Field"
+            "/SmartDashboard/IMU/infos",
+            "/SmartDashboard/trajGoalPose/traj",
+            "/SmartDashboard/swerve",
+            "/SmartDashboard/swerve/measuredStates",
+            "/SmartDashboard/swerve/modules",
+            "/SmartDashboard/photonPose left",
+            "/SmartDashboard/photonPose leftShooter",
+            "/SmartDashboard/photonPose right",
+            "/SmartDashboard/photonPose rightShooter"
           ]
         },
         "tabs": {
-          "selected": 4,
+          "selected": 2,
           "tabs": [
             {
               "type": 0,
@@ -37,7 +45,7 @@
             },
             {
               "type": 2,
-              "title": "2D Field",
+              "title": "Odometry",
               "controller": {
                 "sources": [
                   {
@@ -50,17 +58,6 @@
                       "format": "Pose2d",
                       "units": "degrees"
                     }
-                  },
-                  {
-                    "type": "ghostLegacy",
-                    "logKey": "NT:/SmartDashboard/Field/OdometryPose",
-                    "logType": "NumberArray",
-                    "visible": true,
-                    "options": {
-                      "color": "#ff0000",
-                      "format": "Pose2d",
-                      "units": "degrees"
-                    }
                   }
                 ],
                 "field": "FRC:2026 Field",
@@ -68,6 +65,118 @@
                 "size": "large"
               },
               "controllerUUID": "5wa4yuckqko8f0jll0tbnyf3ipb16c6q",
+              "renderer": null,
+              "controlsHeight": 200
+            },
+            {
+              "type": 2,
+              "title": "Vision",
+              "controller": {
+                "sources": [
+                  {
+                    "type": "ghostLegacy",
+                    "logKey": "NT:/SmartDashboard/photonPose left/Robot",
+                    "logType": "NumberArray",
+                    "visible": true,
+                    "options": {
+                      "color": "#ff8c00",
+                      "format": "Pose2d",
+                      "units": "degrees"
+                    }
+                  },
+                  {
+                    "type": "ghostLegacy",
+                    "logKey": "NT:/SmartDashboard/photonPose leftShooter/Robot",
+                    "logType": "NumberArray",
+                    "visible": true,
+                    "options": {
+                      "color": "#00ff00",
+                      "format": "Pose2d",
+                      "units": "degrees"
+                    }
+                  },
+                  {
+                    "type": "ghostLegacy",
+                    "logKey": "NT:/SmartDashboard/photonPose right/Robot",
+                    "logType": "NumberArray",
+                    "visible": true,
+                    "options": {
+                      "color": "#0000ff",
+                      "format": "Pose2d",
+                      "units": "degrees"
+                    }
+                  },
+                  {
+                    "type": "ghostLegacy",
+                    "logKey": "NT:/SmartDashboard/photonPose rightShooter/Robot",
+                    "logType": "NumberArray",
+                    "visible": true,
+                    "options": {
+                      "color": "#ffff00",
+                      "format": "Pose2d",
+                      "units": "degrees"
+                    }
+                  }
+                ],
+                "field": "FRC:2026 Field",
+                "orientation": 0,
+                "size": "large"
+              },
+              "controllerUUID": "9xw04sbxhqs3oqsc6xt5y6x5ca0mbalh",
+              "renderer": null,
+              "controlsHeight": 200
+            },
+            {
+              "type": 1,
+              "title": "Tuning",
+              "controller": {
+                "leftSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/ distance to hub",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#80588e",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "rightSources": [],
+                "discreteSources": [
+                  {
+                    "type": "stripes",
+                    "logKey": "NT:/SmartDashboard/manualTargetV",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#e5b31b"
+                    }
+                  },
+                  {
+                    "type": "stripes",
+                    "logKey": "NT:/SmartDashboard/manualTuningHoodPosition",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#af2437"
+                    }
+                  }
+                ],
+                "leftLockedRange": null,
+                "rightLockedRange": null,
+                "leftUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "rightUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "leftFilter": 0,
+                "rightFilter": 0
+              },
+              "controllerUUID": "m3d2b57crxpmeg26dvrusule35ibydu2",
               "renderer": null,
               "controlsHeight": 200
             },
@@ -149,6 +258,72 @@
             },
             {
               "type": 1,
+              "title": "Intake Deploy",
+              "controller": {
+                "leftSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/intakeDeployPosition",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#2b66a2",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/adjusted intake pos",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#80588e",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "rightSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/intakerightvelocity",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#e5b31b",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/intakeleftvelocity",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#af2437",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "discreteSources": [],
+                "leftLockedRange": null,
+                "rightLockedRange": null,
+                "leftUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "rightUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "leftFilter": 0,
+                "rightFilter": 0
+              },
+              "controllerUUID": "kpk8s17ndtmjnhiv9ec8c2wfoy0xkhuo",
+              "renderer": null,
+              "controlsHeight": 200
+            },
+            {
+              "type": 1,
               "title": "Shooter",
               "controller": {
                 "leftSources": [
@@ -169,6 +344,16 @@
                     "visible": true,
                     "options": {
                       "color": "#80588e",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/shooterMotorOutsideLeftVelocity",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#3b875a",
                       "size": "normal"
                     }
                   }
@@ -193,6 +378,16 @@
                       "color": "#e5b31b",
                       "size": "normal"
                     }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/shooterMotorOutsideLeftCurrent",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#858584",
+                      "size": "normal"
+                    }
                   }
                 ],
                 "discreteSources": [
@@ -203,6 +398,15 @@
                     "visible": true,
                     "options": {
                       "color": "#e48b32"
+                    }
+                  },
+                  {
+                    "type": "stripes",
+                    "logKey": "NT:/SmartDashboard/manualTargetV",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#c0b487"
                     }
                   }
                 ],
@@ -220,6 +424,81 @@
                 "rightFilter": 0
               },
               "controllerUUID": "qbmhcn668uor4c22ewsm61yxp77pjzr5",
+              "renderer": null,
+              "controlsHeight": 200
+            },
+            {
+              "type": 1,
+              "title": "Hood",
+              "controller": {
+                "leftSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/shooterHoodMotorPosition",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#2b66a2",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/drivebaseAimFudgeFactorValue",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#e48b32",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "rightSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/shooterHoodABSOLUTEMotorPosition",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#e5b31b",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "discreteSources": [
+                  {
+                    "type": "stripes",
+                    "logKey": "NT:/SmartDashboard/manualTuningHoodPosition",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#af2437"
+                    }
+                  },
+                  {
+                    "type": "stripes",
+                    "logKey": "NT:/SmartDashboard/shooterStates",
+                    "logType": "String",
+                    "visible": true,
+                    "options": {
+                      "color": "#80588e"
+                    }
+                  }
+                ],
+                "leftLockedRange": null,
+                "rightLockedRange": null,
+                "leftUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "rightUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "leftFilter": 0,
+                "rightFilter": 0
+              },
+              "controllerUUID": "3i7kyhfxdaz865aag2cnpy3b4r3xw824",
               "renderer": null,
               "controlsHeight": 200
             },
@@ -252,7 +531,7 @@
                 "rightSources": [
                   {
                     "type": "stepped",
-                    "logKey": "NT:/SmartDashboard/IndexerMotorCurrentLeft",
+                    "logKey": "NT:/SmartDashboard/hopperMotorCurrentTop",
                     "logType": "Number",
                     "visible": true,
                     "options": {
@@ -262,7 +541,7 @@
                   },
                   {
                     "type": "stepped",
-                    "logKey": "NT:/SmartDashboard/IndexerMotorCurrentRight",
+                    "logKey": "NT:/SmartDashboard/hopperMotorCurrentBottom",
                     "logType": "Number",
                     "visible": true,
                     "options": {
@@ -393,6 +672,62 @@
               "controlsHeight": 200
             },
             {
+              "type": 1,
+              "title": "Drivebase",
+              "controller": {
+                "leftSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/goalHeading",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#2b66a2",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/swerve/imu/raw",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#e5b31b",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "rightSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "NT:/SmartDashboard/Field/Robot/0",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#af2437",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "discreteSources": [],
+                "leftLockedRange": null,
+                "rightLockedRange": null,
+                "leftUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "rightUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "leftFilter": 0,
+                "rightFilter": 0
+              },
+              "controllerUUID": "6a1obs4rb71gbmcmdmthjya6xmabngwd",
+              "renderer": null,
+              "controlsHeight": 200
+            },
+            {
               "type": 3,
               "title": "3D Field",
               "controller": {
@@ -413,12 +748,12 @@
               },
               "controllerUUID": "kv33mjvac1l99vi57g473noj4jdpsvhj",
               "renderer": {
-                "cameraIndex": -4,
+                "cameraIndex": -1,
                 "orbitFov": 50,
                 "cameraPosition": [
-                  -9.683390031424643,
-                  1.5747999999999993,
-                  -3.6028109126929944
+                  1.4695761589768238e-15,
+                  5.999999999999999,
+                  -12
                 ],
                 "cameraTarget": [
                   0,
@@ -426,7 +761,7 @@
                   0
                 ]
               },
-              "controlsHeight": 200
+              "controlsHeight": 0
             }
           ]
         }
