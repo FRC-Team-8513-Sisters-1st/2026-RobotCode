@@ -1,13 +1,7 @@
 {
-<<<<<<<< HEAD:2026-ROBOTCODE-8513/vendordeps/yagsl-2026.2.23.json
-    "fileName": "yagsl-2026.2.23.json",
+    "fileName": "yagsl-2026.4.1.json",
     "name": "YAGSL",
-    "version": "2026.2.23",
-========
-    "fileName": "yagsl-2026.3.5.json",
-    "name": "YAGSL",
-    "version": "2026.3.5",
->>>>>>>> PrepForLehigh:2026-ROBOTCODE-8513/vendordeps/yagsl-2026.3.5.json
+    "version": "2026.4.1",
     "frcYear": "2026",
     "uuid": "1ccce5a4-acd2-4d18-bca3-4b8047188400",
     "mavenUrls": [
@@ -19,11 +13,7 @@
         {
             "groupId": "swervelib",
             "artifactId": "YAGSL-java",
-<<<<<<<< HEAD:2026-ROBOTCODE-8513/vendordeps/yagsl-2026.2.23.json
-            "version": "2026.2.23"
-========
-            "version": "2026.3.5"
->>>>>>>> PrepForLehigh:2026-ROBOTCODE-8513/vendordeps/yagsl-2026.3.5.json
+            "version": "2026.4.1"
         },
         {
             "groupId": "org.dyn4j",
