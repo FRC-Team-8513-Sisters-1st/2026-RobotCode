@@ -184,54 +184,8 @@ public class TeleopController {
         // if face hub button is pressed, rotate to hub then set the kicker and hopper
         // states
         if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.faceGoal)) {
-            if (Robot.onRed) {
-                if (Robot.drivebase.yagslDrive.getPose().getX() > 11.8) {
-                    shootingFacingHub = true;
-                    // lcoks pose if no driver translation input
-                    Robot.drivebase.getPowerToFaceHub();
-                    if (Math.abs(xV) < 0.1 && Math.abs(yV) < 0.1 && Robot.shooter
-                            .facingHub(Settings.AutoSettings.Thresholds.drivebaseLockPoseWhenShootingThold)) {
-                        Robot.drivebase.yagslDrive.lockPose();
-                    } else {
-                        Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
-                                true,
-                                false);
-                    }
-                } else {
-                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
-                            Robot.drivebase.getPowerToFacePose(copilotShuttlePosition), true, false);
-                }
-            } else {
-                if (Robot.drivebase.yagslDrive.getPose().getX() < 4.66) {
-                    shootingFacingHub = true;
-                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
-                            true,
-                            false);
-                    // lcoks pose if no driver translation input
-                    Robot.drivebase.getPowerToFaceHub();
-                    if (Math.abs(xV) < 0.1 && Math.abs(yV) < 0.1 && Robot.shooter
-                            .facingHub(Settings.AutoSettings.Thresholds.drivebaseLockPoseWhenShootingThold)) {
-                        Robot.drivebase.yagslDrive.lockPose();
-                    } else {
-                        Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), Robot.drivebase.getPowerToFaceHub(),
-                                true,
-                                false);
-                    }
-                } else {
-                    Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV),
-                            Robot.drivebase.getPowerToFacePose(copilotShuttlePosition), true, false);
-                }
-            }
+            //all we do when press shoooting button is shoot. we will have to force shot
             Robot.shooter.shooterState = ShooterStates.shooting;
-            if ((Robot.shooter.readyToShuttle() || Robot.shooter.readyToShootInHub()) && autoShooting
-                    && Robot.shooter.shooterState == ShooterStates.shooting && !unjam) {
-                Robot.kicker.kickerState = KickerStates.shooting;
-                Robot.hopper.hopperState = HopperStates.indexing;
-            } else {
-                Robot.kicker.kickerState = KickerStates.stationary;
-                Robot.hopper.hopperState = HopperStates.stationary;
-            }
-
             // if straighten bump pressed, check rotation and switch to nearest 0 or 180
         } else if (driverXboxController.getRawButton(Settings.TeleopSettings.ButtonIDs.straightenBump)) {
             Robot.shooter.shooterState = ShooterStates.stationary;

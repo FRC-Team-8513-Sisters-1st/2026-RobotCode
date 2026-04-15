@@ -127,8 +127,8 @@ public class Settings {
     }
 
     public class ShooterSettings {
-        public static double angleFudgeDelta = 0.1; 
-        public static double shotDistanceFudgeDelta = 0.1; 
+        public static double angleFudgeDelta = 0.05; 
+        public static double shotDistanceFudgeDelta = 0.5; 
         public static double maxShooterVelocity = 47;
         public static double manualVelocityTuningFactor = 0.5;
         public static double manualHoodPosTuningfactor = 0.01;

@@ -111,10 +111,11 @@ public class Shooter {
     public void setMotorPower() {
 
         // shooter controller if using interal pid
-        targetV = -getInterpolatedShooterVelocity();
+        targetV = -35;
 
         if (shooterState == ShooterStates.shooting && useInternalController == true) {
-            setCurrentLimits(110, 65);
+            setCurrentLimits(80, 40);
+            targetV = targetV + shotDistanceFudgeFactor;
             if (manualShooterTuning == false) {
                 shooterMotorLeftLeader
                         .setControl(m_request.withVelocity(targetV).withFeedForward(RPStoVoltage(targetV)));
@@ -139,15 +140,14 @@ public class Shooter {
     public void setHoodAngle() {
         distanceBetweenCurrentAndGoalInMeters = Robot.drivebase
                 .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
-
+        double hoodPos = Settings.ShooterSettings.highestHoodPosition;
         if (manualHoodTuning == false) {
             if (Robot.intake.intakeIsStowed() || shooterState == ShooterStates.stationary) {
                 shooterHoodMotor
                         .set(-hoodAnglePower(Settings.ShooterSettings.highestHoodPosition));
             } else {
                 shooterHoodMotor
-                        .set(-hoodAnglePower(
-                                getInterpolatedEncoderValueDistanceToHood(distanceBetweenCurrentAndGoalInMeters)));
+                        .set(-hoodAnglePower(hoodPos + Robot.drivebase.aimFudgeFactor));
             }
 
         } else {
