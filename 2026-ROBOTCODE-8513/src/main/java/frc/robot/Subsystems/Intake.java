@@ -187,7 +187,8 @@ public class Intake {
         //this needs to get tuned for new intake positions
         double currentPosition = intakeAbosoluteEncoder.get();
         double adjustedPosition = currentPosition;
-        return adjustedPosition - 0.1054;
+        return adjustedPosition - 0.12;
+        // 0.1054
 
         // if (currentPosition  > 0.2) {
         //     adjustedPosition = currentPosition - 0.35;
