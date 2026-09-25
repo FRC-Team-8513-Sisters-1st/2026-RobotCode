@@ -81,6 +81,7 @@ public class Robot extends TimedRobot {
     shooter.shooterHoodMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     RobotController.setBrownoutVoltage(6.3);
 
+
   }
 
   @Override

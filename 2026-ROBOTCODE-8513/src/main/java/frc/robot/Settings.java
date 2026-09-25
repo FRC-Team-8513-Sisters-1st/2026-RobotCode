@@ -152,9 +152,9 @@ public class Settings {
         public static final double height = Units.inchesToMeters(72.0); // includes the catcher at the top
 
         public static final Pose2d hubRedLocation = new Pose2d(
-                11.919, 4.029, new Rotation2d(180));
+                10.68, 4.025, new Rotation2d(180));
         public static final Pose2d hubBlueLocation = new Pose2d(
-                4.621, 4.029, new Rotation2d(0));
+                4, 4.025, new Rotation2d(0));
 
         public static final Translation3d blueHubCenterPointTrans3d = new Translation3d(
                 aprilTagFieldLayout.getTagPose(26).get().getX() + width / 2.0,

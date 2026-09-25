@@ -6,11 +6,14 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Settings;
+
+import java.io.IOException;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -26,8 +29,9 @@ public class Vision {
         boolean useLeftCam = true;
         boolean useRightCam = true;
 
-        AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
+        String path = Filesystem.getDeployDirectory().getAbsolutePath() + "\2026-robocon-welded-photonvision-wpilib.json";
 
+        AprilTagFieldLayout aprilTagFieldLayout;
         // 1
         PhotonCamera rightShooterCam = new PhotonCamera("rightShooterCam");
         // 4
@@ -72,11 +76,19 @@ public class Vision {
         Field2d photoField2d_left = new Field2d();
         Field2d photonField2d_right = new Field2d();
 
-        public Vision() {
+        public Vision(){
                 SmartDashboard.putData("photonPose rightShooter", photonField2d_rightShooter);
                 SmartDashboard.putData("photonPose leftShooter", photonField2d_leftShooter);
                 SmartDashboard.putData("photonPose left", photoField2d_left);
                 SmartDashboard.putData("photonPose right", photonField2d_right);
+
+                try {
+                        aprilTagFieldLayout = new AprilTagFieldLayout(path);
+                } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                }
+
 
         }
 
