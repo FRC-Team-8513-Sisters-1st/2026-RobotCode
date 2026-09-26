@@ -1,19 +1,21 @@
 package frc.robot;
 
+import java.io.IOException;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Filesystem;
 
 public class Settings {
-    public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout
-            .loadField(AprilTagFields.k2026RebuiltWelded);
+  
+
 
     public static class DrivebaseSettings {
 
@@ -157,12 +159,12 @@ public class Settings {
                 4, 4.025, new Rotation2d(0));
 
         public static final Translation3d blueHubCenterPointTrans3d = new Translation3d(
-                aprilTagFieldLayout.getTagPose(26).get().getX() + width / 2.0,
-                aprilTagFieldLayout.getFieldWidth() / 2.0,
+                Robot.vision.aprilTagFieldLayout.getTagPose(26).get().getX() + width / 2.0,
+                Robot.vision.aprilTagFieldLayout.getFieldWidth() / 2.0,
                 height);
         public static final Translation3d redHubCenterPointTrans3d = new Translation3d(
-                aprilTagFieldLayout.getTagPose(4).get().getX() + width / 2.0,
-                aprilTagFieldLayout.getFieldWidth() / 2.0,
+                Robot.vision.aprilTagFieldLayout.getTagPose(4).get().getX() + width / 2.0,
+                Robot.vision.aprilTagFieldLayout.getFieldWidth() / 2.0,
                 height);
 
         public static final Pose2d blueHubCenterPoint = new Pose2d(

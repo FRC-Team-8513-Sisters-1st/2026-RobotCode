@@ -29,9 +29,10 @@ public class Vision {
         boolean useLeftCam = true;
         boolean useRightCam = true;
 
-        String path = Filesystem.getDeployDirectory().getAbsolutePath() + "\2026-robocon-welded-photonvision-wpilib.json";
+        String path = Filesystem.getDeployDirectory().getAbsolutePath()
+                        + "/2026-robocon-welded-photonvision-wpilib.json";
 
-        AprilTagFieldLayout aprilTagFieldLayout;
+        public AprilTagFieldLayout aprilTagFieldLayout;
         // 1
         PhotonCamera rightShooterCam = new PhotonCamera("rightShooterCam");
         // 4
@@ -62,21 +63,17 @@ public class Vision {
                                         Units.inchesToMeters(8.324)),
                         new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(-90)));
 
-        PhotonPoseEstimator rightShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
-                        rightShooterCamTranslation);
-        PhotonPoseEstimator leftShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
-                        leftShooterCamTranslation);
-        PhotonPoseEstimator lefPhotonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
-                        leftCamTranlation);
-        PhotonPoseEstimator rightPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
-                        rightCamTranslation);
+        PhotonPoseEstimator rightShooterPoseEstimator;
+        PhotonPoseEstimator leftShooterPoseEstimator;
+        PhotonPoseEstimator lefPhotonPoseEstimator;
+        PhotonPoseEstimator rightPoseEstimator;
 
         Field2d photonField2d_rightShooter = new Field2d();
         Field2d photonField2d_leftShooter = new Field2d();
         Field2d photoField2d_left = new Field2d();
         Field2d photonField2d_right = new Field2d();
 
-        public Vision(){
+        public Vision() {
                 SmartDashboard.putData("photonPose rightShooter", photonField2d_rightShooter);
                 SmartDashboard.putData("photonPose leftShooter", photonField2d_leftShooter);
                 SmartDashboard.putData("photonPose left", photoField2d_left);
@@ -84,11 +81,18 @@ public class Vision {
 
                 try {
                         aprilTagFieldLayout = new AprilTagFieldLayout(path);
+                        rightShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                                        rightShooterCamTranslation);
+                        leftShooterPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                                        leftShooterCamTranslation);
+                        lefPhotonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                                        leftCamTranlation);
+                        rightPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                                        rightCamTranslation);
                 } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                 }
-
 
         }
 

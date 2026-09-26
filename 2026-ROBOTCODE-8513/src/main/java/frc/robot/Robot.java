@@ -37,10 +37,10 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-
+  public static Vision vision = new Vision();
   public static Drivebase drivebase = new Drivebase();
   public static TeleopController teleop = new TeleopController();
-  public static Vision vision = new Vision();
+  
   public static Shooter shooter = new Shooter();
   public static Dashboard dashboard = new Dashboard();
   public static Intake intake = new Intake();
