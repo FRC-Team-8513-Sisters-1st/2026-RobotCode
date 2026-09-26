@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,13 @@ import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
 
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.IdealStartingState;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPoint;
+import com.pathplanner.lib.path.PointTowardsZone;
+import com.pathplanner.lib.path.RotationTarget;
+import com.pathplanner.lib.path.Waypoint;
 import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 
@@ -37,7 +44,6 @@ public class Drivebase {
             frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kP,
             frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kI,
             frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kD, new Constraints(270, 500));
-
 
     // path following variables
     public PathPlannerTrajectory traj;
@@ -86,7 +92,8 @@ public class Drivebase {
     }
 
     public void driveFacingPose(Translation2d translation2d, Pose2d pose, boolean fR) {
-        double angleError = Robot.drivebase.yagslDrive.getOdometryHeading().minus(pose.getTranslation().getAngle()).getDegrees();
+        double angleError = Robot.drivebase.yagslDrive.getOdometryHeading().minus(pose.getTranslation().getAngle())
+                .getDegrees();
         double rotationCorrection = rotationPidController.calculate(angleError, 0);
 
         Robot.drivebase.yagslDrive.drive(translation2d,
@@ -107,7 +114,7 @@ public class Drivebase {
 
         // flip the path if on red
         if (Robot.onRed) {
-            path = path.flipPath();
+            path = flipPathAcrossX(path, 7.3);
         }
 
         if (mirrorPath) {
@@ -132,8 +139,9 @@ public class Drivebase {
 
     }
 
-    //PP trajectories cant be put on dashboard so they need to get point by point converted to WPI trajectories
-    //so we can visualize them in AdvantageScope
+    // PP trajectories cant be put on dashboard so they need to get point by point
+    // converted to WPI trajectories
+    // so we can visualize them in AdvantageScope
     public Trajectory ppTrajToWPITraj(PathPlannerTrajectory traj) {
         List<PathPlannerTrajectoryState> stateList = traj.getStates();
         List<Trajectory.State> wpiStateLists = new ArrayList<Trajectory.State>();
@@ -218,7 +226,8 @@ public class Drivebase {
     }
 
     public double getPowerToFacePose(Pose2d goalPose) {
-        //we use this to shuttle, we dont care (we think) about the offset when shuttleing
+        // we use this to shuttle, we dont care (we think) about the offset when
+        // shuttleing
         Rotation2d angleToHub;
 
         if (Robot.onRed) {
@@ -241,7 +250,8 @@ public class Drivebase {
     public double timeOfFlight() {
         Robot.shooter.distanceBetweenCurrentAndGoalInMeters = Robot.drivebase
                 .getDistanceBetweenTwoPoses(Robot.drivebase.yagslDrive.getPose(), Robot.drivebase.goalAimPose);
-        timeOfFlight = Robot.shooter.getInterpolatedTimeOfFlightFromDistance(Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
+        timeOfFlight = Robot.shooter
+                .getInterpolatedTimeOfFlightFromDistance(Robot.shooter.distanceBetweenCurrentAndGoalInMeters);
         return timeOfFlight;
     }
 
@@ -292,5 +302,122 @@ public class Drivebase {
         double velocity = Math.sqrt(Math.pow(rXV, 2) + Math.pow(rYV, 2));
         return velocity;
     }
+
+public static PathPlannerPath flipPathAcrossX(
+        PathPlannerPath path,
+        double flipX
+) {
+    if (path == null) {
+        return null;
+    }
+
+    // Flip all Bezier waypoints.
+    List<Waypoint> waypoints = path.getWaypoints()
+            .stream()
+            .map(wp -> new Waypoint(
+                    flipTranslation(wp.prevControl(), flipX),
+                    flipTranslation(wp.anchor(), flipX),
+                    flipTranslation(wp.nextControl(), flipX)
+            ))
+            .toList();
+
+    // Flip holonomic rotation targets.
+    List<RotationTarget> rotationTargets = path.getRotationTargets()
+            .stream()
+            .map(target -> {
+                if (target == null) {
+                    return null;
+                }
+
+                return new RotationTarget(
+                        target.position(),
+                        flipRotation(target.rotation())
+                );
+            })
+            .toList();
+
+    // Flip point-towards zones.
+    List<PointTowardsZone> pointTowardsZones = path.getPointTowardsZones()
+            .stream()
+            .map(zone -> {
+                if (zone == null) {
+                    return null;
+                }
+
+                return new PointTowardsZone(
+                        zone.name(),
+                        flipTranslation(zone.targetPosition(), flipX),
+                        flipRotation(zone.rotationOffset()),
+                        zone.minPosition(),
+                        zone.maxPosition()
+                );
+            })
+            .toList();
+
+    // Ideal starting state may be null.
+    IdealStartingState idealStartingState = flipIdealStartingState(
+            path.getIdealStartingState()
+    );
+
+    // Goal end state should also have its rotation flipped.
+    GoalEndState oldGoal = path.getGoalEndState();
+
+    GoalEndState goalEndState = oldGoal == null
+            ? null
+            : new GoalEndState(
+                    oldGoal.velocityMPS(),
+                    flipRotation(oldGoal.rotation())
+            );
+
+    return new PathPlannerPath(
+            waypoints,
+            rotationTargets,
+            pointTowardsZones,
+            path.getConstraintZones(),
+            path.getEventMarkers(),
+            path.getGlobalConstraints(),
+            idealStartingState,
+            goalEndState,
+            path.isReversed()
+    );
+}
+
+private static IdealStartingState flipIdealStartingState(
+        IdealStartingState state
+) {
+    if (state == null) {
+        return null;
+    }
+
+    return new IdealStartingState(
+            state.velocityMPS(),
+            flipRotation(state.rotation())
+    );
+}
+
+private static Translation2d flipTranslation(
+        Translation2d point,
+        double flipX
+) {
+    // First/last Bezier control points can be null.
+    if (point == null) {
+        return null;
+    }
+
+    return new Translation2d(
+            2.0 * flipX - point.getX(),
+            point.getY()
+    );
+}
+
+private static Rotation2d flipRotation(Rotation2d rotation) {
+    if (rotation == null) {
+        return null;
+    }
+
+    return new Rotation2d(
+            Math.PI - rotation.getRadians()
+    );
+}
 
 }
