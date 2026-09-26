@@ -73,7 +73,8 @@ public class Intake {
 
             if (Robot.teleop.copilotJoystick1.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeBackward)) {
                 intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
+                        .setControl(
+                                m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
             } else {
                 if (adjustedEncoderPosition() > Settings.IntakeSettings.spinBackwardsThreshold) {
                     intakeMotorLeftLeader
@@ -111,16 +112,15 @@ public class Intake {
         } else if (intakeState == IntakeStates.stationaryDeployed) {
             if (Robot.teleop.copilotJoystick1.getRawButton(Settings.TeleopSettings.ButtonIDs.intakeBackward)) {
                 intakeMotorLeftLeader
-                        .setControl(m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
+                        .setControl(
+                                m_request.withVelocity(-targetV).withFeedForward(RPStoVoltage(RPStoVoltage(targetV))));
             } else {
                 intakeMotorLeftLeader.set(0);
 
-            }// intake wheels off
+            } // intake wheels off
             beeftakeDeployController.setConstraints(Settings.IntakeSettings.deployConstraints);
             // deploy intake
             intakeDeployMotor.set(deployBeeftake(Settings.IntakeSettings.deployPosition + intakeFudgeFactor));
-
-            
 
         } else if (intakeState == IntakeStates.shooting) {
 
@@ -184,17 +184,16 @@ public class Intake {
     }
 
     public double adjustedEncoderPosition() {
-        //this needs to get tuned for new intake positions
+        // this needs to get tuned for new intake positions
         double currentPosition = intakeAbosoluteEncoder.get();
         double adjustedPosition = currentPosition;
-        return adjustedPosition - 0.1054;
 
-        // if (currentPosition  > 0.2) {
-        //     adjustedPosition = currentPosition - 0.35;
-        // } else {
-        //     adjustedPosition = currentPosition + 1 - 0.35;
-        // }
-        // return adjustedPosition - .07;
+        if (currentPosition > 0.6) {
+            adjustedPosition = currentPosition - 0.89;
+        } else {
+            adjustedPosition = currentPosition +.11;
+        }
+        return adjustedPosition - .07;
     }
 
     public boolean intakeIsStowed() {

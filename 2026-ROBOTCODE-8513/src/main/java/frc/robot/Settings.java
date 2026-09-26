@@ -114,8 +114,8 @@ public class Settings {
     }
 
     public class IntakeSettings {
-        public static double stowPosition = 0.58;
-        public static double deployPosition = 0;
+        public static double stowPosition = 0.52;
+        public static double deployPosition = -0.08;
         public static double intakeFudgeFactor = 0.02;
         public static double shootingPosition = 0.35;
         public static double maxIntakePositionToNotHitHood = 0.36;
