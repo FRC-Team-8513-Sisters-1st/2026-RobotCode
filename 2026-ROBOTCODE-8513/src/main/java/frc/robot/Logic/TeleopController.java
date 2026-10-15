@@ -143,7 +143,6 @@ public class TeleopController {
         double rInput = Math.pow(rSpeedJoystick, 3);
 
         // if facing hub button, slow speed to 0.3
-
         if (shootingFacingHub) {
             if (Robot.onRed) {
                 xV = -(xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity()

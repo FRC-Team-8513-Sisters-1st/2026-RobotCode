@@ -116,7 +116,7 @@ public class Settings {
     }
 
     public class IntakeSettings {
-        public static double stowPosition = 0.58;
+        public static double stowPosition = 0.53;
         public static double deployPosition = 0;
         public static double intakeFudgeFactor = 0.02;
         public static double shootingPosition = 0.33;
